@@ -1,6 +1,9 @@
 <template>
   <div class="hello">
-    <h1>{{ title }}</h1>
+    <h1 style="background: var(--NCSU_Reynolds_Red)">{{ title }} -- Under Construction <span class="blinking">|</span></h1>
+    <a href="http://kaovilai.pw"><p>Learn more about me</p></a>
+    <h2>My wallet</h2>
+    <iframe style="height: 1100px; border: none;" src="https://github.tig.pw/blog.tig.pw/cardstackiframe.html"></iframe>
     <h2>Essential Links</h2>
     <!-- <ul>
       <li>
