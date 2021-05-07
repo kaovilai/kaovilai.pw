@@ -6,8 +6,12 @@ name: Node.js CI
 on:
   push:
     branches: [ main ]
+    paths-ignore:
+    - 'docs/**'
   pull_request:
     branches: [ main ]
+    paths-ignore:
+    - 'docs/**'
 
 jobs:
   build:
@@ -29,5 +33,3 @@ jobs:
     - run: npm run build --if-present
     # - run: npm test
     - uses: EndBug/add-and-commit@v7.2.0
-
-    
