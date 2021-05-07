@@ -1,8 +1,8 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
+    <h1>{{ title }}</h1>
     <h2>Essential Links</h2>
-    <ul>
+    <!-- <ul>
       <li>
         <a
           href="https://vuejs.org"
@@ -44,9 +44,9 @@
           Docs for This Template
         </a>
       </li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
+    </ul> -->
+    <h2>Projects</h2>
+    <!-- <ul>
       <li>
         <a
           href="http://router.vuejs.org/"
@@ -79,7 +79,7 @@
           awesome-vue
         </a>
       </li>
-    </ul>
+    </ul> -->
   </div>
 </template>
 
@@ -88,7 +88,7 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      title: 'Hey there'
     }
   }
 }
