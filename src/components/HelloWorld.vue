@@ -139,7 +139,7 @@ a {
 .displayArea{
   width: 100%;
   height: 100%;
-
+  
 }
 .walletArea {
   position: fixed;
@@ -149,7 +149,7 @@ a {
   transition: .5s;
   transition-timing-function: ease-in-out;
 }
-.walletArea:hover {
-  left: calc(100vw - 337px);
+.walletArea:hover, .walletArea:focus-visible {
+  left: calc(100vw - 300px);
 }
 </style>
