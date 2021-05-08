@@ -31,14 +31,16 @@ export default defineComponent({
       if(this.underConstruction == ''){
         for(let i = 0; i < this.text.length; i++){
           this.underConstruction += this.text.charAt(i)
-          this.widthString = this.widthString.substr(0,this.widthString.length - 1)
+          if(this.keepWidth)
+            this.widthString = this.widthString.substr(0,this.widthString.length - 1)
           await new Promise(r => setTimeout(r,typingDelay))
         }
         await new Promise(r => setTimeout(r,excitementDelay))
       } else {
         for(let i = 0; i < this.text.length; i++){
-          this.widthString += this.underConstruction.charAt(this.underConstruction.length-1)
           this.underConstruction = this.underConstruction.substr(0,this.underConstruction.length - 1)
+          if(this.keepWidth)
+            this.widthString += this.underConstruction.charAt(this.underConstruction.length-1)
           await new Promise(r => setTimeout(r,typingDelay/2))
         }
       }
