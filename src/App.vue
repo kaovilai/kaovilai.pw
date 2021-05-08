@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <router-view />
+    <hello-world/>
     <footer>
     <Footer />
     </footer>
@@ -9,10 +9,11 @@
 
 <script>
 import Footer from './components/Footer.vue'
+import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
-  components: { Footer }
+  components: { Footer, HelloWorld }
 }
 </script>
 

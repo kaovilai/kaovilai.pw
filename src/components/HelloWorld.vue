@@ -1,9 +1,21 @@
 <template>
   <div class="hello">
-    <h1 style="background: var(--NCSU_Reynolds_Red)">{{ title }} -- Under Construction <b class="blinking">|</b></h1>
+    <h1 style="background: var(--NCSU_Reynolds_Red)">{{ title }}{{ underConstruction }} <b class="blinking">|</b></h1>
     <a href="http://kaovilai.pw"><p>Learn more about me</p></a>
-    <h2>My wallet</h2>
-    <iframe style="height: 1100px; border: none;" src="https://github.tig.pw/blog.tig.pw/cardstackiframe.html"></iframe>
+    <div class="displayArea">
+      <div class="introArea">
+
+      </div>
+    </div>
+    <div class="walletArea">
+      <h2 style="
+  transform: rotate(180deg);
+  writing-mode: tb;
+  text-align: end;
+  margin-top: 10%;
+  ">My wallet</h2>
+      <iframe style="height: 100vh; border: none; margin-left: -30px;" src="https://github.tig.pw/blog.tig.pw/cardstackiframe.html"></iframe>
+    </div>
     <h2>Essential Links</h2>
     <!-- <ul>
       <li>
@@ -86,13 +98,27 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   name: 'HelloWorld',
   data () {
     return {
-      title: 'Hey there'
+      title: 'Hey there',
+      underConstruction: '',
+      underConstructionTxt: ' -- Under Construction'
     }
+  },
+  methods: {
+    underConstructionLoop () {
+      if (this.underConstruction = '') {
+        // type
+      } else {
+        this.underConstruction
+      }
+    }
+  },
+  mounted: () => {
+    this.underConstructionLoop()
   }
 }
 </script>
@@ -112,5 +138,23 @@ li {
 }
 a {
   color: #42b983;
+}
+.displayArea{
+  width: 100%;
+  height: 100%;
+
+}
+.walletArea {
+  position: fixed;
+  display: flex;
+  left: 95vw;
+
+  transition: 1s;
+  transition-timing-function: ease-in-out;
+  /* transition-delay: 2s; */
+}
+.walletArea:hover {
+  right: 0vw;
+  transition-delay: unset;
 }
 </style>
