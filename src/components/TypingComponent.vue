@@ -7,14 +7,14 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   props: {
-      text: {
-          type: String,
-          default: ''
-      },
-      keepWidth: {
-          type: Boolean,
-          default: false
-      }
+      text: { type: String, default: '' },
+      keepWidth: { type: Boolean, default: false },
+      typingDelay: { type:Number, default:200 },
+      // defines how fast to delete text
+      deletingDelay: { type:Number, default:100 },
+      // defines how long to wait at the full text state before deleting begins
+      excitementDelay: { type:Number, default:20000 },
+      once: { type:Boolean, default:false },
   },
   data () {
       return {
@@ -23,32 +23,43 @@ export default defineComponent({
       }
   },
   methods: {
-    async underConstructionLoop () {
-      let typingDelay = 100
-      let excitementDelay = typingDelay * 80
-      console.log("here we go")
-      // let excitementDelay = typingDelay * 3
-      if(this.underConstruction == ''){
-        for(let i = 0; i < this.text.length; i++){
-          this.underConstruction += this.text.charAt(i)
-          if(this.keepWidth)
-            this.widthString = this.widthString.substr(0,this.widthString.length - 1)
-          await new Promise(r => setTimeout(r,typingDelay))
-        }
-        await new Promise(r => setTimeout(r,excitementDelay))
-      } else {
-        for(let i = 0; i < this.text.length; i++){
-          this.underConstruction = this.underConstruction.substr(0,this.underConstruction.length - 1)
-          if(this.keepWidth)
-            this.widthString += this.underConstruction.charAt(this.underConstruction.length-1)
-          await new Promise(r => setTimeout(r,typingDelay/2))
-        }
+    /**
+     * wait {delay} many milliseconds
+     * Await the return value to get the intended effect
+     * @param delay delay
+     * @returns value to await to get the desired delay
+     */
+    async wait(delay:number){
+      return new Promise(r => setTimeout(r,delay))
+    },
+    /**
+     * Loop typing behavior
+     * @param once make typing effect occur once
+     */
+    async underConstructionLoop (once=false) {
+      for(let i = 0; i < this.text.length; i++){
+        this.underConstruction += this.text.charAt(i)
+        if(this.keepWidth)
+          this.widthString = this.widthString.substr(0,this.widthString.length - 1)
+        await this.wait(this.typingDelay*Math.random())
+      }
+      // If once is true, do not continue recursion
+      if(once)
+        return
+      await this.wait(this.excitementDelay*Math.random())
+      for(let i = 0; i < this.text.length; i++){
+        this.underConstruction = this.underConstruction.substr(0,this.underConstruction.length - 1)
+        if(this.keepWidth)
+          this.widthString += this.underConstruction.charAt(this.underConstruction.length-1)
+        await this.wait(this.deletingDelay*Math.random())
       }
       this.underConstructionLoop()
     }
   },
   mounted (){
-    this.underConstructionLoop()
+    if(this.text == '')
+      return
+    this.underConstructionLoop(this.once)
   }
 })
 </script>
