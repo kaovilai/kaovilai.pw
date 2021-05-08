@@ -24,8 +24,8 @@
 
         </div>
         <h3><typing-component text="Infrastructure"/></h3>
-        <div title="infra" class="devicon">
-          <i class="devicon-bash-plain"></i>
+        <div class="devicon">
+          <i title="bash" class="devicon-bash-plain"></i>
           <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="256px" height="315px" viewBox="0 0 256 315" version="1.1" preserveAspectRatio="xMidYMid">
 	<title>ansible</title>
   <g>
