@@ -1,5 +1,5 @@
 <template>
-      <p><a href="https://github.com/kaovilai/kaovilai.pw">See this code on GitHub!</a> <b class="blinking">|</b></p>
+      <p><a href="https://github.com/kaovilai/kaovilai.pw">See this code on GitHub!</a></p>
 </template>
 
 <script>
