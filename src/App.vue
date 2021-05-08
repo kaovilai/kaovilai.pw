@@ -1,10 +1,8 @@
 <template>
-  <div id="app">
     <hello-world/>
     <footer>
     <Footer />
     </footer>
-  </div>
 </template>
 
 <script>
