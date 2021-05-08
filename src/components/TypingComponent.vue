@@ -25,7 +25,7 @@ export default defineComponent({
   methods: {
     async underConstructionLoop () {
       let typingDelay = 100
-      let excitementDelay = typingDelay * 20
+      let excitementDelay = typingDelay * 80
       console.log("here we go")
       // let excitementDelay = typingDelay * 3
       if(this.underConstruction == ''){
