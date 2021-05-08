@@ -192,11 +192,12 @@ a {
 }
 .displayArea{
   display: inline-flex;
-  flex: content;
 }
-/* .introArea{
-  
-} */
+.introArea{
+ flex: content;
+ flex-wrap: wrap;
+ justify-content: center;
+} 
 .skillbox{
   margin: 0 30px;
 }
