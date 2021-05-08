@@ -6,24 +6,24 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-    props: {
-        text: {
-            type: String,
-            default: ''
-        },
-        keepWidth: {
-            type: Boolean,
-            default: false
-        }
-    },
-    data () {
-        return {
-            underConstruction:'',
-            widthString: '',
-        }
-    },
-    methods: {
-            async underConstructionLoop () {
+  props: {
+      text: {
+          type: String,
+          default: ''
+      },
+      keepWidth: {
+          type: Boolean,
+          default: false
+      }
+  },
+  data () {
+      return {
+          underConstruction:'',
+          widthString: '',
+      }
+  },
+  methods: {
+    async underConstructionLoop () {
       let typingDelay = 100
       let excitementDelay = typingDelay * 20
       console.log("here we go")
