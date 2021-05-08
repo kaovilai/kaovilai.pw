@@ -38,9 +38,9 @@ export default defineComponent({
      */
     async underConstructionLoop (once=false) {
       for(let i = 0; i < this.text.length; i++){
-        this.underConstruction += this.text.charAt(i)
         if(this.keepWidth)
           this.widthString = this.widthString.substr(0,this.widthString.length - 1)
+        this.underConstruction += this.text.charAt(i)
         await this.wait(this.typingDelay*Math.random())
       }
       // If once is true, do not continue recursion
@@ -48,9 +48,9 @@ export default defineComponent({
         return
       await this.wait(this.excitementDelay*Math.random())
       for(let i = 0; i < this.text.length; i++){
-        this.underConstruction = this.underConstruction.substr(0,this.underConstruction.length - 1)
         if(this.keepWidth)
           this.widthString += this.underConstruction.charAt(this.underConstruction.length-1)
+        this.underConstruction = this.underConstruction.substr(0,this.underConstruction.length - 1)
         await this.wait(this.deletingDelay*Math.random())
       }
       this.underConstructionLoop()
