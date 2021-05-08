@@ -1,4 +1,6 @@
 # kaovilai.pw
+[![Node.js CI](https://github.com/kaovilai/kaovilai.pw/actions/workflows/node.js.yml/badge.svg)](https://github.com/kaovilai/kaovilai.pw/actions/workflows/node.js.yml)
+> Tiger's homepage
 
 ## Project setup
 ```
