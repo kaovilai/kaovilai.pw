@@ -425,7 +425,7 @@
                 </g>
               </g>
             </svg>
-            <i class="devicon-kubernetes-plain colored"></i>
+            <i title="Kubernetes" class="devicon-kubernetes-plain colored"></i>
           </div>
         </div>
         <div class="skillbox">
