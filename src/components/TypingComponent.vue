@@ -1,5 +1,5 @@
 <template>
-  <b>{{ underConstruction }}</b><b class="blinking">|</b>
+  <span>{{ underConstruction }}</span><span class="blinking">|</span>
 </template>
 
 <script lang="ts">
