@@ -598,7 +598,7 @@
       </li>
     </ul> -->
   </div>
-  <!-- <div class="walletArea">
+  <div class="walletArea">
     <h2 style="
 transform: rotate(180deg);
 writing-mode: tb;
@@ -606,7 +606,7 @@ text-align: end;
 margin-top: 10%;
 ">My wallet</h2>
     <iframe title="CardStack" style="height: 100vh; border: none; margin-left: -30px;" src="https://github.tig.pw/blog.tig.pw/cardstackiframe.html"></iframe>
-  </div> -->
+  </div>
 </template>
 
 <script lang="ts">
