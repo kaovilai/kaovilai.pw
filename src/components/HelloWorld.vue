@@ -99,7 +99,8 @@
 </template>
 
 <script lang="ts">
-export default {
+import { defineComponent } from "vue"
+export default defineComponent({
   name: 'HelloWorld',
   data () {
     return {
@@ -110,17 +111,13 @@ export default {
   },
   methods: {
     underConstructionLoop () {
-      if (this.underConstruction = '') {
-        // type
-      } else {
-        this.underConstruction
-      }
+      
     }
   },
   mounted: () => {
-    this.underConstructionLoop()
+    
   }
-}
+})
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -147,14 +144,14 @@ a {
 .walletArea {
   position: fixed;
   display: flex;
-  left: 95vw;
+  left: 90vw;
 
   transition: 1s;
   transition-timing-function: ease-in-out;
   /* transition-delay: 2s; */
 }
 .walletArea:hover {
-  right: 0vw;
+  left: 80vw;
   transition-delay: unset;
 }
 </style>
