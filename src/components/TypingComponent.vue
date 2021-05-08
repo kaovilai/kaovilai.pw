@@ -1,5 +1,5 @@
 <template>
-  <span>{{ underConstruction }}</span><span class="blinking">|</span>
+  <span>{{ underConstruction }}</span><span class="blinking">|</span><span v-if="keepWidth" style="visibility: hidden;">{{ widthString }}</span>
 </template>
 
 <script lang="ts">
@@ -10,12 +10,16 @@ export default defineComponent({
         text: {
             type: String,
             default: ''
-            
+        },
+        keepWidth: {
+            type: Boolean,
+            default: false
         }
     },
     data () {
         return {
             underConstruction:'',
+            widthString: '',
         }
     },
     methods: {
@@ -27,11 +31,13 @@ export default defineComponent({
       if(this.underConstruction == ''){
         for(let i = 0; i < this.text.length; i++){
           this.underConstruction += this.text.charAt(i)
+          this.widthString = this.widthString.substr(0,this.widthString.length - 1)
           await new Promise(r => setTimeout(r,typingDelay))
         }
         await new Promise(r => setTimeout(r,excitementDelay))
       } else {
         for(let i = 0; i < this.text.length; i++){
+          this.widthString += this.underConstruction.charAt(this.underConstruction.length-1)
           this.underConstruction = this.underConstruction.substr(0,this.underConstruction.length - 1)
           await new Promise(r => setTimeout(r,typingDelay/2))
         }

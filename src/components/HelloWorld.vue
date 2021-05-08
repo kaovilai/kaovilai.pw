@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <h1 style="background: var(--NCSU_Reynolds_Red)">{{ title }} <typing-component :text=underConstructionTxt /></h1>
+    <h1 style="background: var(--NCSU_Reynolds_Red)">{{ title }} <typing-component :text=underConstructionTxt keepWidth="true" /></h1>
 
     <div class="displayArea">
     <p><a href="http://kaovilai.pw">Learn more about me</a></p>
