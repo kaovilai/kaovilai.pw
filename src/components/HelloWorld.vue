@@ -144,14 +144,12 @@ a {
 .walletArea {
   position: fixed;
   display: flex;
-  left: 90vw;
+  left: calc(100vw - 100px);
 
-  transition: 1s;
+  transition: .5s;
   transition-timing-function: ease-in-out;
-  /* transition-delay: 2s; */
 }
 .walletArea:hover {
-  left: 80vw;
-  transition-delay: unset;
+  left: calc(100vw - 337px);
 }
 </style>
