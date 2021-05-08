@@ -14,7 +14,7 @@
   text-align: end;
   margin-top: 10%;
   ">My wallet</h2>
-      <iframe style="height: 100vh; border: none; margin-left: -30px;" src="https://github.tig.pw/blog.tig.pw/cardstackiframe.html"></iframe>
+      <iframe title="CardStack" style="height: 100vh; border: none; margin-left: -30px;" src="https://github.tig.pw/blog.tig.pw/cardstackiframe.html"></iframe>
     </div>
     <h2>Essential Links</h2>
     <!-- <ul>
@@ -106,17 +106,34 @@ export default defineComponent({
     return {
       title: 'Hey there',
       underConstruction: '',
-      underConstructionTxt: ' -- Under Construction'
+      underConstructionTxt: ' -- Under Construction',
     }
   },
   methods: {
-    underConstructionLoop () {
-      
+    async underConstructionLoop () {
+      let typingDelay = 100
+      let excitementDelay = typingDelay * 10
+      console.log("here we go")
+      // let excitementDelay = typingDelay * 3
+      if(this.underConstruction == ''){
+        for(let i = 0; i < this.underConstructionTxt.length; i++){
+          this.underConstruction += this.underConstructionTxt.charAt(i)
+          await new Promise(r => setTimeout(r,typingDelay))
+        }
+      } else {
+        for(let i = 0; i < this.underConstructionTxt.length; i++){
+          this.underConstruction = this.underConstruction.substr(0,this.underConstruction.length - 1)
+          await new Promise(r => setTimeout(r,typingDelay))
+        }
+      }
+      await new Promise(r => setTimeout(r,excitementDelay))
+      this.underConstructionLoop()
     }
   },
-  mounted: () => {
-    
+  mounted (){
+    this.underConstructionLoop()
   }
+  
 })
 </script>
 
