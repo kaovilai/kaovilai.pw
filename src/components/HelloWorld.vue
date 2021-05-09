@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <h1 style="background: var(--NCSU_Reynolds_Red)"><typing-component text="Hello World!" keepWidth="true" /></h1>
+    <h1 style="background: var(--NCSU_Reynolds_Red)"><typing-component text="Hello World!" keepWidth="true" :once=true /></h1>
     <h2>My name is<typing-component text=" Tiger!"/></h2>
     <p>though my legal name is<typing-component text=" Passawit Kaovilai"/></p>
     <div class="displayArea">
