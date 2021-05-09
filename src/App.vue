@@ -5,7 +5,7 @@
     <Footer />
     </footer>
     <meta property='og:title' content="Tiger's Homepage"/>
-    <meta property='og:image' :content="'/'+ogimg"/>
+    <meta property='og:image' :content="'//www.kaovilai.pw/'+ogimg"/>
     <meta property='og:description' content="A closer look at tools I use, and my story"/>
     <meta property='og:url' content="//www.kaovilai.pw"/>
 </template>
