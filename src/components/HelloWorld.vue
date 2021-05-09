@@ -4,7 +4,7 @@
     <div style="display:flex; flex-wrap: wrap; justify-content: center;" class="hello-header">
       <div style="margin: 0 2vw; min-width: 50vw;" class="hello-header-txt">
         <h2>My name is<typing-component text=" Tiger!" typingDelay="500" :once=true /></h2>
-        <p>though my legal name is Passawit<typing-component text=" Kaovilai" typingDelay="1000"/></p>
+        <p>though my legal name is <i>Passawit<typing-component text=" Kaovilai" typingDelay="1000"/></i></p>
         <p>Can't find what you're looking for? try the <a href="http://legacy.kaovilai.pw">legacy site.</a></p>
         <p>This site is <b><u><typing-component text="responsive" typingDelay="2000" :once=true /></u></b>. Try resizing window or rotate your device</p>
       </div>
