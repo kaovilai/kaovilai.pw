@@ -19,11 +19,20 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
+      fail-fast: false
       matrix:
         node-version: [14.x]
-        npm-runs: 
-          - npm ci
-          - npm run build --if-present
+        npm-parallel:
+        - npm run build --if-present
+        - npm run lint
+        - npm run test:unit
+        - npm run test:e2e
+        experimental: [false]
+        include:
+        - npm-parallel: npm run test:unit
+          experimental: true
+        - npm-parallel: npm run test:e2e
+          experimental: true
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -32,7 +41,7 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm install
-    - run: ${{ matrix.npm-runs }}
+    - run: npm ci
+    - run: ${{ matrix.npm-parallel }}
     # - run: npm test
     - uses: EndBug/add-and-commit@v7.2.0
