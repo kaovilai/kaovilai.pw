@@ -933,7 +933,7 @@
               <p>Microsoft Edge</p>
             </div>
             <div class="tooltip">
-            <svg viewBox="0 0 100 100" width="30" height="30">
+            <svg style="margin-left: 30%;" viewBox="0 0 100 100" width="30" height="30">
               <title>Obsidian.md</title>
             <defs>
                 <linearGradient id="a" x1="82.85" y1="30.41" x2="51.26" y2="105.9" gradientTransform="matrix(1, 0, 0, -1, -22.41, 110.97)" gradientUnits="userSpaceOnUse">
