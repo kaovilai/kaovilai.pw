@@ -730,7 +730,7 @@ a {
   justify-content: center;
 } 
 .skillbox{
-  margin: 0 50px;
+  margin: 0 50px 50px;
 }
 .walletArea {
   position: fixed;
