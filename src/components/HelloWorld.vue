@@ -1,11 +1,11 @@
 <template>
   <div class="hello">
     <h1 style="background: var(--NCSU_Reynolds_Red)"><typing-component text="Hello World!" keepWidth="true" :once=true /></h1>
-    <h2>My name is<typing-component text=" Tiger!"/></h2>
-    <p>though my legal name is<typing-component text=" Passawit Kaovilai"/></p>
+    <h2>My name is<typing-component text=" Tiger!" typingDelay="500" :once=true /></h2>
+    <p>though my legal name is Passawit<typing-component text=" Kaovilai" typingDelay="1000"/></p>
     <div class="displayArea">
     <p><a href="http://kaovilai.pw">Learn more about me</a></p>
-    <p>This site is <b><u><typing-component text="responsive" typingDelay="1000" :once=true /></u></b>. Try resizing window or rotate your device</p>
+    <p>This site is <b><u><typing-component text="responsive" typingDelay="2000" :once=true /></u></b>. Try resizing window or rotate your device</p>
 
       <div class="introArea">
         <div class="skillbox">
