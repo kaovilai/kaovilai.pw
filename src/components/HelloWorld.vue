@@ -839,7 +839,10 @@
         <div class="skillbox">
           <h3><typing-component text="Image/Vector"/></h3>
           <div class="devicon">
+            <div class="tooltip">
             <i class="devicon-gimp-plain colored"></i>
+              <p>Gimp</p>
+            </div>
             <div class="tooltip">
             <i class="devicon-photoshop-plain colored"></i>
               <p>Photoshop</p>
