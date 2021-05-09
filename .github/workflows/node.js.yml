@@ -25,8 +25,6 @@ jobs:
         npm-parallel:
         - npm run build --if-present
         - npm run lint
-        - npm run test:unit
-        - npm run test:e2e
         experimental: [false]
         include:
         - npm-parallel: npm run test:unit
