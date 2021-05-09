@@ -1,5 +1,5 @@
 <template>
-  <span>{{ underConstruction }}</span><span class="blinking">|</span><span v-if="keepWidth" style="visibility: hidden;">{{ widthString }}</span>
+  <span>{{ underConstruction }}</span><span v-if="notdone" class="blinking">|</span><span v-if="keepWidth" style="visibility: hidden;">{{ widthString }}</span>
 </template>
 
 <script lang="ts">
@@ -20,6 +20,7 @@ export default defineComponent({
       return {
           underConstruction:'',
           widthString: '',
+          notdone: true,
       }
   },
   methods: {
@@ -44,8 +45,10 @@ export default defineComponent({
         await this.wait(this.typingDelay*Math.random())
       }
       // If once is true, do not continue recursion
-      if(once)
+      if(once){
+        this.notdone = false
         return
+      }
       await this.wait(this.excitementDelay*Math.random())
       for(let i = 0; i < this.text.length; i++){
         if(this.keepWidth)
