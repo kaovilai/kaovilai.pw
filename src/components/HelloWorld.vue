@@ -29,6 +29,10 @@
             <a href="http://linkedin.com/in/kaovilai"><i title="LinkedIn" class="devicon-linkedin-plain colored"></i></a>
                 <p>LinkedIn</p>
               </div>
+              <div class="tooltip">
+            <a href="http://github.com/kaovilai"><i title="GitHub" style="color: white;" class="devicon-github-plain"></i></a>
+                <p>GitHub</p>
+              </div>
           </div>
         </div>
         <div class="skillbox">
