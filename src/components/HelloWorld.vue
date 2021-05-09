@@ -1,12 +1,16 @@
 <template>
   <div class="hello">
-    <h1 style="background: var(--NCSU_Reynolds_Red)"><typing-component text="Hello World!" keepWidth="true" :once=true typingDelay="1000" /></h1>
-    <h2>My name is<typing-component text=" Tiger!" typingDelay="500" :once=true /></h2>
-    <p>though my legal name is Passawit<typing-component text=" Kaovilai" typingDelay="1000"/></p>
+          <h1 style="background: var(--NCSU_Reynolds_Red)"><typing-component text="Hello World!" keepWidth="true" :once=true typingDelay="1000" /></h1>
+    <div style="display:flex; flex-wrap: wrap; justify-content: center;" class="hello-header">
+      <div style="margin: 0 2vw; min-width: 50vw;" class="hello-header-txt">
+        <h2>My name is<typing-component text=" Tiger!" typingDelay="500" :once=true /></h2>
+        <p>though my legal name is Passawit<typing-component text=" Kaovilai" typingDelay="1000"/></p>
+        <p>Can't find what you're looking for? try the <a href="http://legacy.kaovilai.pw">legacy site.</a></p>
+        <p>This site is <b><u><typing-component text="responsive" typingDelay="2000" :once=true /></u></b>. Try resizing window or rotate your device</p>
+      </div>
+      <img style="max-width: 90vw; max-height: 30vh; filter: drop-shadow(1px 1px 10px var(--NCSU_Wolfpack_Red));" src="/ogimg.jpg"/>
+    </div>
     <div class="displayArea">
-    <p>Can't find what you're looking for? try the <a href="http://legacy.kaovilai.pw">legacy site.</a></p>
-    <p>This site is <b><u><typing-component text="responsive" typingDelay="2000" :once=true /></u></b>. Try resizing window or rotate your device</p>
-
       <div class="introArea">
         <div class="skillbox">
           <h2>Social</h2>
