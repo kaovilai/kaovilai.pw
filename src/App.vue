@@ -4,15 +4,24 @@
     <footer>
     <Footer />
     </footer>
+    <meta property='og:title' content="Tiger's Homepage"/>
+    <meta property='og:image' :content="'/'+ogimg"/>
+    <meta property='og:description' content="A closer look at tools I use, and my story"/>
+    <meta property='og:url' content="//www.kaovilai.pw"/>
 </template>
 
 <script>
 import Footer from './components/Footer.vue'
 import HelloWorld from './components/HelloWorld.vue'
-
+import ogimg from './assets/ogimg.jpg'
 export default {
   name: 'App',
-  components: { Footer, HelloWorld }
+  components: { Footer, HelloWorld },
+  data () {
+    return {
+      ogimg: ogimg
+    }
+  }
 }
 </script>
 
