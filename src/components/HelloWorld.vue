@@ -8,7 +8,7 @@
         <p>Can't find what you're looking for? try the <a href="http://legacy.kaovilai.pw">legacy site.</a></p>
         <p>This site is <b><u><typing-component text="responsive" typingDelay="2000" :once=true /></u></b>. Try resizing window or rotate your device</p>
       </div>
-      <img style="max-width: 90vw; max-height: 30vh; filter: drop-shadow(1px 1px 10px var(--NCSU_Wolfpack_Red));" src="/ogimg.jpg"/>
+      <img style="max-width: 90vw; min-height: 30vh; max-height: 50vh; filter: drop-shadow(1px 1px 10px var(--NCSU_Wolfpack_Red));" src="/ogimg.jpg"/>
     </div>
     <div class="displayArea">
       <div class="introArea">
