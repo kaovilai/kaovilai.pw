@@ -866,7 +866,7 @@
             <i class="devicon-inkscape-plain-wordmark"></i>
             <div class="tooltip">
             <i class="devicon-illustrator-plain colored"></i>
-              <p>illustrator</p>
+              <p>Illustrator</p>
             </div>
           </div>
         </div>
