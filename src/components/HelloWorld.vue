@@ -43,7 +43,7 @@
         <div class="skillbox">
           <h2>Resume</h2>
           <div class="devicon">
-            <a target="_blank" href="https://resume.kaovilai.pw">
+            <a target="_blank" href="https://resume.kaovilai.pw/pdf">
               <svg
                 xmlns:dc="http://purl.org/dc/elements/1.1/"
                 xmlns:cc="http://creativecommons.org/ns#"
