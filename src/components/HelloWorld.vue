@@ -589,7 +589,7 @@
         <div class="skillbox">
           <h3><typing-component text="Infrastructure"/></h3>
           <div class="devicon">
-            <i title="bash" class="devicon-bash-plain"></i>
+            <i title="bash" class="devicon-bash-plain" style="color: yellow;"></i>
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="256px" height="315px" viewBox="0 0 256 315" version="1.1" preserveAspectRatio="xMidYMid">
               <title>ansible</title>
               <g>
@@ -648,7 +648,7 @@
                 id="path44622"
                 style="fill:#241f21;fill-opacity:1;fill-rule:nonzero;stroke:none" />
             </svg>
-            <i title="Kubernetes" class="devicon-kubernetes-plain colored"></i>
+            <i title="Kubernetes" class="devicon-kubernetes-plain-wordmark colored"></i>
           </div>
         </div>
         <div class="skillbox">
@@ -796,7 +796,7 @@
             <i class="devicon-gimp-plain colored"></i>
             <i class="devicon-photoshop-plain colored"></i>
             <i class="devicon-inkscape-plain-wordmark"></i>
-            <i class="devicon-illustrator-plain"></i>
+            <i class="devicon-illustrator-plain colored"></i>
           </div>
         </div>
         <div class="skillbox">
