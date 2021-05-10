@@ -5,7 +5,6 @@
       <div style="margin: 0 2vw; min-width: 50vw;" class="hello-header-txt">
         <h2>My name is<typing-component text=" Tiger!" typingDelay="500" :once=true /></h2>
         <p>though my legal name is <i>Passawit<typing-component text=" Kaovilai" typingDelay="1000"/></i></p>
-        <p>Citizenship: </p>
         <p>Can't find what you're looking for? try the <a target="_blank" href="http://legacy.kaovilai.pw">legacy site.</a></p>
         <p>This site is <b><a target="_blank" href="https://en.wikipedia.org/wiki/Responsive_web_design"><typing-component text="responsive" typingDelay="2000" :once=true /></a></b>. Try resizing window or rotate your device</p>
         <p><a href="" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/tigpk'});return false;">Schedule a meeting 📅</a></p>
