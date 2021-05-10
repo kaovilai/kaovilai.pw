@@ -1065,8 +1065,11 @@ li {
   font-size: var(--tooltipFontSize);
   margin: 0;
 }
-.tooltip > *{
+.tooltip *{
   font-size: calc(1em - var(--tooltipFontSize));
+}
+.tooltip svg, .tooltip img{
+  margin-bottom: 0px;
 }
 .introAreaHeader {
   margin-top: 30px;
