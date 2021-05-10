@@ -13,6 +13,7 @@
       min-height: 200px;
       height: 30vh;
       max-height: 50vh;
+      object-fit: contain;
       filter: drop-shadow(1px 1px 10px var(--NCSU_Wolfpack_Red));" src="/ogimg.jpg"/>
     </div>
     <div class="displayArea">
