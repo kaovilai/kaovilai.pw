@@ -47,7 +47,6 @@ body {
   text-decoration: none;
   border-bottom: 1.5px solid var(--NCSU_Wolfpack_Red);
   border-radius: 5px;
-  margin-bottom: 2px;
 }
 .blinking {
   animation-name: blink;
