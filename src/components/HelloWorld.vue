@@ -213,7 +213,7 @@
           </div>
         </div>
       </div>
-    <h2>My Toolbox</h2>
+    <h2 class="introAreaHeader">My Toolbox</h2>
       <div class="introArea">
         <div class="skillbox">
           <h3><typing-component text="Software Development"/></h3>
@@ -912,7 +912,7 @@
       </div>
 <!-- Section Break -->
 
-      <h2>Personal Devices</h2>
+      <h2 class="introAreaHeader">Personal Devices</h2>
       <div class="introArea">
         <div class="skillbox">
           <h3><typing-component text="Desktop"/></h3>
@@ -1014,7 +1014,7 @@ li {
   justify-content: center;
 } 
 .skillbox{
-  margin: 0 5vw 50px;
+  margin: 0 5vw 20px;
 }
 .walletArea {
   position: fixed;
@@ -1053,7 +1053,7 @@ li {
 .devicon > *, .devicon svg, .devicon img {
   height: 1em;
   width: 1em;
-  margin: 0px var(--sidemargin) var(--sidemargin);
+  margin: 0px var(--sidemargin) calc(2*var(--sidemargin));
   justify-content: center;
   display: inline-grid;
   object-fit: scale-down;
@@ -1067,6 +1067,10 @@ li {
 }
 .tooltip > *{
   font-size: calc(1em - var(--tooltipFontSize));
+}
+.introAreaHeader {
+  margin-top: 30px;
+  margin-bottom: 0px;
 }
 
 /* styles for image svgs */
