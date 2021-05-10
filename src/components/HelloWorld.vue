@@ -1014,7 +1014,7 @@ li {
   justify-content: center;
 } 
 .skillbox{
-  margin: 0 50px 50px;
+  margin: 0 5vw 50px;
 }
 .walletArea {
   position: fixed;
