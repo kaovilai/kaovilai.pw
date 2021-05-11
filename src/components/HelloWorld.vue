@@ -233,12 +233,10 @@
               </svg>
             </a>
             <a href="https://www.python.org/"><i title="python" class="devicon-python-plain-wordmark colored"></i></a>
-            <a href="https://en.wikipedia.org/wiki/JavaScript">
               <div class="tooltip">
                 <i title="javascript" class="devicon-javascript-plain colored"></i>
                 <p>JavaScript</p>
               </div>
-            </a>
             <div class="tooltip">
               <i title="TypeScript" class="devicon-typescript-plain colored"></i>
                 <p>TypeScript</p>
@@ -251,33 +249,37 @@
           <h3><typing-component text="Frameworks"/></h3>
           <div class="devicon">
             <a href="https://vuejs.org/"><i title="vuejs" class="devicon-vuejs-plain-wordmark colored"></i></a>
-            <a href="https://flutter.dev/">
-              <div class="tooltip">
+            <div class="tooltip">
+              <a href="https://flutter.dev/">
                 <i title="Flutter" class="devicon-flutter-plain colored"></i>
                 <p>Flutter</p>
-              </div>
-            </a>
+              </a>
+            </div>
             <a href="https://www.djangoproject.com/">
-              <i title="Django" class="devicon-django-plain"></i>
+              <i title="Django" style="color:white;" class="devicon-django-plain"></i>
             </a>
-            <a href="https://angular.io/">
-              <div class="tooltip">
-                <i title="AngularJS" class="devicon-angularjs-plain colored"></i>
-                <p>AngularJS</p>
-              </div>
-            </a>
+            <div class="tooltip">
+              <a href="https://angular.io/">
+              <i title="AngularJS" class="devicon-angularjs-plain colored"></i>
+              <p>AngularJS</p>
+              </a>
+            </div>
           </div>
         </div>
         <div class="skillbox">
           <h3><typing-component text="CI/CD"/></h3>
           <div class="devicon">
             <div class="tooltip">
-            <i title="GitHub Actions" class="devicon-github-original"></i>
+              <a href="https://docs.github.com/en/actions">
+            <i title="GitHub Actions" style="color:white;" class="devicon-github-original"></i>
                 <p>GitHub Actions</p>
+              </a>
               </div>
               <div class="tooltip">
-            <i title="Jenkins" class="devicon-jenkins-plain colored"></i>
-                <p>Jenkins</p>
+                <a href="https://www.jenkins.io/">
+                  <i title="Jenkins" class="devicon-jenkins-plain colored"></i>
+                  <p>Jenkins</p>
+                </a>
               </div>
           </div>
         </div>
@@ -1066,6 +1068,7 @@ li {
   filter: var(--filter-dropshadow);
   flex-wrap: wrap;
   max-width: calc(var(--blockwidth) * 4 );
+  color: white;
 }
 .devicon > *, .devicon svg, .devicon img {
   height: 1em;
@@ -1076,7 +1079,7 @@ li {
   object-fit: scale-down;
 }
 .tooltip {
-  --tooltipFontSize: 15px
+  --tooltipFontSize: 15px;
 }
 .tooltip p {
   font-size: var(--tooltipFontSize);
@@ -1088,7 +1091,8 @@ li {
   font-size: calc(1em - var(--tooltipFontSize));
   display: block;
 }
-.tooltip a {
+.tooltip > a {
+  width: 1em;
   font-size: 1em;
 }
 .tooltip svg, .tooltip img {
