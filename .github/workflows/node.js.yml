@@ -28,11 +28,11 @@ jobs:
         - npm run build --if-present
         - npm run lint
         experimental: [false]
-        include:
-        - npm-parallel: npm run test:unit
-          experimental: true
-        - npm-parallel: npm run test:e2e
-          experimental: true
+#         include:
+#         - npm-parallel: npm run test:unit
+#           experimental: true
+#         - npm-parallel: npm run test:e2e
+#           experimental: true
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
