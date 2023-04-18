@@ -7,11 +7,15 @@ on:
   push:
     branches: [ main ]
     paths-ignore:
+    - '.github/workflows/codeql.yml'
+    - '.github/workflows/dependabot-auto.yml'
     - 'docs/**'
     - '*.md'
   pull_request:
     branches: [ main ]
     paths-ignore:
+    - '.github/workflows/codeql.yml'
+    - '.github/workflows/dependabot-auto.yml'
     - 'docs/**'
     - '*.md'
 
