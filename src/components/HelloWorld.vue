@@ -7,7 +7,7 @@
         <p>though my legal name is <i>Passawit<typing-component text=" Kaovilai" typingDelay="1000"/></i></p>
         <p>Can't find what you're looking for? try the <a target="_blank" href="http://legacy.kaovilai.pw">legacy site.</a></p>
         <p>This site is <b><a target="_blank" href="https://en.wikipedia.org/wiki/Responsive_web_design"><typing-component text="responsive" typingDelay="1500" :once=true /></a></b>. Try resizing window or rotate your device</p>
-        <p><a href="" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/tigpk'});return false;">Schedule a meeting 📅</a></p>
+        <p><a href="https://calendar.app.google/udoH8WAzF7fdQv9h9">Schedule a meeting 📅</a></p>
         <p><a href="https://github.com/kaovilai/github-stats"><img src="https://raw.githubusercontent.com/kaovilai/github-stats/master/generated/overview.svg#gh-dark-mode-only" /></a></p>
       </div>
       <!-- Calendly link widget begin -->
