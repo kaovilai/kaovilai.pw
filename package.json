@@ -15,23 +15,26 @@
     "vue-class-component": "^8.0.0-0"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.19",
-    "@typescript-eslint/eslint-plugin": "^4.18.0",
-    "@typescript-eslint/parser": "^4.18.0",
-    "@vue/cli-plugin-babel": "~4.5.0",
+    "@eslint/js": "^9.33.0",
+    "@types/jest": "^30.0.0",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "@vue/cli-plugin-babel": "^5.0.8",
     "@vue/cli-plugin-e2e-nightwatch": "^5.0.8",
-    "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/cli-plugin-typescript": "~4.5.0",
-    "@vue/cli-plugin-unit-jest": "^4.5.13",
-    "@vue/cli-service": "~4.5.0",
+    "@vue/cli-plugin-eslint": "^5.0.8",
+    "@vue/cli-plugin-typescript": "^5.0.8",
+    "@vue/cli-plugin-unit-jest": "^5.0.8",
+    "@vue/cli-service": "^5.0.8",
     "@vue/compiler-sfc": "^3.0.0",
-    "@vue/eslint-config-typescript": "^7.0.0",
+    "@vue/eslint-config-typescript": "^13.0.0",
     "@vue/test-utils": "^2.0.0-0",
     "babel-eslint": "^10.1.0",
-    "chromedriver": "90",
-    "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^7.0.0",
-    "typescript": "~4.1.5",
+    "chromedriver": "^139.0.1",
+    "eslint": "^8.57.1",
+    "eslint-plugin-vue": "^9.33.0",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.39.1",
+    "vue-eslint-parser": "^10.2.0",
     "vue-jest": "^5.0.0-0"
   },
   "eslintConfig": {
@@ -42,12 +45,15 @@
     "extends": [
       "plugin:vue/vue3-essential",
       "eslint:recommended",
-      "@vue/typescript"
+      "@vue/eslint-config-typescript"
     ],
     "parserOptions": {
       "parser": "@typescript-eslint/parser"
     },
-    "rules": {},
+    "rules": {
+      "vue/multi-word-component-names": "off",
+      "vue/no-reserved-component-names": "off"
+    },
     "overrides": [
       {
         "files": [
