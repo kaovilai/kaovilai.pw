@@ -10,7 +10,9 @@
       "Bash(npm outdated)",
       "Bash(npm install:*)",
       "Bash(npm uninstall:*)",
-      "Bash(mv:*)"
+      "Bash(mv:*)",
+      "Bash(git config:*)",
+      "Bash(gpg:*)"
     ],
     "defaultMode": "acceptEdits"
   }
