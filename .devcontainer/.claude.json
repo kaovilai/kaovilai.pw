@@ -1,3 +1,14 @@
 {
-  "bypassPermissionsModeAccepted": true
+  "bypassPermissionsModeAccepted": true,
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@playwright/mcp@latest",
+        "--browser",
+        "chromium"
+      ]
+    }
+  }
 }
