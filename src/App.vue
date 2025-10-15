@@ -40,7 +40,27 @@ export default {
   margin-top: 60px;
 }
 body {
-  background-color: black;
+  background: linear-gradient(135deg,
+    #0a0a0a 0%,
+    #1a0a14 25%,
+    #0d1117 50%,
+    #0a1428 75%,
+    #0a0a0a 100%);
+  background-size: 400% 400%;
+  animation: aiGradient 15s ease infinite;
+  min-height: 100vh;
+}
+
+@keyframes aiGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 #app a:-webkit-any-link {
   color: var(--NCSU_Wolfpack_Red);
