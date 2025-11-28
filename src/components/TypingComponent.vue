@@ -40,7 +40,7 @@ export default defineComponent({
     async underConstructionLoop (once=false) {
       for(let i = 0; i < this.text.length; i++){
         if(this.keepWidth)
-          this.widthString = this.widthString.substr(0,this.widthString.length - 1)
+          this.widthString = this.widthString.slice(0, -1)
         this.underConstruction += this.text.charAt(i)
         await this.wait(this.typingDelay*Math.random())
       }
@@ -53,7 +53,7 @@ export default defineComponent({
       for(let i = 0; i < this.text.length; i++){
         if(this.keepWidth)
           this.widthString += this.underConstruction.charAt(this.underConstruction.length-1)
-        this.underConstruction = this.underConstruction.substr(0,this.underConstruction.length - 1)
+        this.underConstruction = this.underConstruction.slice(0, -1)
         await this.wait(this.deletingDelay*Math.random())
       }
       this.underConstructionLoop()
@@ -62,6 +62,8 @@ export default defineComponent({
   mounted (){
     if(this.text == '')
       return
+    if(this.keepWidth)
+      this.widthString = this.text
     this.underConstructionLoop(this.once)
   }
 })

@@ -1003,8 +1003,49 @@ margin-top: 10%;
 <script lang="ts">
 import { defineComponent } from "vue"
 import TypingComponent from "./TypingComponent.vue"
+import PdfIcon from './icons/PdfIcon.vue';
+import BlogIcon from './icons/BlogIcon.vue';
+import GoIcon from './icons/GoIcon.vue';
+import CIcon from './icons/CIcon.vue';
+import VsCodeIcon from './icons/VsCodeIcon.vue';
+import EclipseIcon from './icons/EclipseIcon.vue';
+import AnsibleIcon from './icons/AnsibleIcon.vue';
+import OpenShiftIcon from './icons/OpenShiftIcon.vue';
+import ChocolateyIcon from './icons/ChocolateyIcon.vue';
+import Fusion360Icon from './icons/Fusion360Icon.vue';
+import CuraIcon from './icons/CuraIcon.vue';
+import SimioIcon from './icons/SimioIcon.vue';
+import HaasIcon from './icons/HaasIcon.vue';
+import DavinciResolveIcon from './icons/DavinciResolveIcon.vue';
+import ObsStudioIcon from './icons/ObsStudioIcon.vue';
+import FlashIcon from './icons/FlashIcon.vue';
+import DelphiIcon from './icons/DelphiIcon.vue';
+import EdgeIcon from './icons/EdgeIcon.vue';
+import ObsidianIcon from './icons/ObsidianIcon.vue';
+
 export default defineComponent({
-  components: { TypingComponent },
+  components: {
+    TypingComponent,
+    PdfIcon,
+    BlogIcon,
+    GoIcon,
+    CIcon,
+    VsCodeIcon,
+    EclipseIcon,
+    AnsibleIcon,
+    OpenShiftIcon,
+    ChocolateyIcon,
+    Fusion360Icon,
+    CuraIcon,
+    SimioIcon,
+    HaasIcon,
+    DavinciResolveIcon,
+    ObsStudioIcon,
+    FlashIcon,
+    DelphiIcon,
+    EdgeIcon,
+    ObsidianIcon,
+  },
   name: 'HelloWorld',
   data () {
     return {
