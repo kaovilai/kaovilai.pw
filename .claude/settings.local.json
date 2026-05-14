@@ -12,7 +12,11 @@
       "Bash(npm uninstall:*)",
       "Bash(mv:*)",
       "Bash(git config:*)",
-      "Bash(gpg:*)"
+      "Bash(gpg:*)",
+      "Skill(gh-aw)",
+      "mcp__plugin_context-mode_context-mode__ctx_batch_execute",
+      "Bash(gh aw *)",
+      "mcp__plugin_context-mode_context-mode__ctx_execute_file"
     ],
     "defaultMode": "acceptEdits"
   }
