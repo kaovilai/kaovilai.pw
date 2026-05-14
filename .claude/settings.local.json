@@ -25,7 +25,9 @@
       "Bash(git pull *)",
       "Bash(git stash *)",
       "mcp__github__add_issue_comment",
-      "Bash(git *)"
+      "Bash(git *)",
+      "mcp__github__pull_request_read",
+      "mcp__github__merge_pull_request"
     ],
     "defaultMode": "acceptEdits"
   }
