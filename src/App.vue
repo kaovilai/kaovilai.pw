@@ -27,6 +27,7 @@ export default {
   --NCSU_Carmichael_Aqua: #008473;
   --NCSU_Innovation_Blue: #427E93;
   --NCSU_Bio-Indigo: #4156A1;
+  --LINE_Green: #06c755;
 
   --filter-dropshadow: drop-shadow(1.1px 1.1px 1.1px grey);
   --sidemargin: 15px;
