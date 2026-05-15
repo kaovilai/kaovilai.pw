@@ -31,17 +31,23 @@
                 <p>Email</p>
                 </a>
               </div>
-              <div class="tooltip">
-            <a target="_blank" href="https://twitter.com/TigerKaovilai"><i title="Twitter" class="devicon-twitter-plain colored"></i>
-            <p>Twitter</p>
-            </a>
-              </div>
-              <div class="tooltip">
-            <a target="_blank" href="http://linkedin.com/in/kaovilai"><i title="LinkedIn" class="devicon-linkedin-plain colored"></i>
-                <p>LinkedIn</p>
-            </a>
-              </div>
-              <div class="tooltip">
+               <div class="tooltip">
+             <a target="_blank" href="https://twitter.com/TigerKaovilai"><i title="Twitter" class="devicon-twitter-plain colored"></i>
+             <p>Twitter</p>
+             </a>
+               </div>
+               <div class="tooltip">
+             <a target="_blank" href="https://line.me/ti/p/D9AmuFwHT4">
+                <span title="LINE" class="line-icon">LINE</span>
+                <p>LINE</p>
+             </a>
+               </div>
+               <div class="tooltip">
+             <a target="_blank" href="http://linkedin.com/in/kaovilai"><i title="LinkedIn" class="devicon-linkedin-plain colored"></i>
+                 <p>LinkedIn</p>
+             </a>
+               </div>
+               <div class="tooltip">
             <a target="_blank" href="http://github.com/kaovilai"><i title="GitHub" style="color: white;" class="devicon-github-plain"></i>
                 <p>GitHub</p>
             </a>
@@ -1109,6 +1115,19 @@ li {
 }
 .tooltip svg, .tooltip img {
   margin-bottom: 0px;
+}
+.line-icon {
+  align-items: center;
+  background: #06c755;
+  border-radius: 0.2em;
+  color: white;
+  display: flex;
+  font-size: 0.28em;
+  font-weight: 700;
+  height: 1em;
+  justify-content: center;
+  line-height: 1;
+  width: 1em;
 }
 .introAreaHeader {
   margin-top: 30px;
