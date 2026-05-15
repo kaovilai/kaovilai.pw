@@ -18,7 +18,7 @@ jobs:
       - name: Get latest devicon release
         id: latest
         run: |
-          LATEST=$(curl -sf https://api.github.com/repos/devicons/devicon/releases/latest | jq -r '.tag_name')
+          LATEST=$(curl -Sf https://api.github.com/repos/devicons/devicon/releases/latest | jq -r '.tag_name')
           if [ -z "$LATEST" ] || [ "$LATEST" = "null" ]; then
             echo "Failed to fetch latest devicon release" >&2
             exit 1
@@ -52,4 +52,5 @@ jobs:
             Automated update of devicon CDN link from `${{ steps.current.outputs.version }}` to `${{ steps.latest.outputs.version }}`.
 
             See the [devicon release notes](https://github.com/devicons/devicon/releases/tag/${{ steps.latest.outputs.version }}) for details.
-          labels: automation
+          labels: |
+            automation
