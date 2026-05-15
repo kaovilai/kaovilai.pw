@@ -16,7 +16,18 @@
       "Skill(gh-aw)",
       "mcp__plugin_context-mode_context-mode__ctx_batch_execute",
       "Bash(gh aw *)",
-      "mcp__plugin_context-mode_context-mode__ctx_execute_file"
+      "mcp__plugin_context-mode_context-mode__ctx_execute_file",
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "mcp__plugin_context-mode_context-mode__ctx_fetch_and_index",
+      "mcp__plugin_context-mode_context-mode__ctx_search",
+      "mcp__plugin_context-mode_context-mode__ctx_execute",
+      "Bash(git pull *)",
+      "Bash(git stash *)",
+      "mcp__github__add_issue_comment",
+      "Bash(git *)",
+      "mcp__github__pull_request_read",
+      "mcp__github__merge_pull_request"
     ],
     "defaultMode": "acceptEdits"
   }
