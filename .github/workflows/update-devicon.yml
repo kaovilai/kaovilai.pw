@@ -1,0 +1,47 @@
+name: Update devicon
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'  # Every Monday at 06:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-devicon:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get latest devicon release
+        id: latest
+        run: |
+          LATEST=$(curl -s https://api.github.com/repos/devicons/devicon/releases/latest | jq -r '.tag_name')
+          echo "version=$LATEST" >> "$GITHUB_OUTPUT"
+
+      - name: Get current devicon version
+        id: current
+        run: |
+          CURRENT=$(grep -oP 'devicon@\K[^/]+' src/App.vue)
+          echo "version=$CURRENT" >> "$GITHUB_OUTPUT"
+
+      - name: Update devicon version
+        if: steps.latest.outputs.version != steps.current.outputs.version
+        run: |
+          sed -i "s|devicon@${{ steps.current.outputs.version }}|devicon@${{ steps.latest.outputs.version }}|g" src/App.vue
+
+      - name: Create Pull Request
+        if: steps.latest.outputs.version != steps.current.outputs.version
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: update devicon to ${{ steps.latest.outputs.version }}"
+          branch: "chore/update-devicon-${{ steps.latest.outputs.version }}"
+          title: "chore: update devicon to ${{ steps.latest.outputs.version }}"
+          body: |
+            Automated update of devicon CDN link from `${{ steps.current.outputs.version }}` to `${{ steps.latest.outputs.version }}`.
+
+            See the [devicon release notes](https://github.com/devicons/devicon/releases/tag/${{ steps.latest.outputs.version }}) for details.
+          labels: automation
