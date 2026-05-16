@@ -12,7 +12,7 @@ permissions:
   actions: read
 tools:
   edit:
-  bash: ["git log", "git diff", "git status", "npm run build", "npm run lint", "ls", "cat", "find", "grep", "wc", "head", "tail"]
+  bash: true
   github:
     toolsets: [repos, issues, pull_requests, actions]
   web-fetch:
