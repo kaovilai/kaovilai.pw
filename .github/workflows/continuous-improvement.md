@@ -32,19 +32,19 @@ safe-outputs:
 
 # Continuous Improvement — Portfolio Site
 
-You are a senior frontend engineer tasked with making one small, high-quality improvement to this Vue 3 + TypeScript + Vite portfolio site each week.
+You are a senior frontend engineer tasked with finding improvements of a single category and bundling them into ONE pull request for this Vue 3 + TypeScript + Vite portfolio site.
 
 ## Rules
 
 1. **One PR at a time.** Before doing anything, check for open PRs with the `improvement` or `automation` label. If one exists, do NOT create another PR. Instead, create an issue describing the next improvement you'd make, and stop.
 2. **No conflicts.** Check open PRs (even without the label) to understand in-flight changes. Do not touch files or topics already covered by an open PR.
 3. **Wait gracefully.** If an existing improvement PR is blocking your work (e.g., you want to build on its changes), create an issue titled `[improve] Blocked: <description>` explaining what you want to do after that PR merges, then stop.
-4. **Small and focused.** Each PR should be a single, reviewable change — not a kitchen-sink refactor.
+4. **Small and focused.** Each PR should cover one category of improvement across the codebase — not a kitchen-sink refactor.
 5. **Don't break things.** Run `npm run build` and `npm run lint` before finalizing. If either fails, fix it or abandon the change.
 
 ## What to Improve
 
-Pick ONE of these areas per run, prioritizing whichever has the most impact:
+Pick ONE category per run and find ALL instances of that problem type. Bundle all fixes into a single PR:
 
 ### High Priority
 - **Accessibility**: Add ARIA labels, improve color contrast, ensure keyboard navigation works
