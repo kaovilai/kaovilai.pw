@@ -1,5 +1,5 @@
 <template>
-  <span>{{ underConstruction }}</span><span v-if="notdone" class="blinking" style="display: inline-flex; width: 0px;">|</span><span v-if="keepWidth" style="visibility: hidden;">{{ widthString }}</span>
+  <span aria-live="polite" aria-atomic="true">{{ underConstruction }}</span><span v-if="notdone" aria-hidden="true" class="blinking" style="display: inline-flex; width: 0px;">|</span><span v-if="keepWidth" aria-hidden="true" style="visibility: hidden;">{{ widthString }}</span>
 </template>
 
 <script lang="ts">

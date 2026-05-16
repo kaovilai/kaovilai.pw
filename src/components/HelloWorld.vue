@@ -5,8 +5,8 @@
       <div style="margin: 0 2vw; min-width: 50vw;" class="hello-header-txt">
         <h2>My name is<typing-component text=" Tiger!" typingDelay="500" :once=true /></h2>
         <p>though my legal name is <i>Passawit<typing-component text=" Kaovilai" typingDelay="1000"/></i></p>
-        <p>Can't find what you're looking for? try the <a target="_blank" href="http://legacy.kaovilai.pw">legacy site.</a></p>
-        <p>This site is <b><a target="_blank" href="https://en.wikipedia.org/wiki/Responsive_web_design"><typing-component text="responsive" typingDelay="1500" :once=true /></a></b>. Try resizing window or rotate your device</p>
+        <p>Can't find what you're looking for? try the <a target="_blank" rel="noopener noreferrer" href="https://legacy.kaovilai.pw">legacy site.</a></p>
+        <p>This site is <b><a target="_blank" rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/Responsive_web_design"><typing-component text="responsive" typingDelay="1500" :once=true /></a></b>. Try resizing window or rotate your device</p>
         <p><a href="https://calendar.app.google/udoH8WAzF7fdQv9h9">Schedule a meeting 📅</a></p>
         <p><a href="https://github.com/kaovilai/github-stats"><img src="https://raw.githubusercontent.com/kaovilai/github-stats/master/generated/overview.svg#gh-dark-mode-only" alt="Tiger's GitHub stats overview" /></a></p>
       </div>
@@ -61,7 +61,7 @@
         <div class="skillbox">
           <h2>Resume</h2>
           <div class="devicon">
-            <a target="_blank" href="https://resume.kaovilai.pw/pdf">
+            <a target="_blank" rel="noopener noreferrer" aria-label="View Tiger's resume as PDF" href="https://resume.kaovilai.pw/pdf">
               <svg
                 xmlns:dc="http://purl.org/dc/elements/1.1/"
                 xmlns:cc="http://creativecommons.org/ns#"
@@ -214,7 +214,7 @@
         <div class="skillbox">
           <h2>Blog</h2>
           <div class="devicon">
-            <a target="_blank" href="https://blog.tig.pw">
+            <a target="_blank" rel="noopener noreferrer" aria-label="Visit Tiger's blog" href="https://blog.tig.pw">
               <svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 200.15844 200.15843" height="56.489159mm" width="56.489159mm">
   <g transform="translate(-27.09796,-27.287332)">
     <g style="fill:#000000;fill-opacity:1;">
