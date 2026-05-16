@@ -52,9 +52,6 @@ name: "Continuous Improvement — Portfolio Site"
   schedule:
   - cron: "39 5 * * 0"
     # Friendly format: weekly (scattered)
-  push:
-    branches:
-    - main
   workflow_dispatch:
     inputs:
       aw_context:
@@ -1453,3 +1450,4 @@ jobs:
             /tmp/gh-aw/safe-output-items.jsonl
             /tmp/gh-aw/temporary-id-map.json
           if-no-files-found: ignore
+
