@@ -141,7 +141,19 @@ RUN npm install -g @anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}
 
 # Install gh-aw extension to enable `gh aw compile` for agentic workflows
 ARG GH_AW_VERSION=v0.72.1
-RUN gh extension install github/gh-aw@${GH_AW_VERSION}
+RUN ARCH=$(dpkg --print-architecture) && \
+  case "$ARCH" in \
+    amd64) GH_AW_ASSET=linux-amd64 ;; \
+    arm64) GH_AW_ASSET=linux-arm64 ;; \
+    armhf) GH_AW_ASSET=linux-arm ;; \
+    i386) GH_AW_ASSET=linux-386 ;; \
+    *) echo "Unsupported architecture for gh-aw: $ARCH (supported: amd64, arm64, armhf, i386)" && exit 1 ;; \
+  esac && \
+  mkdir -p /tmp/gh-aw-extension/gh-aw && \
+  curl -fLsS "https://github.com/github/gh-aw/releases/download/${GH_AW_VERSION}/${GH_AW_ASSET}" -o /tmp/gh-aw-extension/gh-aw/gh-aw && \
+  chmod +x /tmp/gh-aw-extension/gh-aw/gh-aw && \
+  gh extension install /tmp/gh-aw-extension/gh-aw && \
+  rm -rf /tmp/gh-aw-extension
 
 # Copy and set up firewall script
 COPY init-firewall.sh /usr/local/bin/
