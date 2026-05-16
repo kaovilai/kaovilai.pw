@@ -26,26 +26,36 @@
           <h2>Social</h2>
           <div class="devicon">
               <div class="tooltip">
-                <a target="_blank" href="mailto:passawit.kaovilai@gmail.com">
+                <a target="_blank" rel="noopener noreferrer" href="mailto:passawit.kaovilai@gmail.com">
                 <i title="Email" class="devicon-google-plain colored"></i>
                 <p>Email</p>
                 </a>
               </div>
-              <div class="tooltip">
-            <a target="_blank" href="https://twitter.com/TigerKaovilai"><i title="Twitter" class="devicon-twitter-plain colored"></i>
-            <p>Twitter</p>
-            </a>
-              </div>
-              <div class="tooltip">
-            <a target="_blank" href="http://linkedin.com/in/kaovilai"><i title="LinkedIn" class="devicon-linkedin-plain colored"></i>
-                <p>LinkedIn</p>
-            </a>
-              </div>
-              <div class="tooltip">
-            <a target="_blank" href="http://github.com/kaovilai"><i title="GitHub" style="color: white;" class="devicon-github-plain"></i>
+               <div class="tooltip">
+             <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/TigerKaovilai"><i title="Twitter" class="devicon-twitter-plain colored"></i>
+             <p>Twitter</p>
+             </a>
+               </div>
+               <div class="tooltip">
+             <a target="_blank" rel="noopener noreferrer" href="https://line.me/ti/p/D9AmuFwHT4">
+                <svg viewBox="0 0 64 64" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+                  <title>LINE</title>
+                  <rect x="4" y="4" width="56" height="56" rx="10" fill="var(--LINE_Green)" />
+                  <text x="32" y="39" fill="white" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle">LINE</text>
+                </svg>
+                <p>LINE</p>
+             </a>
+               </div>
+               <div class="tooltip">
+             <a target="_blank" rel="noopener noreferrer" href="https://linkedin.com/in/kaovilai"><i title="LinkedIn" class="devicon-linkedin-plain colored"></i>
+                 <p>LinkedIn</p>
+             </a>
+               </div>
+               <div class="tooltip">
+            <a target="_blank" rel="noopener noreferrer" href="https://github.com/kaovilai"><i title="GitHub" style="color: white;" class="devicon-github-plain"></i>
                 <p>GitHub</p>
             </a>
-              </div>
+               </div>
           </div>
         </div>
         <div class="skillbox">
