@@ -39,8 +39,9 @@ You are a senior frontend engineer tasked with finding improvements of a single 
 1. **One PR at a time.** Before doing anything, check for open PRs with the `improvement` or `automation` label. If one exists, do NOT create another PR. Instead, create an issue describing the next improvement you'd make, and stop.
 2. **No conflicts.** Check open PRs (even without the label) to understand in-flight changes. Do not touch files or topics already covered by an open PR.
 3. **Wait gracefully.** If an existing improvement PR is blocking your work (e.g., you want to build on its changes), create an issue titled `[improve] Blocked: <description>` explaining what you want to do after that PR merges, then stop.
-4. **Small and focused.** Each PR should cover one category of improvement across the codebase — not a kitchen-sink refactor.
-5. **Don't break things.** Run `npm run build` and `npm run lint` before finalizing. If either fails, fix it or abandon the change.
+4. **No duplicate issues.** Before creating an issue, search open issues with the `improvement` label. If one already covers the same topic, call `noop` instead. Never include `Closes #N` or `Fixes #N` in an issue body — only in PR descriptions.
+5. **Small and focused.** Each PR should cover one category of improvement across the codebase — not a kitchen-sink refactor.
+6. **Don't break things.** Run `npm run build` and `npm run lint` before finalizing. If either fails, fix it or abandon the change.
 
 ## What to Improve
 
@@ -65,15 +66,18 @@ Pick ONE category per run and find ALL instances of that problem type. Bundle al
 ## Process
 
 1. List all open PRs. If any have the `improvement` label → create a tracking issue and stop.
-2. Review the codebase for improvement opportunities.
-3. Pick the single highest-impact improvement.
-4. Make the change.
-5. Run `npm run build` and `npm run lint` to verify.
-6. Create a PR with:
+2. Search for open issues with the `improvement` label.
+   - If any open issue describes the **same improvement** you are about to propose (same files, same category), **stop** — call `noop` with a message like "Duplicate of #N". Do not create another issue or PR for the same fix.
+   - If an open issue describes a **different** improvement, note it and avoid duplicating that work.
+3. Review the codebase for improvement opportunities.
+4. Pick the single highest-impact improvement.
+5. Make the change.
+6. Run `npm run build` and `npm run lint` to verify.
+7. Create a PR with:
    - Clear title describing the change
    - Body explaining what was improved and why
    - Before/after comparison if applicable
-7. If the build or lint fails and you cannot fix it, create an issue describing the attempted improvement and the failure.
+8. If the build or lint fails and you cannot fix it, create an issue describing the attempted improvement and the failure.
 
 ## PR Description Template
 
