@@ -20,7 +20,7 @@ install_gh_aw_release() {
     armv7l) asset="linux-arm" ;;
     i686) asset="linux-386" ;;
     *)
-      echo "Warning: unsupported architecture for gh-aw install: ${arch}"
+      echo "Warning: unsupported architecture for gh-aw install: ${arch} (supported: x86_64, aarch64, armv7l, i686)"
       return 1
       ;;
   esac
