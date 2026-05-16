@@ -26,10 +26,10 @@ install_gh_aw_release() {
   esac
 
   tmp_dir="$(mktemp -d)"
-  mkdir -p "${tmp_dir}/gh-aw"
-  curl -fLsS "https://github.com/github/gh-aw/releases/download/${version}/${asset}" -o "${tmp_dir}/gh-aw/gh-aw"
-  chmod +x "${tmp_dir}/gh-aw/gh-aw"
-  gh extension install "${tmp_dir}/gh-aw"
+  mkdir -p "${tmp_dir}/gh-aw-extension/gh-aw"
+  curl -fLsS "https://github.com/github/gh-aw/releases/download/${version}/${asset}" -o "${tmp_dir}/gh-aw-extension/gh-aw/gh-aw"
+  chmod +x "${tmp_dir}/gh-aw-extension/gh-aw/gh-aw"
+  gh extension install "${tmp_dir}/gh-aw-extension/gh-aw"
   rm -rf "${tmp_dir}"
 }
 

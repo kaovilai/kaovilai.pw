@@ -149,11 +149,11 @@ RUN ARCH=$(dpkg --print-architecture) && \
     i386) GH_AW_ASSET=linux-386 ;; \
     *) echo "Unsupported architecture for gh-aw: ${ARCH}" && exit 1 ;; \
   esac && \
-  mkdir -p /tmp/gh-aw/gh-aw && \
-  curl -fLsS "https://github.com/github/gh-aw/releases/download/${GH_AW_VERSION}/${GH_AW_ASSET}" -o /tmp/gh-aw/gh-aw/gh-aw && \
-  chmod +x /tmp/gh-aw/gh-aw/gh-aw && \
-  gh extension install /tmp/gh-aw/gh-aw && \
-  rm -rf /tmp/gh-aw
+  mkdir -p /tmp/gh-aw-extension/gh-aw && \
+  curl -fLsS "https://github.com/github/gh-aw/releases/download/${GH_AW_VERSION}/${GH_AW_ASSET}" -o /tmp/gh-aw-extension/gh-aw/gh-aw && \
+  chmod +x /tmp/gh-aw-extension/gh-aw/gh-aw && \
+  gh extension install /tmp/gh-aw-extension/gh-aw && \
+  rm -rf /tmp/gh-aw-extension
 
 # Copy and set up firewall script
 COPY init-firewall.sh /usr/local/bin/
