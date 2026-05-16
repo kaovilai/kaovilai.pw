@@ -1,6 +1,8 @@
 ---
 on:
   schedule: weekly
+  push:
+    branches: [main]
   workflow_dispatch:
 engine: copilot
 permissions:
