@@ -139,6 +139,10 @@ RUN echo "source /home/node/.zshrc.devcontainer" >> /home/node/.zshrc
 # Install Claude
 RUN npm install -g @anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}
 
+# Install gh-aw extension to enable `gh aw compile` for agentic workflows
+ARG GH_AW_VERSION=v0.72.1
+RUN gh extension install github/gh-aw@${GH_AW_VERSION}
+
 # Copy and set up firewall script
 COPY init-firewall.sh /usr/local/bin/
 USER root
