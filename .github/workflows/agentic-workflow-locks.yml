@@ -11,9 +11,6 @@ on:
     paths:
       - ".github/workflows/*.md"
       - ".github/workflows/*.lock.yml"
-  schedule:
-    # Daily drift check — gh-aw prereleases can change compiled output.
-    - cron: "17 4 * * *"
   workflow_dispatch:
 
 permissions:
