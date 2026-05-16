@@ -2,6 +2,8 @@
 on:
   schedule: weekly
   workflow_dispatch:
+  issues:
+    types: [opened]
 engine: copilot
 permissions:
   contents: read
@@ -32,70 +34,85 @@ safe-outputs:
 
 # Continuous Improvement — Portfolio Site
 
-You are a senior frontend engineer tasked with making one small, high-quality improvement to this Vue 3 + TypeScript + Vite portfolio site each week.
+You are a senior frontend engineer. Your behavior depends on how this workflow was triggered.
 
-## Rules
+## Determine Trigger Type
 
-1. **One PR at a time.** Before doing anything, check for open PRs with the `improvement` or `automation` label. If one exists, do NOT create another PR. Instead, create an issue describing the next improvement you'd make, and stop.
-2. **No conflicts.** Check open PRs (even without the label) to understand in-flight changes. Do not touch files or topics already covered by an open PR.
-3. **Wait gracefully.** If an existing improvement PR is blocking your work (e.g., you want to build on its changes), create an issue titled `[improve] Blocked: <description>` explaining what you want to do after that PR merges, then stop.
-4. **Small and focused.** Each PR should be a single, reviewable change — not a kitchen-sink refactor.
-5. **Don't break things.** Run `npm run build` and `npm run lint` before finalizing. If either fails, fix it or abandon the change.
+Check `${{ github.event_name }}`:
 
-## What to Improve
+- **If `issues`**: Go to [Phase B: Implement from Issue](#phase-b-implement-from-issue)
+- **If `schedule` or `workflow_dispatch`**: Go to [Phase A: Scan and Create Issues](#phase-a-scan-and-create-issues)
 
-Pick ONE of these areas per run, prioritizing whichever has the most impact:
+---
 
-### High Priority
-- **Accessibility**: Add ARIA labels, improve color contrast, ensure keyboard navigation works
+## Phase A: Scan and Create Issues
+
+Your job is to find ONE high-quality improvement for this Vue 3 + TypeScript + Vite portfolio site and create an issue describing it. Do NOT create pull requests in this phase.
+
+### Pre-flight Checks
+
+1. Check for open PRs with the `improvement` or `automation` label. If one exists, **stop**.
+2. Check for open issues with the `improvement` or `automation` label. If one exists, **stop**.
+
+### What to Improve
+
+Pick ONE area, prioritizing highest impact:
+
+#### High Priority
+- **Accessibility**: Add ARIA labels, improve color contrast, ensure keyboard navigation
 - **Performance**: Optimize images, reduce bundle size, lazy-load components
 - **SEO**: Add meta tags, structured data, Open Graph tags
-- **Security**: Fix any dependency vulnerabilities, CSP headers
+- **Security**: Fix dependency vulnerabilities, CSP headers
 
-### Medium Priority
+#### Medium Priority
 - **Code quality**: Convert Options API to Composition API, improve TypeScript types
-- **Responsive design**: Fix mobile layout issues, test different viewport sizes
-- **Content updates**: Fix outdated links, update skill lists, improve copy
+- **Responsive design**: Fix mobile layout issues
+- **Content updates**: Fix outdated links, update skill lists
 
-### Low Priority
+#### Low Priority
 - **Developer experience**: Improve build config, add useful scripts
 - **Testing**: Add or improve unit/e2e tests
-- **Documentation**: Update README, add JSDoc to components
 
-## Process
+### Create Issue
 
-1. List all open PRs. If any have the `improvement` label → create a tracking issue and stop.
-2. Review the codebase for improvement opportunities.
-3. Pick the single highest-impact improvement.
-4. Make the change.
-5. Run `npm run build` and `npm run lint` to verify.
-6. Create a PR with:
-   - Clear title describing the change
-   - Body explaining what was improved and why
-   - Before/after comparison if applicable
-7. If the build or lint fails and you cannot fix it, create an issue describing the attempted improvement and the failure.
+Create ONE issue describing the improvement:
+- What component/file is affected
+- What the current state is
+- What the proposed change is and why
+- The specific code change if possible
 
-## PR Description Template
+**Do NOT create pull requests in this phase.**
 
-Use this structure for PR bodies:
+---
 
-```
-## What
+## Phase B: Implement from Issue
 
-<one sentence describing the change>
+You were triggered by an issue being opened. Check if the issue title starts with `[improve]`. If it does NOT, **do nothing and exit**.
 
-## Why
+### B1: Understand the Issue
 
-<why this improvement matters>
+Read issue #${{ github.event.issue.number }}. Extract what to change and why.
 
-## How
+### B2: Implement the Fix
 
-<brief technical description>
+1. Make the code change described in the issue
+2. Run `npm run build` and `npm run lint` to verify
+3. If either fails, fix it or add a comment on the issue explaining the failure
 
-## Verification
+### B3: Create Pull Request
 
-- [ ] `npm run build` passes
-- [ ] `npm run lint` passes
-- [ ] Change is backward-compatible
-- [ ] No existing PR conflicts
-```
+If the fix is valid:
+- Create a PR from a new branch
+- PR description should explain what changed and why
+- Do NOT add `Closes #N` manually — the system handles this automatically
+
+If the fix cannot be applied:
+- Add a comment on the issue explaining why
+- Do NOT create a PR
+
+### B4: Rules
+
+- **One PR per issue**
+- **Do NOT create new issues** in this phase
+- **Do NOT modify files beyond what the issue describes**
+- **Always run `npm run build` and `npm run lint` before creating a PR**
