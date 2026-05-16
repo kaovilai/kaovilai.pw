@@ -84,4 +84,14 @@ body {
     opacity: 100;
   }
 }
+@media (prefers-reduced-motion: reduce) {
+  body {
+    animation: none;
+    background: #0d1117;
+  }
+  .blinking {
+    animation: none;
+    opacity: 1;
+  }
+}
 </style>
