@@ -2,10 +2,7 @@
   <h1>Tiger Kaovilai</h1>
 </template>
 
-<script>
-export default {
-
-}
+<script setup lang="ts">
 </script>
 
 <style>

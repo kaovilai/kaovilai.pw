@@ -7,13 +7,9 @@
     </footer>
 </template>
 
-<script>
+<script setup lang="ts">
 import Footer from './components/Footer.vue'
 import HelloWorld from './components/HelloWorld.vue'
-export default {
-  name: 'App',
-  components: { Footer, HelloWorld },
-}
 </script>
 
 <style>
