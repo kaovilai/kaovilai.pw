@@ -12,7 +12,7 @@ permissions:
   actions: read
 tools:
   edit:
-  bash: true
+  bash: ["git", "npm", "ls", "cat", "find", "grep", "wc", "head", "tail", "pwd", "echo", "printf", "date", "sort", "uniq", "yq"]
   github:
     toolsets: [repos, issues, pull_requests, actions]
   web-fetch:
