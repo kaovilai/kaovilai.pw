@@ -59,6 +59,9 @@ name: "Continuous Improvement — Portfolio Site"
         description: Agent caller context (used internally by Agentic Workflows).
         required: false
         type: string
+  push:
+    branches:
+    - main
 
 permissions: {}
 
