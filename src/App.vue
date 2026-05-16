@@ -1,5 +1,6 @@
 <template>
-    <main>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <main id="main-content" tabindex="-1">
       <hello-world/>
     </main>
     <footer>
@@ -27,6 +28,21 @@ import HelloWorld from './components/HelloWorld.vue'
 
   --filter-dropshadow: drop-shadow(1.1px 1.1px 1.1px grey);
   --sidemargin: 15px;
+}
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  background: var(--NCSU_Wolfpack_Red);
+  color: #fff !important;
+  border-bottom: none !important;
+  padding: 0.5rem 1rem;
+  z-index: 9999;
+  font-weight: bold;
+  border-radius: 0 0 5px 0;
+}
+.skip-link:focus {
+  top: 0;
 }
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
