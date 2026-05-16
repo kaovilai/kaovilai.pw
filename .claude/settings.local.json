@@ -27,7 +27,8 @@
       "mcp__github__add_issue_comment",
       "Bash(git *)",
       "mcp__github__pull_request_read",
-      "mcp__github__merge_pull_request"
+      "mcp__github__merge_pull_request",
+      "Bash(npx wrangler *)"
     ],
     "defaultMode": "acceptEdits"
   }
