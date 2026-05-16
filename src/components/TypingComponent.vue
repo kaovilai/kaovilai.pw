@@ -64,6 +64,11 @@ export default defineComponent({
       return
     if(this.keepWidth)
       this.widthString = this.text
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      this.underConstruction = this.text
+      this.notdone = false
+      return
+    }
     this.underConstructionLoop(this.once)
   }
 })
