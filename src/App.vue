@@ -1,6 +1,8 @@
 <template>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/devicon.min.css">
-    <hello-world/>
+    <main>
+      <hello-world/>
+    </main>
     <footer>
     <Footer />
     </footer>
@@ -63,6 +65,7 @@ body {
     background-position: 0% 50%;
   }
 }
+#app a:any-link,
 #app a:-webkit-any-link {
   color: var(--NCSU_Wolfpack_Red);
   text-decoration: none;
