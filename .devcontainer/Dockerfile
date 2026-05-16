@@ -147,7 +147,7 @@ RUN ARCH=$(dpkg --print-architecture) && \
     arm64) GH_AW_ASSET=linux-arm64 ;; \
     armhf) GH_AW_ASSET=linux-arm ;; \
     i386) GH_AW_ASSET=linux-386 ;; \
-    *) echo "Unsupported architecture for gh-aw: ${ARCH}" && exit 1 ;; \
+    *) echo "Unsupported architecture for gh-aw: $ARCH" && exit 1 ;; \
   esac && \
   mkdir -p /tmp/gh-aw-extension/gh-aw && \
   curl -fLsS "https://github.com/github/gh-aw/releases/download/${GH_AW_VERSION}/${GH_AW_ASSET}" -o /tmp/gh-aw-extension/gh-aw/gh-aw && \
