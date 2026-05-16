@@ -1010,23 +1010,8 @@ margin-top: 10%;
   </div> -->
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue"
+<script setup lang="ts">
 import TypingComponent from "./TypingComponent.vue"
-
-export default defineComponent({
-  components: {
-    TypingComponent,
-  },
-  name: 'HelloWorld',
-  data () {
-    return {
-      title: 'Hey there',
-      underConstructionTxt: ' -- Under Active Development',
-    }
-  },
-  
-})
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
