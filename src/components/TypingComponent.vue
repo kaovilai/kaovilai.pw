@@ -64,7 +64,7 @@ async function underConstructionLoop(once = false) {
 }
 
 onMounted(() => {
-  if (props.text === '') {
+  if (props.text == '') {
     return
   }
   if (props.keepWidth) {
