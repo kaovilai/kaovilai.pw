@@ -1,5 +1,4 @@
 <template>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/devicon.min.css">
     <main>
       <hello-world/>
     </main>
@@ -23,7 +22,6 @@ export default {
   --NCSU_Wolfpack_Red: #CC0000;
   --NCSU_Reynolds_Red: #990000;
   --NCSU_Pyroman_Flame: #D14905;
-  --NCSU_Reynolds_Red: #990000;
   --NCSU_Hunt_Yellow: #FAC800;
   --NCSU_Genomic_Green: #6F7D1C;
   --NCSU_Carmichael_Aqua: #008473;
