@@ -26,6 +26,7 @@ safe-outputs:
     title-prefix: "[improve] "
     labels: [automation, improvement]
     reviewers: [kaovilai]
+    protected-files: fallback-to-issue
   create-issue:
     title-prefix: "[improve] "
     labels: [automation, improvement]
