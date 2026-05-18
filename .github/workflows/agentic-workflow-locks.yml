@@ -18,7 +18,7 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   check-lock-files:
@@ -69,5 +69,16 @@ jobs:
             git --no-pager diff --stat -- .github/workflows/*.lock.yml
             echo ""
             git --no-pager diff -- .github/workflows/*.lock.yml
+            # Auto-fix stale lock files on PR branches
+            if [ "$GITHUB_EVENT_NAME" = "pull_request" ] && [ -n "$GITHUB_HEAD_REF" ]; then
+              echo "::notice::Auto-fixing stale lock files on PR branch $GITHUB_HEAD_REF"
+              git config user.name "github-actions[bot]"
+              git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+              git add .github/workflows/*.lock.yml .github/aw/
+              git commit -m "chore: recompile lock files with gh-aw $GH_AW_TAG"
+              git push origin HEAD:"$GITHUB_HEAD_REF"
+              echo "::notice::Lock files auto-fixed and pushed"
+              exit 0
+            fi
             exit 1
           fi
