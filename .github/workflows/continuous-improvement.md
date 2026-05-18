@@ -72,15 +72,16 @@ Pick ONE category per run and find ALL instances of that problem type. Bundle al
 2. Search for open issues with the `improvement` label.
    - If any open issue describes the **same improvement** you are about to propose (same files, same category), **stop** — call `noop` with a message like "Duplicate of #N". Do not create another issue or PR for the same fix.
    - If an open issue describes a **different** improvement, note it and avoid duplicating that work.
-3. Review the codebase for improvement opportunities.
-4. Pick the single highest-impact improvement.
-5. Make the change.
-6. Run `npm run build` and `npm run lint` to verify.
-7. Create a PR with:
+3. Search **closed** issues and PRs for the same topic or files you're about to change. If a closed issue/PR explains why a change was rejected or reverted, **skip that topic** — do not re-propose the same change.
+4. Review the codebase for improvement opportunities.
+5. Pick the single highest-impact improvement.
+6. Make the change.
+7. Run `npm run build` and `npm run lint` to verify.
+8. Create a PR with:
    - Clear title describing the change
    - Body explaining what was improved and why
    - Before/after comparison if applicable
-8. If the build or lint fails and you cannot fix it, create an issue describing the attempted improvement and the failure.
+9. If the build or lint fails and you cannot fix it, create an issue describing the attempted improvement and the failure.
 
 ## PR Description Template
 
