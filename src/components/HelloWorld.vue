@@ -21,7 +21,8 @@
       filter: drop-shadow(1px 1px 10px var(--NCSU_Wolfpack_Red));" src="/ogimg.jpg" alt="Tiger Kaovilai profile photo"/>
     </div>
     <div class="displayArea">
-    <h2 class="introAreaHeader">Connect</h2>
+      <section aria-labelledby="connect-heading">
+    <h2 id="connect-heading" class="introAreaHeader">Connect</h2>
       <div class="introArea">
         <div class="skillbox">
           <h3>Social</h3>
@@ -229,7 +230,9 @@
           </div>
         </div>
       </div>
-    <h2 class="introAreaHeader">My Toolbox</h2>
+      </section>
+      <section aria-labelledby="toolbox-heading">
+    <h2 id="toolbox-heading" class="introAreaHeader">My Toolbox</h2>
       <div class="introArea">
         <div class="skillbox">
           <h3><typing-component text="Software Development"/></h3>
@@ -953,8 +956,9 @@
 
       </div>
 <!-- Section Break -->
-
-      <h2 class="introAreaHeader">Personal Devices</h2>
+      </section>
+      <section aria-labelledby="devices-heading">
+      <h2 id="devices-heading" class="introAreaHeader">Personal Devices</h2>
       <div class="introArea">
         <div class="skillbox">
           <h3><typing-component text="Desktop"/></h3>
@@ -1001,6 +1005,7 @@
           </div>
         </div>
       </div>
+      </section>
     </div>
   </div>
   <!-- <div class="walletArea">
