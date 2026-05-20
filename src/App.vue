@@ -82,6 +82,11 @@ body {
   border-bottom: 1.5px solid var(--NCSU_Wolfpack_Red);
   border-radius: 5px;
 }
+#app a:focus-visible {
+  outline: 2px solid var(--NCSU_Hunt_Yellow);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
 .blinking {
   animation-name: blink;
   animation-duration: .4s;
