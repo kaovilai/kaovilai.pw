@@ -21,9 +21,10 @@
       filter: drop-shadow(1px 1px 10px var(--NCSU_Wolfpack_Red));" src="/ogimg.jpg" alt="Tiger Kaovilai profile photo"/>
     </div>
     <div class="displayArea">
+    <h2 class="introAreaHeader">Connect</h2>
       <div class="introArea">
         <div class="skillbox">
-          <h2>Social</h2>
+          <h3>Social</h3>
           <div class="devicon">
               <div class="tooltip">
                 <a target="_blank" rel="noopener noreferrer" href="mailto:passawit.kaovilai@gmail.com" aria-label="Send email to Tiger">
@@ -59,7 +60,7 @@
           </div>
         </div>
         <div class="skillbox">
-          <h2>Resume</h2>
+          <h3>Resume</h3>
           <div class="devicon">
             <a target="_blank" rel="noopener noreferrer" aria-label="View Tiger's resume as PDF" href="https://resume.kaovilai.pw/pdf">
               <svg
@@ -213,7 +214,7 @@
           </div>
         </div>
         <div class="skillbox">
-          <h2>Blog</h2>
+          <h3>Blog</h3>
           <div class="devicon">
             <a target="_blank" rel="noopener noreferrer" aria-label="Visit Tiger's blog" href="https://blog.tig.pw">
               <svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 200.15844 200.15843" height="56.489159mm" width="56.489159mm">
