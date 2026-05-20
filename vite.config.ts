@@ -12,5 +12,12 @@ export default defineConfig({
   },
   build: {
     outDir: 'docs', // Keep same output directory for GitHub Pages
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['vue'],
+        },
+      },
+    },
   },
 })
