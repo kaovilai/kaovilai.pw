@@ -1,11 +1,11 @@
 <template>
       <p>Powered by 
-            <abbr title="Vue.js"><i aria-hidden="true" class="devicon-vuejs-plain colored"></i></abbr>
-            <abbr title="TypeScript"><i aria-hidden="true" class="devicon-typescript-plain colored"></i></abbr>
-            <abbr title="Ubuntu"><i aria-hidden="true" class="devicon-ubuntu-plain colored"></i></abbr>
-            <abbr title="Vite"><i aria-hidden="true" class="devicon-vitejs-plain colored"></i></abbr>
-            <abbr title="NPM"><i aria-hidden="true" class="devicon-npm-original-wordmark colored"></i></abbr>
-            <abbr title="GitHub"><i aria-hidden="true" class="devicon-github-original"></i></abbr>
+            <abbr title="Vue.js"><i aria-hidden="true" class="devicon-vuejs-plain colored"></i><span class="sr-only">Vue.js</span></abbr>
+            <abbr title="TypeScript"><i aria-hidden="true" class="devicon-typescript-plain colored"></i><span class="sr-only">TypeScript</span></abbr>
+            <abbr title="Ubuntu"><i aria-hidden="true" class="devicon-ubuntu-plain colored"></i><span class="sr-only">Ubuntu</span></abbr>
+            <abbr title="Vite"><i aria-hidden="true" class="devicon-vitejs-plain colored"></i><span class="sr-only">Vite</span></abbr>
+            <abbr title="NPM"><i aria-hidden="true" class="devicon-npm-original-wordmark colored"></i><span class="sr-only">NPM</span></abbr>
+            <abbr title="GitHub"><i aria-hidden="true" class="devicon-github-original"></i><span class="sr-only">GitHub</span></abbr>
       </p>
       <p><a href="https://github.com/kaovilai/kaovilai.pw">See this code on GitHub!</a></p>
 </template>
@@ -16,5 +16,16 @@
 <style scoped>
 i {
   margin: 0px 3px;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 </style>

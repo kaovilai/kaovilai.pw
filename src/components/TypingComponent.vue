@@ -1,5 +1,5 @@
 <template>
-  <span aria-live="polite" aria-atomic="true">{{ underConstruction }}</span><span v-if="notdone" aria-hidden="true" class="blinking" style="display: inline-flex; width: 0px;">|</span><span v-if="keepWidth" aria-hidden="true" style="visibility: hidden;">{{ widthString }}</span>
+  <span aria-hidden="true">{{ underConstruction }}</span><span v-if="notdone" aria-hidden="true" class="blinking" style="display: inline-flex; width: 0px;">|</span><span v-if="keepWidth" aria-hidden="true" style="visibility: hidden;">{{ widthString }}</span><span class="sr-only">{{ props.text }}</span>
 </template>
 
 <script setup lang="ts">
@@ -80,4 +80,15 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
 </style>
