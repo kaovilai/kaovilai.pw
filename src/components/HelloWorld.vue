@@ -1012,6 +1012,62 @@
         </div>
       </div>
       </section>
+      <section aria-labelledby="projects-heading">
+        <h2 id="projects-heading" class="introAreaHeader">Things I Made</h2>
+        <div class="introArea">
+          <div class="skillbox">
+            <h3>Projects</h3>
+            <div class="devicon">
+              <div class="tooltip">
+                <a target="_blank" rel="noopener noreferrer" href="https://github.com/kaovilai/AdJS" aria-label="AdJS - Advertisement Injector">
+                  <i aria-hidden="true" style="color:white;" class="devicon-javascript-plain"></i>
+                  <p>AdJS</p>
+                </a>
+              </div>
+              <div class="tooltip">
+                <a target="_blank" rel="noopener noreferrer" href="https://github.com/kaovilai" aria-label="View all projects on GitHub">
+                  <i aria-hidden="true" style="color:white;" class="devicon-github-original"></i>
+                  <p>More on GitHub</p>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section aria-labelledby="pay-heading">
+        <h2 id="pay-heading" class="introAreaHeader">Pay Me</h2>
+        <div class="introArea">
+          <div class="skillbox">
+            <h3>Payment Methods</h3>
+            <div class="devicon pay-links">
+              <div class="tooltip">
+                <a target="_blank" rel="noopener noreferrer" href="https://venmo.com/code?user_id=2065666886598656219" aria-label="Pay via Venmo">
+                  <span aria-hidden="true" class="pay-icon">V</span>
+                  <p>Venmo</p>
+                </a>
+              </div>
+              <div class="tooltip">
+                <a target="_blank" rel="noopener noreferrer" href="https://cash.me/$tigpk" aria-label="Pay via Cash App">
+                  <span aria-hidden="true" class="pay-icon" style="color: #00D632;">$</span>
+                  <p>Cash App</p>
+                </a>
+              </div>
+              <div class="tooltip">
+                <a target="_blank" rel="noopener noreferrer" href="https://paypal.me/pkaov" aria-label="Pay via PayPal">
+                  <span aria-hidden="true" class="pay-icon" style="color: #003087;">P</span>
+                  <p>PayPal</p>
+                </a>
+              </div>
+              <div class="tooltip">
+                <a target="_blank" rel="noopener noreferrer" href="mailto:passawit.kaovilai@gmail.com?subject=Zelle%20Payment" aria-label="Pay via Zelle">
+                  <span aria-hidden="true" class="pay-icon" style="color: #6D1ED4;">Z</span>
+                  <p>Zelle</p>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   </div>
 </template>
@@ -1124,4 +1180,13 @@ li {
 .st14{opacity:0.3;}
 /* OBS */
 .cls-1{fill:url(#radial-gradient);}.cls-2{fill:none;}.cls-3{fill:url(#radial-gradient-2);}.cls-4{fill:url(#radial-gradient-3);}.cls-5{clip-path:url(#clip-path);}.cls-6{fill:url(#radial-gradient-5);}.cls-7{clip-path:url(#clip-path-2);}.cls-8{fill:url(#radial-gradient-6);}.cls-9{fill:url(#radial-gradient-7);}
+.pay-icon {
+  font-size: 1em;
+  font-weight: bold;
+  color: #3D95CE;
+  display: block;
+}
+.pay-links {
+  font-size: 4em;
+}
 </style>
