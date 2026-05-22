@@ -1,0 +1,22 @@
+{
+  "name": "Tiger Kaovilai",
+  "short_name": "Tiger",
+  "description": "A closer look at the tools I use, and my story.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0d1117",
+  "theme_color": "#CC0000",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/ogimg.jpg",
+      "sizes": "any",
+      "type": "image/jpeg",
+      "purpose": "any"
+    }
+  ]
+}

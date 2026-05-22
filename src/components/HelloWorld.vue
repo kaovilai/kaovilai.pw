@@ -28,6 +28,12 @@
           <h3>Social</h3>
           <div class="devicon">
               <div class="tooltip">
+                <a href="tel:+14157699020" aria-label="Call Tiger">
+                <span aria-hidden="true" style="color:white; font-size: 1em;">📞</span>
+                <p>+1-415-769-9020</p>
+                </a>
+              </div>
+              <div class="tooltip">
                 <a target="_blank" rel="noopener noreferrer" href="mailto:passawit.kaovilai@gmail.com" aria-label="Send email to Tiger">
                 <i aria-hidden="true" class="devicon-google-plain colored"></i>
                 <p>Email</p>
@@ -963,6 +969,30 @@
       </div>
 <!-- Section Break -->
       </section>
+      <section aria-labelledby="bucketlist-heading">
+        <h2 id="bucketlist-heading" class="introAreaHeader">Bucket List</h2>
+        <div class="introArea">
+          <div class="skillbox bucket-list">
+            <h3>Life Goals</h3>
+            <ul class="goals-list">
+              <li class="completed">Get an Internship in Technologies</li>
+              <li class="completed">Work on Open Source projects</li>
+              <li>Fly on a Helicopter</li>
+              <li>Go inside a working submarine</li>
+              <li>Visit <a href="https://home.cern/" target="_blank" rel="noopener noreferrer">CERN</a></li>
+              <li>Tour a Datacenter</li>
+              <li>Visit North or South poles</li>
+            </ul>
+          </div>
+          <div class="skillbox bucket-list">
+            <h3>Wishlist</h3>
+            <ul class="goals-list">
+              <li>Hololens</li>
+              <li>AR Glasses</li>
+            </ul>
+          </div>
+        </div>
+      </section>
       <section aria-labelledby="devices-heading">
       <h2 id="devices-heading" class="introAreaHeader">Personal Devices</h2>
       <div class="introArea">
@@ -1122,6 +1152,28 @@ li {
 .st12{fill:url(#SVGID_10_);}
 .st13{opacity:0.18;fill:url(#SVGID_11_);}
 .st14{opacity:0.3;}
+.bucket-list {
+  max-width: 400px;
+  text-align: left;
+}
+.goals-list {
+  list-style: none;
+  padding: 0;
+}
+.goals-list li {
+  padding: 5px 0;
+  color: white;
+}
+.goals-list li::before {
+  content: '🟩 ';
+}
+.goals-list li.completed {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+.goals-list li.completed::before {
+  content: '✅ ';
+}
 /* OBS */
 .cls-1{fill:url(#radial-gradient);}.cls-2{fill:none;}.cls-3{fill:url(#radial-gradient-2);}.cls-4{fill:url(#radial-gradient-3);}.cls-5{clip-path:url(#clip-path);}.cls-6{fill:url(#radial-gradient-5);}.cls-7{clip-path:url(#clip-path-2);}.cls-8{fill:url(#radial-gradient-6);}.cls-9{fill:url(#radial-gradient-7);}
 </style>
