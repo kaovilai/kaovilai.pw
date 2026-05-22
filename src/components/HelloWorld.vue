@@ -916,16 +916,19 @@
           <h3><typing-component text="Image/Vector"/></h3>
           <div class="devicon">
             <div class="tooltip">
-            <i class="devicon-gimp-plain colored"></i>
+            <i aria-hidden="true" class="devicon-gimp-plain colored"></i>
               <p>Gimp</p>
             </div>
             <div class="tooltip">
-            <i class="devicon-photoshop-plain colored"></i>
+            <i aria-hidden="true" class="devicon-photoshop-plain colored"></i>
               <p>Photoshop</p>
             </div>
-            <i class="devicon-inkscape-plain-wordmark"></i>
             <div class="tooltip">
-            <i class="devicon-illustrator-plain colored"></i>
+            <i aria-hidden="true" class="devicon-inkscape-plain-wordmark"></i>
+              <p>Inkscape</p>
+            </div>
+            <div class="tooltip">
+            <i aria-hidden="true" class="devicon-illustrator-plain colored"></i>
               <p>Illustrator</p>
             </div>
           </div>
