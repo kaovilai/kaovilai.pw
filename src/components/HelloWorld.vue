@@ -1014,15 +1014,6 @@
       </section>
     </div>
   </div>
-  <!-- <div class="walletArea">
-    <h2 style="
-transform: rotate(180deg);
-writing-mode: tb;
-text-align: end;
-margin-top: 10%;
-">My wallet</h2>
-    <iframe title="CardStack" style="height: 100vh; border: none; margin-left: -30px;" src="https://github.tig.pw/blog.tig.pw/cardstackiframe.html"></iframe>
-  </div> -->
 </template>
 
 <script setup lang="ts">
@@ -1056,18 +1047,6 @@ li {
 } 
 .skillbox{
   margin: 0 5vw 20px;
-}
-.walletArea {
-  position: fixed;
-  display: flex;
-  top: 5vh;
-  left: calc(100vw - 100px);
-
-  transition: .5s;
-  transition-timing-function: ease-in-out;
-}
-.walletArea:hover, .walletArea:focus-visible {
-  left: calc(100vw - 300px);
 }
 .devicon .backgroundbox {
   --insetwidth: 5px;
