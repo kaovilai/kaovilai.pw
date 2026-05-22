@@ -20,6 +20,16 @@
       object-fit: contain;
       filter: drop-shadow(1px 1px 10px var(--NCSU_Wolfpack_Red));" src="/ogimg.jpg" alt="Tiger Kaovilai profile photo"/>
     </div>
+    <section aria-labelledby="about-heading">
+      <h2 id="about-heading" class="introAreaHeader">About Me</h2>
+      <div class="introArea">
+        <div class="skillbox about-text">
+          <p>Software Engineer at <a href="https://www.redhat.com" target="_blank" rel="noopener noreferrer">Red Hat</a>, working on <a href="https://github.com/openshift/oadp-operator" target="_blank" rel="noopener noreferrer">OADP</a> and <a href="https://velero.io" target="_blank" rel="noopener noreferrer">Velero</a> for Kubernetes backup and disaster recovery.</p>
+          <p>I live and breathe technology. I've lived more than a year in Thailand (where I'm from), New Zealand (where I finished high school), and the United States (where I completed my undergraduate degree at NC State University).</p>
+          <p>Talk to me about the latest gadgets, new undersea cables, cloud platforms launching, and other exciting technological breakthroughs.</p>
+        </div>
+      </div>
+    </section>
     <div class="displayArea">
       <section aria-labelledby="connect-heading">
     <h2 id="connect-heading" class="introAreaHeader">Connect</h2>
@@ -57,6 +67,12 @@
             <a target="_blank" rel="noopener noreferrer" href="https://github.com/kaovilai" aria-label="Tiger's GitHub profile"><i aria-hidden="true" style="color: white;" class="devicon-github-plain"></i>
                 <p>GitHub</p>
             </a>
+               </div>
+               <div class="tooltip">
+                 <a target="_blank" rel="noopener noreferrer" href="https://www.quora.com/profile/Tiger-Kaovilai" aria-label="Tiger's Quora profile">
+                   <span aria-hidden="true" style="color:#B92B27; font-size: 1em; font-weight: bold;">Q</span>
+                   <p>Quora</p>
+                 </a>
                </div>
           </div>
         </div>
@@ -1102,6 +1118,14 @@ li {
 .introAreaHeader {
   margin-top: 30px;
   margin-bottom: 0px;
+}
+.about-text {
+  max-width: 600px;
+  text-align: left;
+  line-height: 1.6;
+}
+.about-text p {
+  margin-bottom: 10px;
 }
 
 /* styles for image svgs */
