@@ -20,6 +20,16 @@
       object-fit: contain;
       filter: drop-shadow(1px 1px 10px var(--NCSU_Wolfpack_Red));" src="/ogimg.jpg" alt="Tiger Kaovilai profile photo"/>
     </div>
+    <section aria-labelledby="about-heading">
+      <h2 id="about-heading" class="introAreaHeader">About Me</h2>
+      <div class="introArea">
+        <div class="skillbox about-text">
+          <p>Software Engineer at <a href="https://www.redhat.com" target="_blank" rel="noopener noreferrer">Red Hat</a>, working on <a href="https://github.com/openshift/oadp-operator" target="_blank" rel="noopener noreferrer">OADP</a> and <a href="https://velero.io" target="_blank" rel="noopener noreferrer">Velero</a> for Kubernetes backup and disaster recovery.</p>
+          <p>I live and breathe technology. I've lived more than a year in Thailand (where I'm from), New Zealand (where I finished high school), and the United States (where I completed my undergraduate degree at NC State University).</p>
+          <p>Talk to me about the latest gadgets, new undersea cables, cloud platforms launching, and other exciting technological breakthroughs.</p>
+        </div>
+      </div>
+    </section>
     <div class="displayArea">
       <section aria-labelledby="connect-heading">
     <h2 id="connect-heading" class="introAreaHeader">Connect</h2>
@@ -27,6 +37,12 @@
         <div class="skillbox">
           <h3>Social</h3>
           <div class="devicon">
+              <div class="tooltip">
+                <a href="tel:+14157699020" aria-label="Call Tiger at +1-415-769-9020">
+                <span aria-hidden="true" style="color:white; font-size: 1em;">📞</span>
+                <p>+1-415-769-9020</p>
+                </a>
+              </div>
               <div class="tooltip">
                 <a target="_blank" rel="noopener noreferrer" href="mailto:passawit.kaovilai@gmail.com" aria-label="Send email to Tiger">
                 <i aria-hidden="true" class="devicon-google-plain colored"></i>
@@ -57,6 +73,12 @@
             <a target="_blank" rel="noopener noreferrer" href="https://github.com/kaovilai" aria-label="Tiger's GitHub profile"><i aria-hidden="true" style="color: white;" class="devicon-github-plain"></i>
                 <p>GitHub</p>
             </a>
+               </div>
+               <div class="tooltip">
+                 <a target="_blank" rel="noopener noreferrer" href="https://www.quora.com/profile/Tiger-Kaovilai" aria-label="Tiger's Quora profile">
+                   <span aria-hidden="true" style="color:#B92B27; font-size: 1em; font-weight: bold;">Q</span>
+                   <p>Quora</p>
+                 </a>
                </div>
           </div>
         </div>
@@ -963,6 +985,30 @@
       </div>
 <!-- Section Break -->
       </section>
+      <section aria-labelledby="bucketlist-heading">
+        <h2 id="bucketlist-heading" class="introAreaHeader">Bucket List</h2>
+        <div class="introArea">
+          <div class="skillbox bucket-list">
+            <h3>Life Goals</h3>
+            <ul class="goals-list">
+              <li class="completed"><span class="sr-only">Completed: </span>Get an Internship in Technologies</li>
+              <li class="completed"><span class="sr-only">Completed: </span>Work on Open Source projects</li>
+              <li><span class="sr-only">Planned: </span>Fly on a Helicopter</li>
+              <li><span class="sr-only">Planned: </span>Go inside a working submarine</li>
+              <li><span class="sr-only">Planned: </span>Visit <a href="https://home.cern/" target="_blank" rel="noopener noreferrer">CERN</a></li>
+              <li><span class="sr-only">Planned: </span>Tour a Datacenter</li>
+              <li><span class="sr-only">Planned: </span>Visit North or South poles</li>
+            </ul>
+          </div>
+          <div class="skillbox bucket-list">
+            <h3>Wishlist</h3>
+            <ul class="goals-list">
+              <li>Hololens</li>
+              <li>AR Glasses</li>
+            </ul>
+          </div>
+        </div>
+      </section>
       <section aria-labelledby="devices-heading">
       <h2 id="devices-heading" class="introAreaHeader">Personal Devices</h2>
       <div class="introArea">
@@ -1011,6 +1057,62 @@
           </div>
         </div>
       </div>
+      </section>
+      <section aria-labelledby="projects-heading">
+        <h2 id="projects-heading" class="introAreaHeader">Things I Made</h2>
+        <div class="introArea">
+          <div class="skillbox">
+            <h3>Projects</h3>
+            <div class="devicon">
+              <div class="tooltip">
+                <a target="_blank" rel="noopener noreferrer" href="https://github.com/kaovilai/AdJS" aria-label="AdJS - Advertisement Injector">
+                  <i aria-hidden="true" style="color:white;" class="devicon-javascript-plain"></i>
+                  <p>AdJS</p>
+                </a>
+              </div>
+              <div class="tooltip">
+                <a target="_blank" rel="noopener noreferrer" href="https://github.com/kaovilai" aria-label="View all projects on GitHub">
+                  <i aria-hidden="true" style="color:white;" class="devicon-github-original"></i>
+                  <p>More on GitHub</p>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section aria-labelledby="pay-heading">
+        <h2 id="pay-heading" class="introAreaHeader">Pay Me</h2>
+        <div class="introArea">
+          <div class="skillbox">
+            <h3>Payment Methods</h3>
+            <div class="devicon pay-links">
+              <div class="tooltip">
+                <a target="_blank" rel="noopener noreferrer" href="https://venmo.com/code?user_id=2065666886598656219" aria-label="Pay via Venmo">
+                  <span aria-hidden="true" class="pay-icon pay-icon--venmo">V</span>
+                  <p>Venmo</p>
+                </a>
+              </div>
+              <div class="tooltip">
+                <a target="_blank" rel="noopener noreferrer" href="https://cash.me/$tigpk" aria-label="Pay via Cash App">
+                  <span aria-hidden="true" class="pay-icon pay-icon--cashapp">$</span>
+                  <p>Cash App</p>
+                </a>
+              </div>
+              <div class="tooltip">
+                <a target="_blank" rel="noopener noreferrer" href="https://paypal.me/pkaov" aria-label="Pay via PayPal">
+                  <span aria-hidden="true" class="pay-icon pay-icon--paypal">P</span>
+                  <p>PayPal</p>
+                </a>
+              </div>
+              <div class="tooltip">
+                <a href="mailto:passawit.kaovilai@gmail.com?subject=Zelle%20Payment" aria-label="Pay via Zelle">
+                  <span aria-hidden="true" class="pay-icon pay-icon--zelle">Z</span>
+                  <p>Zelle</p>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
     </div>
   </div>
@@ -1103,6 +1205,14 @@ li {
   margin-top: 30px;
   margin-bottom: 0px;
 }
+.about-text {
+  max-width: 600px;
+  text-align: left;
+  line-height: 1.6;
+}
+.about-text p {
+  margin-bottom: 10px;
+}
 
 /* styles for image svgs */
 
@@ -1122,6 +1232,43 @@ li {
 .st12{fill:url(#SVGID_10_);}
 .st13{opacity:0.18;fill:url(#SVGID_11_);}
 .st14{opacity:0.3;}
+.bucket-list {
+  max-width: 400px;
+  text-align: left;
+}
+.goals-list {
+  list-style: none;
+  padding: 0;
+}
+.goals-list li {
+  display: block;
+  margin: 0;
+  padding: 5px 0;
+  color: white;
+}
+.goals-list li::before {
+  content: '🟩 ';
+}
+.goals-list li.completed {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+.goals-list li.completed::before {
+  content: '✅ ';
+}
 /* OBS */
 .cls-1{fill:url(#radial-gradient);}.cls-2{fill:none;}.cls-3{fill:url(#radial-gradient-2);}.cls-4{fill:url(#radial-gradient-3);}.cls-5{clip-path:url(#clip-path);}.cls-6{fill:url(#radial-gradient-5);}.cls-7{clip-path:url(#clip-path-2);}.cls-8{fill:url(#radial-gradient-6);}.cls-9{fill:url(#radial-gradient-7);}
+.pay-icon {
+  font-size: 1em;
+  font-weight: bold;
+  color: #3D95CE;
+  display: block;
+}
+.pay-icon--venmo { color: #3D95CE; }
+.pay-icon--cashapp { color: #00D632; }
+.pay-icon--paypal { color: #003087; }
+.pay-icon--zelle { color: #6D1ED4; }
+.pay-links {
+  font-size: 4em;
+}
 </style>

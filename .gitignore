@@ -22,3 +22,7 @@ pnpm-debug.log*
 *.sln
 *.sw?
 .metals/metals.log
+
+# Tool-generated directories
+.playwright-mcp/
+.claude/worktrees/
