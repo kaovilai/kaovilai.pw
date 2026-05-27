@@ -38,7 +38,7 @@
           <h3>Social</h3>
           <div class="devicon">
               <div class="tooltip">
-                <a href="tel:+14157699020" aria-label="Call Tiger">
+                <a href="tel:+14157699020" aria-label="Call Tiger at +1-415-769-9020">
                 <span aria-hidden="true" style="color:white; font-size: 1em;">📞</span>
                 <p>+1-415-769-9020</p>
                 </a>
@@ -991,13 +991,13 @@
           <div class="skillbox bucket-list">
             <h3>Life Goals</h3>
             <ul class="goals-list">
-              <li class="completed">Get an Internship in Technologies</li>
-              <li class="completed">Work on Open Source projects</li>
-              <li>Fly on a Helicopter</li>
-              <li>Go inside a working submarine</li>
-              <li>Visit <a href="https://home.cern/" target="_blank" rel="noopener noreferrer">CERN</a></li>
-              <li>Tour a Datacenter</li>
-              <li>Visit North or South poles</li>
+              <li class="completed"><span class="sr-only">Completed: </span>Get an Internship in Technologies</li>
+              <li class="completed"><span class="sr-only">Completed: </span>Work on Open Source projects</li>
+              <li><span class="sr-only">Planned: </span>Fly on a Helicopter</li>
+              <li><span class="sr-only">Planned: </span>Go inside a working submarine</li>
+              <li><span class="sr-only">Planned: </span>Visit <a href="https://home.cern/" target="_blank" rel="noopener noreferrer">CERN</a></li>
+              <li><span class="sr-only">Planned: </span>Tour a Datacenter</li>
+              <li><span class="sr-only">Planned: </span>Visit North or South poles</li>
             </ul>
           </div>
           <div class="skillbox bucket-list">
@@ -1088,25 +1088,25 @@
             <div class="devicon pay-links">
               <div class="tooltip">
                 <a target="_blank" rel="noopener noreferrer" href="https://venmo.com/code?user_id=2065666886598656219" aria-label="Pay via Venmo">
-                  <span aria-hidden="true" class="pay-icon">V</span>
+                  <span aria-hidden="true" class="pay-icon pay-icon--venmo">V</span>
                   <p>Venmo</p>
                 </a>
               </div>
               <div class="tooltip">
                 <a target="_blank" rel="noopener noreferrer" href="https://cash.me/$tigpk" aria-label="Pay via Cash App">
-                  <span aria-hidden="true" class="pay-icon" style="color: #00D632;">$</span>
+                  <span aria-hidden="true" class="pay-icon pay-icon--cashapp">$</span>
                   <p>Cash App</p>
                 </a>
               </div>
               <div class="tooltip">
                 <a target="_blank" rel="noopener noreferrer" href="https://paypal.me/pkaov" aria-label="Pay via PayPal">
-                  <span aria-hidden="true" class="pay-icon" style="color: #003087;">P</span>
+                  <span aria-hidden="true" class="pay-icon pay-icon--paypal">P</span>
                   <p>PayPal</p>
                 </a>
               </div>
               <div class="tooltip">
-                <a target="_blank" rel="noopener noreferrer" href="mailto:passawit.kaovilai@gmail.com?subject=Zelle%20Payment" aria-label="Pay via Zelle">
-                  <span aria-hidden="true" class="pay-icon" style="color: #6D1ED4;">Z</span>
+                <a href="mailto:passawit.kaovilai@gmail.com?subject=Zelle%20Payment" aria-label="Pay via Zelle">
+                  <span aria-hidden="true" class="pay-icon pay-icon--zelle">Z</span>
                   <p>Zelle</p>
                 </a>
               </div>
@@ -1241,6 +1241,8 @@ li {
   padding: 0;
 }
 .goals-list li {
+  display: block;
+  margin: 0;
   padding: 5px 0;
   color: white;
 }
@@ -1262,6 +1264,10 @@ li {
   color: #3D95CE;
   display: block;
 }
+.pay-icon--venmo { color: #3D95CE; }
+.pay-icon--cashapp { color: #00D632; }
+.pay-icon--paypal { color: #003087; }
+.pay-icon--zelle { color: #6D1ED4; }
 .pay-links {
   font-size: 4em;
 }
