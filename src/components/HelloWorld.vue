@@ -50,8 +50,8 @@
                 </a>
               </div>
                <div class="tooltip">
-             <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/TigerKaovilai" aria-label="Tiger's Twitter profile"><i aria-hidden="true" class="devicon-twitter-plain colored"></i>
-             <p>Twitter</p>
+             <a target="_blank" rel="noopener noreferrer" href="https://x.com/TigerKaovilai" aria-label="Tiger's X (Twitter) profile"><i aria-hidden="true" class="devicon-twitter-plain colored"></i>
+             <p>X</p>
              </a>
                </div>
                <div class="tooltip">
