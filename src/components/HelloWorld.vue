@@ -1110,6 +1110,12 @@
                   <p>Zelle</p>
                 </a>
               </div>
+              <div class="tooltip">
+                <a href="mailto:passawit.kaovilai@gmail.com?subject=Thai%20QR%20(PromptPay)%20Payment" aria-label="Pay via Thai QR (PromptPay)">
+                  <span aria-hidden="true" class="pay-icon pay-icon--promptpay">฿</span>
+                  <p>Thai QR</p>
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -1268,6 +1274,7 @@ li {
 .pay-icon--cashapp { color: #00D632; }
 .pay-icon--paypal { color: #003087; }
 .pay-icon--zelle { color: #6D1ED4; }
+.pay-icon--promptpay { color: #1A2C6D; }
 .pay-links {
   font-size: 4em;
 }
