@@ -1116,6 +1116,12 @@
                   <p>Thai QR</p>
                 </a>
               </div>
+              <div class="tooltip">
+                <a href="mailto:passawit.kaovilai@gmail.com?subject=TrueMoney%20Wallet%20Payment" aria-label="Pay via TrueMoney Wallet">
+                  <span aria-hidden="true" class="pay-icon pay-icon--truemoney">T</span>
+                  <p>TrueMoney</p>
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -1275,6 +1281,7 @@ li {
 .pay-icon--paypal { color: #003087; }
 .pay-icon--zelle { color: #6D1ED4; }
 .pay-icon--promptpay { color: #1A2C6D; }
+.pay-icon--truemoney { color: #FF6600; }
 .pay-links {
   font-size: 4em;
 }
