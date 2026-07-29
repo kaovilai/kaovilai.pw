@@ -6,54 +6,19 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix"
+    "lint": "eslint . --fix"
   },
   "dependencies": {
-    "vue": "^3.0.0",
-    "vue-class-component": "^8.0.0-0"
+    "vue": "^3.0.0"
   },
   "devDependencies": {
-    "@types/jest": "^30.0.0",
-    "@typescript-eslint/eslint-plugin": "^7.18.0",
-    "@typescript-eslint/parser": "^7.18.0",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vue/compiler-sfc": "^3.0.0",
-    "@vue/eslint-config-typescript": "^13.0.0",
-    "@vue/test-utils": "^2.0.0-0",
-    "eslint": "^8.57.1",
-    "eslint-plugin-vue": "^9.33.0",
+    "@vue/eslint-config-typescript": "^14.9.0",
+    "eslint": "^10.8.0",
+    "eslint-plugin-vue": "^10.10.0",
     "typescript": "^5.9.2",
-    "vite": "^7.3.3",
-    "vue-eslint-parser": "^10.2.0"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/vue3-essential",
-      "eslint:recommended",
-      "@vue/eslint-config-typescript"
-    ],
-    "parserOptions": {
-      "parser": "@typescript-eslint/parser"
-    },
-    "rules": {
-      "vue/multi-word-component-names": "off",
-      "vue/no-reserved-component-names": "off"
-    },
-    "overrides": [
-      {
-        "files": [
-          "**/__tests__/*.{j,t}s?(x)",
-          "**/tests/unit/**/*.spec.{j,t}s?(x)"
-        ],
-        "env": {
-          "jest": true
-        }
-      }
-    ]
+    "vite": "^7.3.3"
   },
   "browserslist": [
     "> 1%",
