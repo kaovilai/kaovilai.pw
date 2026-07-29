@@ -6,8 +6,6 @@ on:
       - ".github/workflows/*.md"
       - ".github/workflows/*.lock.yml"
   push:
-    branches:
-      - main
     paths:
       - ".github/workflows/*.md"
       - ".github/workflows/*.lock.yml"
@@ -29,6 +27,10 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref || github.ref }}
+          # GITHUB_TOKEN cannot push workflow-file changes (.lock.yml);
+          # auto-fix pushes need a fine-grained PAT with contents+workflows write.
+          # Falls back to GITHUB_TOKEN (check-only behavior) when unset.
+          token: ${{ secrets.GH_AW_PUSH_TOKEN || github.token }}
 
       - name: Install gh-aw (prerelease)
         env:
@@ -69,19 +71,29 @@ jobs:
             git --no-pager diff --stat -- .github/workflows/*.lock.yml
             echo ""
             git --no-pager diff -- .github/workflows/*.lock.yml
-            # Auto-fix stale lock files on PR branches
-            # (no-op on Dependabot-triggered runs: their GITHUB_TOKEN is read-only.
-            # Not attempted on main: GITHUB_TOKEN cannot push workflow-file changes
-            # at all — fixing main requires a maintainer running `gh aw compile`.)
+            # Auto-fix: recompile + commit back to the branch that triggered us.
+            # PR events -> head branch; push events -> pushed branch (not main:
+            # main is protected and bot pushes are blocked there).
+            # Requires GH_AW_PUSH_TOKEN (fine-grained PAT, contents+workflows
+            # write) in BOTH Actions and Dependabot secrets — GITHUB_TOKEN
+            # cannot push .lock.yml and is read-only on Dependabot runs.
+            TARGET_BRANCH=""
             if [ "$GITHUB_EVENT_NAME" = "pull_request" ] && [ -n "$GITHUB_HEAD_REF" ]; then
-              echo "::notice::Auto-fixing stale lock files on PR branch $GITHUB_HEAD_REF"
+              TARGET_BRANCH="$GITHUB_HEAD_REF"
+            elif [ "$GITHUB_EVENT_NAME" = "push" ] && [ "$GITHUB_REF" != "refs/heads/main" ]; then
+              TARGET_BRANCH="${GITHUB_REF#refs/heads/}"
+            fi
+            if [ -n "$TARGET_BRANCH" ]; then
+              echo "::notice::Auto-fixing stale lock files on branch $TARGET_BRANCH"
               git config user.name "github-actions[bot]"
               git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
               git add .github/workflows/*.lock.yml .github/aw/
               git commit -m "chore: recompile lock files with gh-aw $GH_AW_TAG"
-              git push origin HEAD:"$GITHUB_HEAD_REF"
-              echo "::notice::Lock files auto-fixed and pushed"
-              exit 0
+              if git push origin HEAD:"$TARGET_BRANCH"; then
+                echo "::notice::Lock files auto-fixed and pushed"
+                exit 0
+              fi
+              echo "::error::Auto-fix push failed — is GH_AW_PUSH_TOKEN (contents+workflows write) set in Actions AND Dependabot secrets?"
             fi
             exit 1
           fi
