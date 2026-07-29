@@ -28,17 +28,19 @@ jobs:
       - name: Get current devicon version
         id: current
         run: |
-          CURRENT=$(grep -oP 'devicon@\Kv[0-9]+\.[0-9]+\.[0-9]+' src/App.vue | head -1)
+          CURRENT=$(grep -oP 'devicon@\Kv[0-9]+\.[0-9]+\.[0-9]+' index.html | head -1)
           if [ -z "$CURRENT" ]; then
-            echo "Failed to find current devicon version in src/App.vue" >&2
+            echo "Failed to find current devicon version in index.html" >&2
             exit 1
           fi
           echo "version=$CURRENT" >> "$GITHUB_OUTPUT"
 
-      - name: Update devicon version
+      - name: Update devicon version and SRI hash
         if: steps.latest.outputs.version != steps.current.outputs.version
         run: |
-          sed -i "s|devicon@${{ steps.current.outputs.version }}|devicon@${{ steps.latest.outputs.version }}|g" src/App.vue
+          NEW_SRI="sha384-$(curl -sSf "https://cdn.jsdelivr.net/gh/devicons/devicon@${{ steps.latest.outputs.version }}/devicon.min.css" | openssl dgst -sha384 -binary | openssl base64 -A)"
+          sed -i "s|devicon@${{ steps.current.outputs.version }}|devicon@${{ steps.latest.outputs.version }}|g" index.html
+          sed -i "s|integrity=\"sha384-[A-Za-z0-9+/=]*\"|integrity=\"$NEW_SRI\"|" index.html
 
       - name: Create Pull Request
         if: steps.latest.outputs.version != steps.current.outputs.version

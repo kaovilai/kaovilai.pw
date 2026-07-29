@@ -6,13 +6,9 @@
     <nav class="site-nav" aria-label="Site sections">
       <a class="nav-brand" href="#main-content">tiger@kaovilai.pw:~$</a>
       <div class="nav-links">
-        <a href="#about">about</a>
-        <a href="#connect">connect</a>
-        <a href="#toolbox">toolbox</a>
-        <a href="#bucket-list">bucket-list</a>
-        <a href="#devices">devices</a>
-        <a href="#projects">projects</a>
-        <a href="#pay">pay</a>
+        <a v-for="s in sections" :key="s" :href="'#' + s"
+           :aria-current="activeSection === s ? 'true' : undefined"
+           :class="{ 'nav-active': activeSection === s }">{{ s }}</a>
       </div>
       <restore-demo />
     </nav>
@@ -25,14 +21,34 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import Footer from './components/Footer.vue'
 import HelloWorld from './components/HelloWorld.vue'
 import RestoreDemo from './components/RestoreDemo.vue'
 
+const sections = ['about', 'connect', 'toolbox', 'bucket-list', 'devices', 'projects', 'pay']
+const activeSection = ref('')
+
 // Fallback for browsers without CSS scroll-driven animations (Firefox):
 // one passive rAF-throttled listener drives the hue shift + progress bar vars.
 onMounted(() => {
+  // Scroll-spy: aria-current on the nav link whose section crosses the
+  // middle band of the viewport.
+  if ('IntersectionObserver' in window) {
+    const spy = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) activeSection.value = entry.target.id
+        }
+      },
+      { rootMargin: '-35% 0px -60% 0px' }
+    )
+    sections.forEach((id) => {
+      const el = document.getElementById(id)
+      if (el) spy.observe(el)
+    })
+  }
+
   const supportsScrollTimeline = CSS.supports('animation-timeline: scroll()')
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   if (supportsScrollTimeline || reducedMotion) return

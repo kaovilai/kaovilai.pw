@@ -1,28 +1,37 @@
 # kaovilai.pw
 [![Node.js CI](https://github.com/kaovilai/kaovilai.pw/actions/workflows/node.js.yml/badge.svg?branch=main)](https://github.com/kaovilai/kaovilai.pw/actions/workflows/node.js.yml)
-> Tiger's homepage
-
-This project is tested with [BrowserStack](https://email.browserstack.com/c/eJwlzUuOwyAQANHTjHcgt4EGLzhLBHSTIP9icML1x5pZl56KPSBqZwwaHMibaMgOxaNSMTAiacj6ATFNcURLOoHD0YDTaoIsWyFeyily5fPD-yUyifdBn8ahXSC2UHYlnpV5FxgtZhuNc2LK60Y_euS7r_K27UXcFpmObXh5UtFZ5WYNkCAQzjnSjJktzVbpCYfV995lrEdvXNsV0r-s_h1aC71ccgnHt6yh3I_n3-PuvxBbSmE).
+> Tiger's homepage — Vue 3 + TypeScript + Vite, deployed to GitHub Pages.
 
 ## Project setup
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Development server with hot-reload
 ```
-npm run serve
+npm run dev
 ```
 
-### Compiles and minifies for production
+### Production build
 ```
 npm run build
 ```
+Outputs to `docs/` — GitHub Pages serves the site from that directory, so commit the rebuilt `docs/` with your changes.
 
-### Lints and fixes files
+### Preview the production build locally
+```
+npm run preview
+```
+
+### Lint and fix files
 ```
 npm run lint
 ```
 
+### Type-check
+```
+npm run type-check
+```
+
 ### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+See the [Vite Configuration Reference](https://vitejs.dev/config/) and `vite.config.ts`.
