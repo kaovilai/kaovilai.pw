@@ -13,7 +13,7 @@ jobs:
   update-devicon:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Get latest devicon release
         id: latest
