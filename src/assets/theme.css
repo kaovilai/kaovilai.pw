@@ -215,6 +215,11 @@ body {
   outline: 2px solid var(--NCSU_Hunt_Yellow);
   outline-offset: 3px;
 }
+/* Announce new-tab behavior to assistive tech without visual change:
+   the alt-text form of `content` is exposed to screen readers only. */
+#app a[target="_blank"]::after {
+  content: "" / " (opens in new tab)";
+}
 /* Icon/image links: the label is the affordance, skip the underline */
 #app .tooltip a,
 #app a:has(img) {
