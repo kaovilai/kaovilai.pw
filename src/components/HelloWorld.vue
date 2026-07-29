@@ -19,9 +19,10 @@
       <h2 id="about-heading" class="introAreaHeader" data-snap="~/snapshots/about · ✓ restored">About Me</h2>
       <div class="introArea">
         <div class="skillbox about-text">
-          <p>Software Engineer at <a href="https://www.redhat.com" target="_blank" rel="noopener noreferrer">Red Hat</a>, working on <a href="https://github.com/openshift/oadp-operator" target="_blank" rel="noopener noreferrer">OADP</a> and <a href="https://velero.io" target="_blank" rel="noopener noreferrer">Velero</a> for Kubernetes backup and disaster recovery.</p>
-          <p>I live and breathe technology. I've lived more than a year in Thailand (where I'm from), New Zealand (where I finished high school), and the United States (where I completed my undergraduate degree at NC State University).</p>
+          <p>Software Engineer at <a href="https://www.redhat.com" target="_blank" rel="noopener noreferrer">Red Hat</a> in Raleigh, North Carolina — working on the <a href="https://github.com/openshift/oadp-operator" target="_blank" rel="noopener noreferrer">OpenShift API for Data Protection (OADP)</a> and <a href="https://velero.io" target="_blank" rel="noopener noreferrer">Velero</a>: backup and disaster recovery for Kubernetes.</p>
+          <p>I live and breathe technology. I've lived more than a year in Thailand (where I'm from), New Zealand (where I finished high school), and the United States, where I earned my undergraduate degree at NC State University (2016–2021).</p>
           <p>Talk to me about the latest gadgets, new undersea cables, cloud platforms launching, and other exciting technological breakthroughs.</p>
+          <p class="about-cta">Full work history on <a href="https://linkedin.com/in/kaovilai" target="_blank" rel="noopener noreferrer">LinkedIn</a>.</p>
         </div>
       </div>
     </section>
@@ -1339,6 +1340,14 @@ li {
 }
 .about-text p {
   margin-bottom: 10px;
+}
+.about-cta {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-dim);
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+  margin-top: 14px;
 }
 
 /* styles for image svgs */
