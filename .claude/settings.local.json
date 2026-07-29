@@ -37,7 +37,8 @@
       "mcp__playwright__browser_close",
       "mcp__playwright__browser_take_screenshot",
       "Bash(pkill -f \"vite --host\")",
-      "mcp__github__create_pull_request"
+      "mcp__github__create_pull_request",
+      "mcp__github__issue_write"
     ],
     "defaultMode": "acceptEdits"
   }
