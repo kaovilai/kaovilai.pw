@@ -1,27 +1,22 @@
 <template>
   <div class="hello">
-          <h1 style="background: var(--NCSU_Reynolds_Red)"><typing-component text="Hello World!" keepWidth="true" :once=true typingDelay="1000" /></h1>
-    <div style="display:flex; flex-wrap: wrap; justify-content: center;" class="hello-header">
-      <div style="margin: 0 2vw; min-width: 50vw;" class="hello-header-txt">
-        <h2>My name is<typing-component text=" Tiger!" typingDelay="500" :once=true /></h2>
-        <p>though my legal name is <i>Passawit<typing-component text=" Kaovilai" typingDelay="1000"/></i></p>
-        <p>Can't find what you're looking for? try the <a target="_blank" rel="noopener noreferrer" href="https://legacy.kaovilai.pw">legacy site.</a></p>
-        <p>This site is <b><a target="_blank" rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/Responsive_web_design"><typing-component text="responsive" typingDelay="1500" :once=true /></a></b>. Try resizing window or rotate your device</p>
-        <p><a href="https://calendar.app.google/udoH8WAzF7fdQv9h9" target="_blank" rel="noopener noreferrer">Schedule a meeting 📅</a></p>
-        <p><a href="https://github.com/kaovilai/github-stats" target="_blank" rel="noopener noreferrer"><img src="https://raw.githubusercontent.com/kaovilai/github-stats/master/generated/overview.svg#gh-dark-mode-only" alt="Tiger's GitHub stats overview" loading="lazy" /></a></p>
+    <header class="hero">
+      <p class="hero-kicker">$ velero restore create --from-backup tiger-latest <span class="hero-ok">✓ done</span></p>
+      <h1 class="hero-title"><typing-component text="Hello World!" :keep-width="true" :once="true" :typing-delay="150" /></h1>
+      <div class="hero-body">
+        <div class="hero-text">
+          <h2>My name is<typing-component text=" Tiger!" :typing-delay="500" :once="true" /></h2>
+          <p>though my legal name is <i>Passawit<typing-component text=" Kaovilai" :typing-delay="1000"/></i></p>
+          <p>Can't find what you're looking for? try the <a target="_blank" rel="noopener noreferrer" href="https://legacy.kaovilai.pw">legacy site.</a></p>
+          <p>This site is <b><a target="_blank" rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/Responsive_web_design"><typing-component text="responsive" :typing-delay="1500" :once="true" /></a></b>. Try resizing window or rotate your device</p>
+          <p><a href="https://calendar.app.google/udoH8WAzF7fdQv9h9" target="_blank" rel="noopener noreferrer">Schedule a meeting 📅</a></p>
+          <p><a href="https://github.com/kaovilai/github-stats" target="_blank" rel="noopener noreferrer"><img class="hero-stats" src="https://raw.githubusercontent.com/kaovilai/github-stats/master/generated/overview.svg#gh-dark-mode-only" alt="Tiger's GitHub stats overview" loading="lazy" /></a></p>
+        </div>
+        <img class="hero-photo" src="/ogimg.jpg" alt="Tiger Kaovilai profile photo"/>
       </div>
-      <!-- Calendly link widget begin -->
-<!-- Calendly link widget end -->
-      <img style="
-      max-width: 60vw;
-      min-height: 200px;
-      height: 30vh;
-      max-height: 50vh;
-      object-fit: contain;
-      filter: drop-shadow(1px 1px 10px var(--NCSU_Wolfpack_Red));" src="/ogimg.jpg" alt="Tiger Kaovilai profile photo"/>
-    </div>
-    <section aria-labelledby="about-heading">
-      <h2 id="about-heading" class="introAreaHeader">About Me</h2>
+    </header>
+    <section id="about" class="site-section" aria-labelledby="about-heading" v-reveal>
+      <h2 id="about-heading" class="introAreaHeader" data-snap="~/snapshots/about · ✓ restored">About Me</h2>
       <div class="introArea">
         <div class="skillbox about-text">
           <p>Software Engineer at <a href="https://www.redhat.com" target="_blank" rel="noopener noreferrer">Red Hat</a>, working on <a href="https://github.com/openshift/oadp-operator" target="_blank" rel="noopener noreferrer">OADP</a> and <a href="https://velero.io" target="_blank" rel="noopener noreferrer">Velero</a> for Kubernetes backup and disaster recovery.</p>
@@ -31,8 +26,8 @@
       </div>
     </section>
     <div class="displayArea">
-      <section aria-labelledby="connect-heading">
-    <h2 id="connect-heading" class="introAreaHeader">Connect</h2>
+      <section id="connect" class="site-section" aria-labelledby="connect-heading" v-reveal>
+    <h2 id="connect-heading" class="introAreaHeader" data-snap="~/snapshots/connect · ✓ restored">Connect</h2>
       <div class="introArea">
         <div class="skillbox">
           <h3>Social</h3>
@@ -253,8 +248,8 @@
         </div>
       </div>
       </section>
-      <section aria-labelledby="toolbox-heading">
-    <h2 id="toolbox-heading" class="introAreaHeader">My Toolbox</h2>
+      <section id="toolbox" class="site-section" aria-labelledby="toolbox-heading" v-reveal>
+    <h2 id="toolbox-heading" class="introAreaHeader" data-snap="~/snapshots/toolbox · ✓ restored">My Toolbox</h2>
       <div class="introArea">
         <div class="skillbox">
           <h3><typing-component text="Software Development"/></h3>
@@ -985,8 +980,8 @@
       </div>
 <!-- Section Break -->
       </section>
-      <section aria-labelledby="bucketlist-heading">
-        <h2 id="bucketlist-heading" class="introAreaHeader">Bucket List</h2>
+      <section id="bucket-list" class="site-section" aria-labelledby="bucketlist-heading" v-reveal>
+        <h2 id="bucketlist-heading" class="introAreaHeader" data-snap="~/snapshots/bucket-list · ⏳ in progress">Bucket List</h2>
         <div class="introArea">
           <div class="skillbox bucket-list">
             <h3>Life Goals</h3>
@@ -1009,8 +1004,8 @@
           </div>
         </div>
       </section>
-      <section aria-labelledby="devices-heading">
-      <h2 id="devices-heading" class="introAreaHeader">Personal Devices</h2>
+      <section id="devices" class="site-section" aria-labelledby="devices-heading" v-reveal>
+      <h2 id="devices-heading" class="introAreaHeader" data-snap="~/snapshots/devices · ✓ restored">Personal Devices</h2>
       <div class="introArea">
         <div class="skillbox">
           <h3><typing-component text="Desktop"/></h3>
@@ -1058,8 +1053,8 @@
         </div>
       </div>
       </section>
-      <section aria-labelledby="projects-heading">
-        <h2 id="projects-heading" class="introAreaHeader">Things I Made</h2>
+      <section id="projects" class="site-section" aria-labelledby="projects-heading" v-reveal>
+        <h2 id="projects-heading" class="introAreaHeader" data-snap="~/snapshots/projects · ✓ restored">Things I Made</h2>
         <div class="introArea">
           <div class="skillbox">
             <h3>Projects</h3>
@@ -1080,8 +1075,8 @@
           </div>
         </div>
       </section>
-      <section aria-labelledby="pay-heading">
-        <h2 id="pay-heading" class="introAreaHeader">Pay Me</h2>
+      <section id="pay" class="site-section" aria-labelledby="pay-heading" v-reveal>
+        <h2 id="pay-heading" class="introAreaHeader" data-snap="~/snapshots/invoices · ✓ restored">Pay Me</h2>
         <div class="introArea">
           <div class="skillbox">
             <h3>Payment Methods</h3>
@@ -1136,20 +1131,155 @@ li {
   margin: 0 10px;
 }
 .hello {
-  width: fit-content;
-  display: inline;
+  display: block;
 }
-.displayArea{
-  display: inline;
+
+/* ---- Hero ---- */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(88svh - var(--nav-height));
+  padding: clamp(24px, 5vw, 64px) clamp(12px, 4vw, 48px) 0;
 }
-.introArea{
+.hero-kicker {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-dim);
+  margin: 0 0 10px;
+  overflow-wrap: anywhere;
+}
+.hero-ok {
+  color: #3fb950;
+}
+.hero-title {
+  font-family: var(--font-mono);
+  font-size: var(--step-5);
+  line-height: 1.05;
+  font-weight: 700;
+  margin: 0.1em auto 0.4em;
+  display: inline-block;
+  padding: 0.12em 0.4em;
+  color: #fff;
+  background: linear-gradient(120deg, var(--NCSU_Reynolds_Red), var(--NCSU_Pyroman_Flame));
+  box-shadow: 10px 10px 0 var(--accent-shadow);
+}
+.hero-body {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(16px, 4vw, 48px);
+  max-width: 1100px;
+}
+.hero-text {
+  min-width: min(50vw, 480px);
+  max-width: 620px;
+}
+.hero-text h2 {
+  font-size: var(--step-3);
+  margin: 0 0 0.4em;
+}
+.hero-stats {
+  max-width: min(100%, 460px);
+  height: auto;
+}
+.hero-photo {
+  max-width: min(60vw, 380px);
+  max-height: 45vh;
+  height: auto;
+  object-fit: contain;
+  border: 1px solid var(--line);
+  box-shadow: 12px 12px 0 var(--accent-shadow);
+}
+
+/* ---- Sections ---- */
+.site-section {
+  display: block;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(28px, 6vw, 72px) clamp(8px, 3vw, 32px) 0;
+}
+.displayArea {
+  display: block;
+}
+.introArea {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-} 
-.skillbox{
-  margin: 0 5vw 20px;
+  align-items: stretch;
+  gap: clamp(14px, 2.5vw, 28px);
+  margin-top: clamp(16px, 3vw, 32px);
 }
+.introAreaHeader {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--step-3);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.introAreaHeader::before {
+  content: attr(data-snap);
+  display: block;
+  font-size: var(--step--1);
+  font-weight: 400;
+  color: var(--ink-dim);
+  margin-bottom: 4px;
+}
+.introAreaHeader::after {
+  content: '';
+  display: block;
+  width: 72px;
+  height: 3px;
+  margin: 14px auto 0;
+  background: linear-gradient(90deg, var(--NCSU_Wolfpack_Red), var(--NCSU_Pyroman_Flame));
+}
+.skillbox {
+  margin: 0;
+  padding: clamp(14px, 2.5vw, 26px);
+  border: 1px solid var(--line);
+  background: var(--panel);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+@media (hover: hover) {
+  .skillbox:hover {
+    border-color: var(--accent-shadow);
+    box-shadow: 6px 6px 0 var(--accent-shadow);
+  }
+}
+.skillbox h3 {
+  font-family: var(--font-mono);
+  font-size: var(--step-2);
+  font-weight: 700;
+  margin: 0 0 10px;
+}
+.skillbox h3::before {
+  content: "## ";
+  color: var(--accent-text);
+}
+
+/* Per-card scroll scrub — Chrome/Edge/Safari; others get the static state */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .skillbox {
+      animation: card-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
+  }
+}
+@keyframes card-in {
+  from {
+    opacity: 0.15;
+    transform: translateY(32px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 .devicon .backgroundbox {
   --insetwidth: 5px;
   background: white;
@@ -1186,7 +1316,8 @@ li {
 }
 .tooltip p {
   font-size: var(--tooltipFontSize);
-  color: white;
+  font-family: var(--font-mono);
+  color: var(--ink);
   margin-top: 5px;
   margin-bottom: 0px;
 }
@@ -1201,14 +1332,10 @@ li {
 .tooltip svg, .tooltip img {
   margin-bottom: 0px;
 }
-.introAreaHeader {
-  margin-top: 30px;
-  margin-bottom: 0px;
-}
 .about-text {
-  max-width: 600px;
+  max-width: 640px;
   text-align: left;
-  line-height: 1.6;
+  line-height: 1.65;
 }
 .about-text p {
   margin-bottom: 10px;
@@ -1244,7 +1371,7 @@ li {
   display: block;
   margin: 0;
   padding: 5px 0;
-  color: white;
+  color: var(--ink);
 }
 .goals-list li::before {
   content: '🟩 ';
