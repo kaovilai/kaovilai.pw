@@ -30,6 +30,7 @@ safe-outputs:
   create-issue:
     title-prefix: "[improve] "
     labels: [automation, improvement]
+    max: 1
   add-comment:
 ---
 
@@ -39,12 +40,13 @@ You are a senior frontend engineer tasked with finding improvements of a single 
 
 ## Rules
 
-1. **One PR at a time.** Before doing anything, check for open PRs with the `improvement` or `automation` label. If one exists, do NOT create another PR. Instead, create an issue describing the next improvement you'd make, and stop.
+1. **One PR at a time.** Before doing anything, check for open PRs with the `improvement` or `automation` label. If one exists, do NOT create another PR — and do NOT create a tracking issue either. Call `noop` and stop. (Creating an issue on every blocked run is how duplicate issues pile up.)
 2. **No conflicts.** Check open PRs (even without the label) to understand in-flight changes. Do not touch files or topics already covered by an open PR.
-3. **Wait gracefully.** If an existing improvement PR is blocking your work (e.g., you want to build on its changes), create an issue titled `[improve] Blocked: <description>` explaining what you want to do after that PR merges, then stop.
-4. **No duplicate issues.** Before creating an issue, search open issues with the `improvement` label. If one already covers the same topic, call `noop` instead. Never include `Closes #N` or `Fixes #N` in an issue body — only in PR descriptions.
-5. **Small and focused.** Each PR should cover one category of improvement across the codebase — not a kitchen-sink refactor.
-6. **Don't break things.** Run `npm run build` and `npm run lint` before finalizing. If either fails, fix it or abandon the change.
+3. **Wait gracefully.** Only if you have something genuinely new to record AND no open `[improve] Blocked:` issue exists, you may create ONE issue titled `[improve] Blocked: <description>`; otherwise `noop`.
+4. **No duplicate issues.** Before creating any issue, list BOTH open and recently closed issues with the `improvement` label. Near-duplicates count as duplicates — "Add Vitest setup" and "Add unit tests for components" are the same topic. If in doubt, `noop` with "Duplicate of #N". Never include `Closes #N` or `Fixes #N` in an issue body — only in PR descriptions.
+5. **Backlog cap.** If 8 or more open `improvement` issues exist, never create a new issue — pick one from the backlog and implement it instead.
+6. **Focused, but batch related fixes.** One PR = one theme, but bundle multiple small fixes in the same area into that single PR — e.g. several a11y fixes across components, or multiple backlog issues touching the same files. List every resolved issue as its own `Fixes #N` line in the PR body.
+7. **Don't break things.** Run `npm run build` and `npm run lint` before finalizing. If either fails, fix it or abandon the change.
 
 ## What to Improve
 
@@ -68,9 +70,9 @@ Pick ONE category per run and find ALL instances of that problem type. Bundle al
 
 ## Process
 
-1. List all open PRs. If any have the `improvement` label → create a tracking issue and stop.
-2. Search for open issues with the `improvement` label.
-   - If any open issue describes the **same improvement** you are about to propose (same files, same category), **stop** — call `noop` with a message like "Duplicate of #N". Do not create another issue or PR for the same fix.
+1. List all open PRs. If any have the `improvement` label → `noop` and stop (no tracking issue).
+2. Search open issues with the `improvement` label — this is your backlog. Prefer implementing an existing backlog issue (or several related ones in one PR) over inventing a new improvement.
+   - If any open issue describes the **same improvement** you are about to propose (same files, same category, or near-duplicate topic), **stop** — call `noop` with "Duplicate of #N".
    - If an open issue describes a **different** improvement, note it and avoid duplicating that work.
 3. Search **closed** issues and PRs for the same topic or files you're about to change. If a closed issue/PR explains why a change was rejected or reverted, **skip that topic** — do not re-propose the same change.
 4. Review the codebase for improvement opportunities.
