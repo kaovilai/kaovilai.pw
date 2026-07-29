@@ -13,11 +13,6 @@ on:
     - '*.md'
   pull_request:
     branches: [ main ]
-    paths-ignore:
-    - '.github/workflows/codeql.yml'
-    - '.github/workflows/dependabot-auto.yml'
-    - 'docs/**'
-    - '*.md'
 
 jobs:
   build:
@@ -48,3 +43,12 @@ jobs:
     - run: npm ci
     - run: ${{ matrix.npm-parallel }}
     # - run: npm test
+
+  # Stable check name for branch protection / Dependabot auto-merge:
+  # aggregates every matrix leg of `build`.
+  ci-ok:
+    needs: build
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+    - run: test "${{ needs.build.result }}" = "success"
