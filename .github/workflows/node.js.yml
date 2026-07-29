@@ -26,6 +26,8 @@ jobs:
         npm-parallel:
         - npm run build --if-present
         - npm run lint
+        - npm run test
+        - npm run type-check
         experimental: [false]
 #         include:
 #         - npm-parallel: npm run test:unit
