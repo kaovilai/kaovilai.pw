@@ -33,4 +33,17 @@ describe('HelloWorld', () => {
       expect(img.attributes('loading'), img.attributes('src')).toBe('lazy')
     }
   })
+
+  it('renders one of the rotating ops-command kickers', () => {
+    const kicker = mountPage().get('.hero-kicker').text()
+    expect(kicker).toMatch(/^\$ (velero|kubectl|ssh|systemctl)/)
+  })
+
+  it('boop increments the counter and persists it', async () => {
+    localStorage.setItem('boops', '41')
+    const wrapper = mountPage()
+    await wrapper.get('.hero-photo-btn').trigger('click')
+    expect(wrapper.get('.boop-count').text()).toBe('boops: 42')
+    expect(localStorage.getItem('boops')).toBe('42')
+  })
 })
