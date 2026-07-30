@@ -12,7 +12,7 @@ const csp = [
   "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net",
   "font-src 'self' https://cdn.jsdelivr.net",
   "img-src 'self' data: https://raw.githubusercontent.com",
-  "connect-src 'self'",
+  "connect-src 'self' https://raw.githubusercontent.com",
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'"

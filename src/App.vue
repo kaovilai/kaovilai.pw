@@ -31,7 +31,7 @@ import Footer from './components/Footer.vue'
 import HelloWorld from './components/HelloWorld.vue'
 import RestoreDemo from './components/RestoreDemo.vue'
 
-const sections = ['about', 'connect', 'toolbox', 'bucket-list', 'devices', 'projects', 'pay']
+const sections = ['about', 'connect', 'toolbox', 'bucket-list', 'devices', 'projects', 'current-work', 'pay']
 const activeSection = ref('')
 
 // Wolf mode: Konami code on keyboard, or 5 quick taps on the nav brand.
