@@ -632,6 +632,12 @@
             <i aria-hidden="true" title="Kubernetes" class="devicon-kubernetes-plain colored"></i>
               <p>Kubernetes</p>
             </div>
+            <div class="tooltip">
+              <a target="_blank" rel="noopener noreferrer" href="https://velero.io" aria-label="Velero — Kubernetes backup and disaster recovery">
+                <img loading="lazy" title="Velero" src="/icons/velero.svg" alt="Velero">
+                <p>Velero</p>
+              </a>
+            </div>
           </div>
         </div>
         <div class="skillbox">
