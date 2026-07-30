@@ -2,7 +2,7 @@
   <div class="hello">
     <header class="hero">
       <p class="hero-kicker">$ {{ kicker }} <span class="hero-ok">✓ done</span></p>
-      <h1 class="hero-title"><typing-component text="Hello World!" :keep-width="true" :once="true" :typing-delay="150" /></h1>
+      <h1 class="hero-title"><typing-component text="Hello World!" :keep-width="true" :typing-delay="150" /></h1>
       <div class="hero-body">
         <div class="hero-text">
           <h2>My name is<typing-component text=" Tiger!" :typing-delay="500" :once="true" /></h2>
@@ -942,6 +942,36 @@
           </div>
         </div>
       </section>
+      <section id="current-work" class="site-section" aria-labelledby="current-work-heading" v-reveal>
+        <h2 id="current-work-heading" class="introAreaHeader" :data-snap="activityDataSnap">Currently Working On</h2>
+        <div class="introArea">
+          <div class="skillbox activity-box">
+            <h3>Last {{ activityPeriodLabel || 'two weeks' }}</h3>
+            <p v-if="activityLoading" class="activity-status">fetching activity feed…</p>
+            <p v-else-if="activityError" class="activity-status">
+              activity feed offline — see <a target="_blank" rel="noopener noreferrer" href="https://github.com/kaovilai/kaovilai/blob/main/MY_ACTIVITY.md">MY_ACTIVITY.md</a> directly
+            </p>
+            <template v-else-if="activity">
+              <div class="activity-metrics">
+                <div class="activity-metric"><span class="activity-metric-num">{{ activity.metrics.prsMerged }}</span><span class="activity-metric-label">PRs merged</span></div>
+                <div class="activity-metric"><span class="activity-metric-num">{{ activity.metrics.prsOpened }}</span><span class="activity-metric-label">PRs opened</span></div>
+                <div class="activity-metric"><span class="activity-metric-num">{{ activity.metrics.prsReviewed }}</span><span class="activity-metric-label">reviewed</span></div>
+                <div class="activity-metric"><span class="activity-metric-num">{{ activity.metrics.issuesClosed }}</span><span class="activity-metric-label">issues closed</span></div>
+              </div>
+              <ul class="activity-list">
+                <li v-for="pr in recentPRs" :key="pr.url" class="activity-item">
+                  <a target="_blank" rel="noopener noreferrer" :href="pr.url" class="activity-item-link">
+                    <span class="activity-tag" :class="pr.tag">{{ pr.tag }}</span>
+                    <span class="activity-item-repo">{{ pr.repo }}#{{ pr.number }}</span>
+                    <span class="activity-item-title">{{ pr.title }}</span>
+                  </a>
+                </li>
+              </ul>
+            </template>
+            <p class="about-cta">Auto-gathered hourly/weekly by GitHub Actions in <a target="_blank" rel="noopener noreferrer" href="https://github.com/kaovilai/kaovilai">kaovilai/kaovilai</a></p>
+          </div>
+        </div>
+      </section>
       <section id="pay" class="site-section" aria-labelledby="pay-heading" v-reveal>
         <h2 id="pay-heading" class="introAreaHeader" data-snap="~/snapshots/invoices · ✓ restored">Pay Me</h2>
         <div class="introArea">
@@ -981,8 +1011,76 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue"
+import { computed, onMounted, ref } from "vue"
 import TypingComponent from "./TypingComponent.vue"
+
+interface ActivityPR {
+  number: number
+  repo: string
+  org: string
+  title: string
+  url: string
+}
+interface ActivityData {
+  period: { start: string; end: string }
+  generatedAt: string
+  metrics: {
+    prsMerged: number
+    prsOpened: number
+    prsReviewed: number
+    issuesCommented: number
+    issuesClosed: number
+  }
+  prsMerged: ActivityPR[]
+  prsOpened: ActivityPR[]
+}
+
+const ACTIVITY_URL = "https://raw.githubusercontent.com/kaovilai/kaovilai/main/activity.json"
+
+const activity = ref<ActivityData | null>(null)
+const activityLoading = ref(true)
+const activityError = ref(false)
+
+const activityPeriodLabel = computed(() => {
+  if (!activity.value) return ""
+  const fmt = (d: string) =>
+    new Date(`${d}T00:00:00Z`).toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" })
+  return `${fmt(activity.value.period.start)} – ${fmt(activity.value.period.end)}`
+})
+
+const activityDataSnap = computed(() => {
+  const state = activityLoading.value ? "⏳ syncing" : activityError.value ? "✗ offline" : "✓ synced"
+  return `~/snapshots/current-work · ${state}`
+})
+
+const recentPRs = computed(() => {
+  if (!activity.value) return []
+  const tagged = [
+    ...activity.value.prsMerged.map((pr) => ({ ...pr, tag: "merged" as const })),
+    ...activity.value.prsOpened.map((pr) => ({ ...pr, tag: "opened" as const })),
+  ]
+  const seen = new Set<string>()
+  const result: (ActivityPR & { tag: "merged" | "opened" })[] = []
+  for (const pr of tagged) {
+    if (seen.has(pr.url)) continue
+    seen.add(pr.url)
+    result.push(pr)
+    if (result.length === 6) break
+  }
+  return result
+})
+
+onMounted(async () => {
+  try {
+    const res = await fetch(ACTIVITY_URL)
+    if (!res.ok) throw new Error(`activity.json ${res.status}`)
+    activity.value = await res.json()
+  } catch {
+    activityError.value = true
+  } finally {
+    activityLoading.value = false
+  }
+})
 
 const KICKERS = [
   "velero restore create --from-backup tiger-latest",
@@ -1337,5 +1435,86 @@ li {
 .pay-icon--zelle { color: #6D1ED4; }
 .pay-links {
   font-size: 4em;
+}
+
+/* ---- Current Work (live GitHub activity feed) ---- */
+.activity-box {
+  max-width: 640px;
+  text-align: left;
+}
+.activity-status {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-dim);
+}
+.activity-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 0 16px;
+}
+.activity-metric {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 84px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+}
+.activity-metric-num {
+  font-family: var(--font-mono);
+  font-size: var(--step-2);
+  font-weight: 700;
+  color: var(--accent-text);
+}
+.activity-metric-label {
+  font-size: var(--step--1);
+  color: var(--ink-dim);
+}
+.activity-list {
+  margin: 0 0 12px;
+  padding: 0;
+}
+.activity-item {
+  display: block;
+  margin: 0 0 8px;
+}
+.activity-item-link {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: none;
+}
+@media (hover: hover) {
+  .activity-item-link:hover .activity-item-title {
+    text-decoration: underline;
+  }
+}
+.activity-tag {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  text-transform: uppercase;
+  padding: 0 6px;
+  border: 1px solid var(--line);
+}
+.activity-tag.merged {
+  color: #3fb950;
+  border-color: #3fb950;
+}
+.activity-tag.opened {
+  color: var(--NCSU_Pyroman_Flame);
+  border-color: var(--NCSU_Pyroman_Flame);
+}
+.activity-item-repo {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-dim);
+  white-space: nowrap;
+}
+.activity-item-title {
+  color: var(--ink);
 }
 </style>
