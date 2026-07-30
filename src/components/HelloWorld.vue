@@ -20,17 +20,54 @@
         </div>
       </div>
     </header>
+    <div class="about-row">
     <section id="about" class="site-section" aria-labelledby="about-heading" v-reveal>
       <h2 id="about-heading" class="introAreaHeader" data-snap="~/snapshots/about · ✓ restored">About Me</h2>
       <div class="introArea">
         <div class="skillbox about-text">
           <p>Senior Software Engineer at <a href="https://www.redhat.com" target="_blank" rel="noopener noreferrer">Red Hat</a> in Raleigh, North Carolina — maintainer of <a href="https://velero.io" target="_blank" rel="noopener noreferrer">Velero</a> and working on the <a href="https://github.com/openshift/oadp-operator" target="_blank" rel="noopener noreferrer">OpenShift API for Data Protection (OADP)</a>: backup and disaster recovery for Kubernetes.</p>
-          <p>I live and breathe technology. I've lived more than a year in Thailand (where I'm from), New Zealand (where I finished high school), and the United States, where I earned my undergraduate degree at NC State University (2016–2021).</p>
+          <p>I live and breathe technology. I've lived more than a year in Thailand (where I'm from), New Zealand (where I finished high school), and the United States, where I earned my undergraduate degree in Computer Programming and Industrial Engineering at NC State University (2016–2021).</p>
           <p>Talk to me about the latest gadgets, new undersea cables, cloud platforms launching, and other exciting technological breakthroughs.</p>
+          <p>Off duty you might catch me in Rocket League, Team Fortress 2, Apex Legends, the Need for Speed series — and yes, Finding Nemo counts.</p>
+          <figure class="places-figure">
+            <img loading="lazy" src="/about/places-map.png" alt="World map with places Tiger has lived in, visited, or transited through highlighted in red" />
+            <figcaption>In red: places I've lived in, visited, or transited through — via Google Maps Timeline.</figcaption>
+          </figure>
           <p class="about-cta">Full work history on <a href="https://linkedin.com/in/kaovilai" target="_blank" rel="noopener noreferrer">LinkedIn</a>.</p>
         </div>
       </div>
     </section>
+      <section id="current-work" class="site-section" aria-labelledby="current-work-heading" v-reveal>
+        <h2 id="current-work-heading" class="introAreaHeader" :data-snap="activityDataSnap">Currently Working On</h2>
+        <div class="introArea">
+          <div class="skillbox activity-box">
+            <h3>Last {{ activityPeriodLabel || 'two weeks' }}</h3>
+            <p v-if="activityLoading" class="activity-status">fetching activity feed…</p>
+            <p v-else-if="activityError" class="activity-status">
+              activity feed offline — see <a target="_blank" rel="noopener noreferrer" href="https://github.com/kaovilai/kaovilai/blob/main/MY_ACTIVITY.md">MY_ACTIVITY.md</a> directly
+            </p>
+            <template v-else-if="activity">
+              <div class="activity-metrics">
+                <div class="activity-metric"><span class="activity-metric-num">{{ activity.metrics.prsMerged }}</span><span class="activity-metric-label">PRs merged</span></div>
+                <div class="activity-metric"><span class="activity-metric-num">{{ activity.metrics.prsOpened }}</span><span class="activity-metric-label">PRs opened</span></div>
+                <div class="activity-metric"><span class="activity-metric-num">{{ activity.metrics.prsReviewed }}</span><span class="activity-metric-label">reviewed</span></div>
+                <div class="activity-metric"><span class="activity-metric-num">{{ activity.metrics.issuesClosed }}</span><span class="activity-metric-label">issues closed</span></div>
+              </div>
+              <ul class="activity-list">
+                <li v-for="pr in recentPRs" :key="pr.url" class="activity-item">
+                  <a target="_blank" rel="noopener noreferrer" :href="pr.url" class="activity-item-link">
+                    <span class="activity-tag" :class="pr.tag">{{ pr.tag }}</span>
+                    <span class="activity-item-repo">{{ pr.repo }}#{{ pr.number }}</span>
+                    <span class="activity-item-title">{{ pr.title }}</span>
+                  </a>
+                </li>
+              </ul>
+            </template>
+            <p class="about-cta">Auto-gathered hourly/weekly by GitHub Actions in <a target="_blank" rel="noopener noreferrer" href="https://github.com/kaovilai/kaovilai">kaovilai/kaovilai</a></p>
+          </div>
+        </div>
+      </section>
+    </div>
     <div class="displayArea">
       <section id="connect" class="site-section" aria-labelledby="connect-heading" v-reveal>
     <h2 id="connect-heading" class="introAreaHeader" data-snap="~/snapshots/connect · ✓ restored">Connect</h2>
@@ -867,6 +904,8 @@
             <ul class="goals-list">
               <li>Hololens</li>
               <li>AR Glasses</li>
+              <li>BEV / PHEV</li>
+              <li>Cybertruck</li>
             </ul>
           </div>
         </div>
@@ -942,36 +981,6 @@
           </div>
         </div>
       </section>
-      <section id="current-work" class="site-section" aria-labelledby="current-work-heading" v-reveal>
-        <h2 id="current-work-heading" class="introAreaHeader" :data-snap="activityDataSnap">Currently Working On</h2>
-        <div class="introArea">
-          <div class="skillbox activity-box">
-            <h3>Last {{ activityPeriodLabel || 'two weeks' }}</h3>
-            <p v-if="activityLoading" class="activity-status">fetching activity feed…</p>
-            <p v-else-if="activityError" class="activity-status">
-              activity feed offline — see <a target="_blank" rel="noopener noreferrer" href="https://github.com/kaovilai/kaovilai/blob/main/MY_ACTIVITY.md">MY_ACTIVITY.md</a> directly
-            </p>
-            <template v-else-if="activity">
-              <div class="activity-metrics">
-                <div class="activity-metric"><span class="activity-metric-num">{{ activity.metrics.prsMerged }}</span><span class="activity-metric-label">PRs merged</span></div>
-                <div class="activity-metric"><span class="activity-metric-num">{{ activity.metrics.prsOpened }}</span><span class="activity-metric-label">PRs opened</span></div>
-                <div class="activity-metric"><span class="activity-metric-num">{{ activity.metrics.prsReviewed }}</span><span class="activity-metric-label">reviewed</span></div>
-                <div class="activity-metric"><span class="activity-metric-num">{{ activity.metrics.issuesClosed }}</span><span class="activity-metric-label">issues closed</span></div>
-              </div>
-              <ul class="activity-list">
-                <li v-for="pr in recentPRs" :key="pr.url" class="activity-item">
-                  <a target="_blank" rel="noopener noreferrer" :href="pr.url" class="activity-item-link">
-                    <span class="activity-tag" :class="pr.tag">{{ pr.tag }}</span>
-                    <span class="activity-item-repo">{{ pr.repo }}#{{ pr.number }}</span>
-                    <span class="activity-item-title">{{ pr.title }}</span>
-                  </a>
-                </li>
-              </ul>
-            </template>
-            <p class="about-cta">Auto-gathered hourly/weekly by GitHub Actions in <a target="_blank" rel="noopener noreferrer" href="https://github.com/kaovilai/kaovilai">kaovilai/kaovilai</a></p>
-          </div>
-        </div>
-      </section>
       <section id="pay" class="site-section" aria-labelledby="pay-heading" v-reveal>
         <h2 id="pay-heading" class="introAreaHeader" data-snap="~/snapshots/invoices · ✓ restored">Pay Me</h2>
         <div class="introArea">
@@ -997,12 +1006,31 @@
                 </a>
               </div>
               <div class="tooltip">
-                <a href="mailto:passawit.kaovilai@gmail.com?subject=Zelle%20Payment" aria-label="Pay via Zelle">
+                <a target="_blank" rel="noopener noreferrer" href="https://enroll.zellepay.com/qr-codes?data=eyJuYW1lIjoiUEFTU0FXSVQiLCJ0b2tlbiI6InBhc3Nhd2l0Lmthb3ZpbGFpQGdtYWlsLmNvbSIsImFjdGlvbiI6InBheW1lbnQifQ%3D%3D" aria-label="Pay via Zelle">
                   <span aria-hidden="true" class="pay-icon pay-icon--zelle">Z</span>
                   <p>Zelle</p>
                 </a>
               </div>
+              <div class="tooltip">
+                <a target="_blank" rel="noopener noreferrer" href="/pay/promptpay.jpg" aria-label="Thai QR PromptPay payment code (opens QR image)">
+                  <span aria-hidden="true" class="pay-icon pay-icon--promptpay">฿</span>
+                  <p>PromptPay</p>
+                </a>
+              </div>
+              <div class="tooltip">
+                <a target="_blank" rel="noopener noreferrer" href="/pay/truemoney.jpg" aria-label="TrueMoney Wallet payment code (opens QR image)">
+                  <span aria-hidden="true" class="pay-icon pay-icon--truemoney">T</span>
+                  <p>TrueMoney</p>
+                </a>
+              </div>
+              <div class="tooltip">
+                <a target="_blank" rel="noopener noreferrer" href="https://m.me/passawit" aria-label="Pay or message via Facebook Messenger">
+                  <span aria-hidden="true" class="pay-icon pay-icon--messenger">M</span>
+                  <p>Messenger</p>
+                </a>
+              </div>
             </div>
+            <p class="pay-all">all of the above: <a target="_blank" rel="noopener noreferrer" href="https://tig.pw/pay">tig.pw/pay</a></p>
           </div>
         </div>
       </section>
@@ -1065,7 +1093,7 @@ const recentPRs = computed(() => {
     if (seen.has(pr.url)) continue
     seen.add(pr.url)
     result.push(pr)
-    if (result.length === 6) break
+    if (result.length === 30) break
   }
   return result
 })
@@ -1370,6 +1398,38 @@ li {
 .about-text p {
   margin-bottom: 10px;
 }
+/* About + Currently Working On: side-by-side on desktop, stacked on mobile */
+.about-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+@media (min-width: 960px) {
+  .about-row {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(16px, 2vw, 32px);
+    align-items: start;
+  }
+  .about-row .introArea > .skillbox {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+.places-figure {
+  margin: 14px 0 10px;
+}
+.places-figure img {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+}
+.places-figure figcaption {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-dim);
+  margin-top: 6px;
+}
 .about-cta {
   font-family: var(--font-mono);
   font-size: var(--step--1);
@@ -1433,8 +1493,19 @@ li {
 .pay-icon--cashapp { color: #00D632; }
 .pay-icon--paypal { color: #003087; }
 .pay-icon--zelle { color: #6D1ED4; }
+.pay-icon--promptpay { color: #21B6A8; }
+.pay-icon--truemoney { color: #FF7A00; }
+.pay-icon--messenger { color: #0084FF; }
 .pay-links {
   font-size: 4em;
+}
+.pay-all {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-dim);
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+  margin-top: 6px;
 }
 
 /* ---- Current Work (live GitHub activity feed) ---- */
@@ -1473,7 +1544,11 @@ li {
 }
 .activity-list {
   margin: 0 0 12px;
-  padding: 0;
+  padding: 0 8px 0 0;
+  max-height: 340px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-shadow) transparent;
 }
 .activity-item {
   display: block;

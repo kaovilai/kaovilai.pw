@@ -46,6 +46,20 @@ describe('HelloWorld', () => {
     expect(wrapper.get('.boop-count').text()).toBe('boops: 42')
     expect(localStorage.getItem('boops')).toBe('42')
   })
+
+  it('carries the legacy-site content: degree, wishlist extras, payments, places map', () => {
+    const wrapper = mountPage()
+    const text = wrapper.text()
+    expect(text).toContain('Computer Programming and Industrial Engineering')
+    expect(text).toContain('BEV / PHEV')
+    expect(text).toContain('Cybertruck')
+    expect(wrapper.find('img[src="/about/places-map.png"]').exists()).toBe(true)
+    expect(wrapper.find('a[href="/pay/promptpay.jpg"]').exists()).toBe(true)
+    expect(wrapper.find('a[href="/pay/truemoney.jpg"]').exists()).toBe(true)
+    expect(wrapper.find('a[href="https://m.me/passawit"]').exists()).toBe(true)
+    expect(wrapper.find('a[href="https://tig.pw/pay"]').exists()).toBe(true)
+    expect(wrapper.find('a[href^="https://enroll.zellepay.com"]').exists()).toBe(true)
+  })
 })
 
 describe('Currently Working On (activity feed)', () => {
