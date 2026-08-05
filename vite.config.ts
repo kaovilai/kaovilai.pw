@@ -41,8 +41,10 @@ export default defineConfig({
     outDir: 'docs', // Keep same output directory for GitHub Pages
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['vue'],
+        manualChunks: (id: string) => {
+          if (id.includes('node_modules/vue') || id.includes('node_modules/@vue')) {
+            return 'vendor'
+          }
         },
       },
     },
