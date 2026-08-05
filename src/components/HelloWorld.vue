@@ -63,7 +63,7 @@
                 </li>
               </ul>
             </template>
-            <p class="about-cta">Auto-gathered hourly/weekly by GitHub Actions in <a target="_blank" rel="noopener noreferrer" href="https://github.com/kaovilai/kaovilai">kaovilai/kaovilai</a></p>
+            <p class="about-cta">Auto-gathered hourly/weekly by GitHub Actions in <a target="_blank" rel="noopener noreferrer" href="https://github.com/kaovilai/kaovilai">kaovilai/kaovilai</a><template v-if="activityUpdatedLabel"> · updated {{ activityUpdatedLabel }}</template></p>
           </div>
         </div>
       </section>
@@ -1072,8 +1072,21 @@ const activityError = ref(false)
 const activityPeriodLabel = computed(() => {
   if (!activity.value) return ""
   const fmt = (d: string) =>
-    new Date(`${d}T00:00:00Z`).toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" })
+    new Date(`${d}T00:00:00Z`).toLocaleDateString(undefined, { month: "short", day: "numeric", timeZone: "UTC" })
   return `${fmt(activity.value.period.start)} – ${fmt(activity.value.period.end)}`
+})
+
+const activityUpdatedLabel = computed(() => {
+  if (!activity.value?.generatedAt) return ""
+  const generated = new Date(activity.value.generatedAt)
+  if (Number.isNaN(generated.getTime())) return ""
+  return generated.toLocaleString(undefined, {
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    timeZoneName: "short",
+  })
 })
 
 const activityDataSnap = computed(() => {
