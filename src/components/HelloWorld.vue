@@ -54,13 +54,16 @@
                 <div class="activity-metric"><span class="activity-metric-num">{{ activity.metrics.issuesClosed }}</span><span class="activity-metric-label">issues closed</span></div>
               </div>
               <ul class="activity-list">
-                <li v-for="pr in recentPRs" :key="pr.url" class="activity-item">
-                  <a target="_blank" rel="noopener noreferrer" :href="pr.url" class="activity-item-link">
-                    <span class="activity-tag" :class="pr.tag">{{ pr.tag }}</span>
-                    <span class="activity-item-repo">{{ pr.repo }}#{{ pr.number }}</span>
-                    <span class="activity-item-title">{{ pr.title }}</span>
-                  </a>
-                </li>
+                <template v-for="orgGroup in recentPRsByOrg" :key="orgGroup.org">
+                  <li class="activity-org">{{ orgGroup.org }}</li>
+                  <li v-for="pr in orgGroup.prs" :key="pr.url" class="activity-item">
+                    <a target="_blank" rel="noopener noreferrer" :href="pr.url" class="activity-item-link">
+                      <span class="activity-tag" :class="pr.tag">{{ pr.tag }}</span>
+                      <span class="activity-item-repo">{{ pr.repo }}#{{ pr.number }}</span>
+                      <span class="activity-item-title">{{ pr.title }}</span>
+                    </a>
+                  </li>
+                </template>
               </ul>
             </template>
             <p class="about-cta">Auto-gathered hourly/weekly by GitHub Actions in <a target="_blank" rel="noopener noreferrer" href="https://github.com/kaovilai/kaovilai">kaovilai/kaovilai</a><template v-if="activityUpdatedLabel"> · updated {{ activityUpdatedLabel }}</template></p>
@@ -1111,6 +1114,16 @@ const recentPRs = computed(() => {
   return result
 })
 
+const recentPRsByOrg = computed(() => {
+  const groups = new Map<string, (ActivityPR & { tag: "merged" | "opened" })[]>()
+  for (const pr of recentPRs.value) {
+    const list = groups.get(pr.org) ?? []
+    list.push(pr)
+    groups.set(pr.org, list)
+  }
+  return Array.from(groups.entries()).map(([org, prs]) => ({ org, prs }))
+})
+
 onMounted(async () => {
   try {
     const res = await fetch(ACTIVITY_URL)
@@ -1476,6 +1489,14 @@ li {
 }
 .goals-list {
   list-style: none;
+}
+.activity-org {
+  list-style: none;
+  font-size: .8rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  opacity: .75;
+  margin-top: .6rem;
   padding: 0;
 }
 .goals-list li {

@@ -119,6 +119,20 @@ describe('Currently Working On (activity feed)', () => {
     expect(items[0].get('.activity-tag').text()).toBe('merged')
   })
 
+  it('groups recent contributions by org before listing repos', async () => {
+    vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce({
+      ok: true,
+      json: () => Promise.resolve(activityFixture),
+    } as Response)
+    const wrapper = mountPage()
+    await flushPromises()
+    const orgHeaders = wrapper.findAll('.activity-org').map((n) => n.text())
+    expect(orgHeaders).toEqual(['kaovilai', 'velero-io'])
+    const repoRows = wrapper.findAll('.activity-item-repo').map((n) => n.text())
+    expect(repoRows[0]).toContain('kaovilai/kaovilai#68')
+    expect(repoRows[1]).toContain('velero-io/velero#70')
+  })
+
   it('falls back to an offline message when the fetch rejects', async () => {
     vi.spyOn(globalThis, 'fetch').mockRejectedValueOnce(new Error('boom'))
     const wrapper = mountPage()
