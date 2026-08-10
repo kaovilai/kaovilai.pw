@@ -12,7 +12,7 @@ const csp = [
   "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net",
   "font-src 'self' https://cdn.jsdelivr.net",
   "img-src 'self' data: https://raw.githubusercontent.com",
-  "connect-src 'self'",
+  "connect-src 'self' https://raw.githubusercontent.com",
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'"
@@ -41,8 +41,10 @@ export default defineConfig({
     outDir: 'docs', // Keep same output directory for GitHub Pages
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['vue'],
+        manualChunks: (id: string) => {
+          if (id.includes('node_modules/vue') || id.includes('node_modules/@vue')) {
+            return 'vendor'
+          }
         },
       },
     },

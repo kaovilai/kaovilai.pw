@@ -1,8 +1,8 @@
 <template>
   <div class="hello">
     <header class="hero">
-      <p class="hero-kicker">$ velero restore create --from-backup tiger-latest <span class="hero-ok">✓ done</span></p>
-      <h1 class="hero-title"><typing-component text="Hello World!" :keep-width="true" :once="true" :typing-delay="150" /></h1>
+      <p class="hero-kicker">$ {{ kicker }} <span class="hero-ok">✓ done</span></p>
+      <h1 class="hero-title"><typing-component text="Hello World!" :keep-width="true" :typing-delay="150" /></h1>
       <div class="hero-body">
         <div class="hero-text">
           <h2>My name is<typing-component text=" Tiger!" :typing-delay="500" :once="true" /></h2>
@@ -12,20 +12,65 @@
           <p><a href="https://calendar.app.google/udoH8WAzF7fdQv9h9" target="_blank" rel="noopener noreferrer">Schedule a meeting 📅</a></p>
           <p><a href="https://github.com/kaovilai/github-stats" target="_blank" rel="noopener noreferrer"><img class="hero-stats" src="https://raw.githubusercontent.com/kaovilai/github-stats/master/generated/overview.svg#gh-dark-mode-only" alt="Tiger's GitHub stats overview" loading="lazy" width="460" height="200" /></a></p>
         </div>
-        <img class="hero-photo" src="/ogimg.jpg" alt="Tiger Kaovilai profile photo" width="4608" height="3456"/>
+        <div class="hero-photo-wrap">
+          <button class="hero-photo-btn" type="button" title="boop" aria-label="Boop the profile photo" @click="boop">
+            <img class="hero-photo" :class="{ booped }" src="/ogimg.jpg" alt="Tiger Kaovilai profile photo" width="4608" height="3456"/>
+          </button>
+          <p class="boop-count" aria-live="polite">boops: {{ boops }}</p>
+        </div>
       </div>
     </header>
+    <div class="about-row">
     <section id="about" class="site-section" aria-labelledby="about-heading" v-reveal>
       <h2 id="about-heading" class="introAreaHeader" data-snap="~/snapshots/about · ✓ restored">About Me</h2>
       <div class="introArea">
         <div class="skillbox about-text">
           <p>Senior Software Engineer at <a href="https://www.redhat.com" target="_blank" rel="noopener noreferrer">Red Hat</a> in Raleigh, North Carolina — maintainer of <a href="https://velero.io" target="_blank" rel="noopener noreferrer">Velero</a> and working on the <a href="https://github.com/openshift/oadp-operator" target="_blank" rel="noopener noreferrer">OpenShift API for Data Protection (OADP)</a>: backup and disaster recovery for Kubernetes.</p>
-          <p>I live and breathe technology. I've lived more than a year in Thailand (where I'm from), New Zealand (where I finished high school), and the United States, where I earned my undergraduate degree at NC State University (2016–2021).</p>
+          <p>I live and breathe technology. I've lived more than a year in Thailand (where I'm from), New Zealand (where I finished high school), and the United States, where I earned my undergraduate degree in Computer Programming and Industrial Engineering at NC State University (2016–2021).</p>
           <p>Talk to me about the latest gadgets, new undersea cables, cloud platforms launching, and other exciting technological breakthroughs.</p>
+          <p>Off duty you might catch me in Rocket League, Team Fortress 2, Apex Legends, the Need for Speed series — and yes, Finding Nemo counts.</p>
+          <figure class="places-figure">
+            <img loading="lazy" src="/about/places-map.png" alt="World map with places Tiger has lived in, visited, or transited through highlighted in red" width="1280" height="904" />
+            <figcaption>In red: places I've lived in, visited, or transited through — via Google Maps Timeline.</figcaption>
+          </figure>
           <p class="about-cta">Full work history on <a href="https://linkedin.com/in/kaovilai" target="_blank" rel="noopener noreferrer">LinkedIn</a>.</p>
         </div>
       </div>
     </section>
+      <section id="current-work" class="site-section" aria-labelledby="current-work-heading" v-reveal>
+        <h2 id="current-work-heading" class="introAreaHeader" :data-snap="activityDataSnap">Currently Working On</h2>
+        <div class="introArea">
+          <div class="skillbox activity-box">
+            <h3>Last {{ activityPeriodLabel || 'two weeks' }}</h3>
+            <p v-if="activityLoading" class="activity-status">fetching activity feed…</p>
+            <p v-else-if="activityError" class="activity-status">
+              activity feed offline — see <a target="_blank" rel="noopener noreferrer" href="https://github.com/kaovilai/kaovilai/blob/main/MY_ACTIVITY.md">MY_ACTIVITY.md</a> directly
+            </p>
+            <template v-else-if="activity">
+              <div class="activity-metrics">
+                <div class="activity-metric"><span class="activity-metric-num">{{ activity.metrics.prsMerged }}</span><span class="activity-metric-label">PRs merged</span></div>
+                <div class="activity-metric"><span class="activity-metric-num">{{ activity.metrics.prsOpened }}</span><span class="activity-metric-label">PRs opened</span></div>
+                <div class="activity-metric"><span class="activity-metric-num">{{ activity.metrics.prsReviewed }}</span><span class="activity-metric-label">reviewed</span></div>
+                <div class="activity-metric"><span class="activity-metric-num">{{ activity.metrics.issuesClosed }}</span><span class="activity-metric-label">issues closed</span></div>
+              </div>
+              <ul class="activity-list">
+                <template v-for="orgGroup in recentPRsByOrg" :key="orgGroup.org">
+                  <li class="activity-org">{{ orgGroup.org }}</li>
+                  <li v-for="pr in orgGroup.prs" :key="pr.url" class="activity-item">
+                    <a target="_blank" rel="noopener noreferrer" :href="pr.url" class="activity-item-link">
+                      <span class="activity-tag" :class="pr.tag">{{ pr.tag }}</span>
+                      <span class="activity-item-repo">{{ pr.repo }}#{{ pr.number }}</span>
+                      <span class="activity-item-title">{{ pr.title }}</span>
+                    </a>
+                  </li>
+                </template>
+              </ul>
+            </template>
+            <p class="about-cta">Auto-gathered hourly/weekly by GitHub Actions in <a target="_blank" rel="noopener noreferrer" href="https://github.com/kaovilai/kaovilai">kaovilai/kaovilai</a><template v-if="activityUpdatedLabel"> · updated {{ activityUpdatedLabel }}</template></p>
+          </div>
+        </div>
+      </section>
+    </div>
     <div class="displayArea">
       <section id="connect" class="site-section" aria-labelledby="connect-heading" v-reveal>
     <h2 id="connect-heading" class="introAreaHeader" data-snap="~/snapshots/connect · ✓ restored">Connect</h2>
@@ -627,6 +672,12 @@
             <i aria-hidden="true" title="Kubernetes" class="devicon-kubernetes-plain colored"></i>
               <p>Kubernetes</p>
             </div>
+            <div class="tooltip">
+              <a target="_blank" rel="noopener noreferrer" href="https://velero.io" aria-label="Velero — Kubernetes backup and disaster recovery">
+                <img loading="lazy" title="Velero" src="/icons/velero.svg" alt="Velero" width="1080" height="1080">
+                <p>Velero</p>
+              </a>
+            </div>
           </div>
         </div>
         <div class="skillbox">
@@ -856,6 +907,8 @@
             <ul class="goals-list">
               <li>Hololens</li>
               <li>AR Glasses</li>
+              <li>BEV / PHEV</li>
+              <li>Cybertruck</li>
             </ul>
           </div>
         </div>
@@ -956,12 +1009,31 @@
                 </a>
               </div>
               <div class="tooltip">
-                <a href="mailto:passawit.kaovilai@gmail.com?subject=Zelle%20Payment" aria-label="Pay via Zelle">
+                <a target="_blank" rel="noopener noreferrer" href="https://enroll.zellepay.com/qr-codes?data=eyJuYW1lIjoiUEFTU0FXSVQiLCJ0b2tlbiI6InBhc3Nhd2l0Lmthb3ZpbGFpQGdtYWlsLmNvbSIsImFjdGlvbiI6InBheW1lbnQifQ%3D%3D" aria-label="Pay via Zelle">
                   <span aria-hidden="true" class="pay-icon pay-icon--zelle">Z</span>
                   <p>Zelle</p>
                 </a>
               </div>
+              <div class="tooltip">
+                <a target="_blank" rel="noopener noreferrer" href="/pay/promptpay.jpg" aria-label="Thai QR PromptPay payment code (opens QR image)">
+                  <span aria-hidden="true" class="pay-icon pay-icon--promptpay">฿</span>
+                  <p>PromptPay</p>
+                </a>
+              </div>
+              <div class="tooltip">
+                <a target="_blank" rel="noopener noreferrer" href="/pay/truemoney.jpg" aria-label="TrueMoney Wallet payment code (opens QR image)">
+                  <span aria-hidden="true" class="pay-icon pay-icon--truemoney">T</span>
+                  <p>TrueMoney</p>
+                </a>
+              </div>
+              <div class="tooltip">
+                <a target="_blank" rel="noopener noreferrer" href="https://m.me/passawit" aria-label="Pay or message via Facebook Messenger">
+                  <span aria-hidden="true" class="pay-icon pay-icon--messenger">M</span>
+                  <p>Messenger</p>
+                </a>
+              </div>
             </div>
+            <p class="pay-all">all of the above: <a target="_blank" rel="noopener noreferrer" href="https://tig.pw/pay">tig.pw/pay</a></p>
           </div>
         </div>
       </section>
@@ -970,7 +1042,134 @@
 </template>
 
 <script setup lang="ts">
+import { computed, onMounted, ref } from "vue"
 import TypingComponent from "./TypingComponent.vue"
+
+interface ActivityPR {
+  number: number
+  repo: string
+  org: string
+  title: string
+  url: string
+}
+interface ActivityData {
+  period: { start: string; end: string }
+  generatedAt: string
+  metrics: {
+    prsMerged: number
+    prsOpened: number
+    prsReviewed: number
+    issuesCommented: number
+    issuesClosed: number
+  }
+  prsMerged: ActivityPR[]
+  prsOpened: ActivityPR[]
+}
+
+const ACTIVITY_URL = "https://raw.githubusercontent.com/kaovilai/kaovilai/main/activity.json"
+
+const activity = ref<ActivityData | null>(null)
+const activityLoading = ref(true)
+const activityError = ref(false)
+
+const activityPeriodLabel = computed(() => {
+  if (!activity.value) return ""
+  const fmt = (d: string) =>
+    new Date(`${d}T00:00:00Z`).toLocaleDateString(undefined, { month: "short", day: "numeric", timeZone: "UTC" })
+  return `${fmt(activity.value.period.start)} – ${fmt(activity.value.period.end)}`
+})
+
+const activityUpdatedLabel = computed(() => {
+  if (!activity.value?.generatedAt) return ""
+  const generated = new Date(activity.value.generatedAt)
+  if (Number.isNaN(generated.getTime())) return ""
+  return generated.toLocaleString(undefined, {
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    timeZoneName: "short",
+  })
+})
+
+const activityDataSnap = computed(() => {
+  const state = activityLoading.value ? "⏳ syncing" : activityError.value ? "✗ offline" : "✓ synced"
+  return `~/snapshots/current-work · ${state}`
+})
+
+const recentPRs = computed(() => {
+  if (!activity.value) return []
+  const tagged = [
+    ...activity.value.prsMerged.map((pr) => ({ ...pr, tag: "merged" as const })),
+    ...activity.value.prsOpened.map((pr) => ({ ...pr, tag: "opened" as const })),
+  ]
+  const seen = new Set<string>()
+  const result: (ActivityPR & { tag: "merged" | "opened" })[] = []
+  for (const pr of tagged) {
+    if (seen.has(pr.url)) continue
+    seen.add(pr.url)
+    result.push(pr)
+    if (result.length === 30) break
+  }
+  return result
+})
+
+const recentPRsByOrg = computed(() => {
+  const groups = new Map<string, (ActivityPR & { tag: "merged" | "opened" })[]>()
+  for (const pr of recentPRs.value) {
+    const list = groups.get(pr.org) ?? []
+    list.push(pr)
+    groups.set(pr.org, list)
+  }
+  return Array.from(groups.entries()).map(([org, prs]) => ({ org, prs }))
+})
+
+onMounted(async () => {
+  try {
+    const res = await fetch(ACTIVITY_URL)
+    if (!res.ok) throw new Error(`activity.json ${res.status}`)
+    activity.value = await res.json()
+  } catch {
+    activityError.value = true
+  } finally {
+    activityLoading.value = false
+  }
+})
+
+const KICKERS = [
+  "velero restore create --from-backup tiger-latest",
+  "kubectl get tiger -n production --watch",
+  "ssh visitor@kaovilai.pw",
+  "systemctl status tiger.service — active (running)",
+  "velero backup describe life --details"
+]
+const kicker = KICKERS[Math.floor(Math.random() * KICKERS.length)]
+
+// localStorage can be unavailable (private mode) — boops just reset then.
+const readBoops = () => {
+  try {
+    return Number(localStorage.getItem("boops") || 0)
+  } catch {
+    return 0
+  }
+}
+const boops = ref(readBoops())
+const booped = ref(false)
+let boopTimer = 0
+function boop() {
+  boops.value++
+  try {
+    localStorage.setItem("boops", String(boops.value))
+  } catch {
+    /* private mode: counter is session-only */
+  }
+  booped.value = false
+  window.clearTimeout(boopTimer)
+  requestAnimationFrame(() => {
+    booped.value = true
+    boopTimer = window.setTimeout(() => (booped.value = false), 350)
+  })
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -1048,6 +1247,35 @@ li {
   object-fit: contain;
   border: 1px solid var(--line);
   box-shadow: 12px 12px 0 var(--accent-shadow);
+}
+.hero-photo-wrap {
+  text-align: center;
+}
+.hero-photo-btn {
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: inline-block;
+}
+.boop-count {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-dim);
+  margin: 12px 0 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hero-photo.booped {
+    animation: squish 0.35s cubic-bezier(0.3, 1.8, 0.5, 1);
+  }
+}
+@keyframes squish {
+  30% {
+    transform: scale(1.07, 0.9);
+  }
+  60% {
+    transform: scale(0.94, 1.06);
+  }
 }
 
 /* ---- Sections ---- */
@@ -1196,6 +1424,38 @@ li {
 .about-text p {
   margin-bottom: 10px;
 }
+/* About + Currently Working On: side-by-side on desktop, stacked on mobile */
+.about-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+@media (min-width: 960px) {
+  .about-row {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(16px, 2vw, 32px);
+    align-items: start;
+  }
+  .about-row .introArea > .skillbox {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+.places-figure {
+  margin: 14px 0 10px;
+}
+.places-figure img {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+}
+.places-figure figcaption {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-dim);
+  margin-top: 6px;
+}
 .about-cta {
   font-family: var(--font-mono);
   font-size: var(--step--1);
@@ -1229,6 +1489,14 @@ li {
 }
 .goals-list {
   list-style: none;
+}
+.activity-org {
+  list-style: none;
+  font-size: .8rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  opacity: .75;
+  margin-top: .6rem;
   padding: 0;
 }
 .goals-list li {
@@ -1259,7 +1527,103 @@ li {
 .pay-icon--cashapp { color: #00D632; }
 .pay-icon--paypal { color: #003087; }
 .pay-icon--zelle { color: #6D1ED4; }
+.pay-icon--promptpay { color: #21B6A8; }
+.pay-icon--truemoney { color: #FF7A00; }
+.pay-icon--messenger { color: #0084FF; }
 .pay-links {
   font-size: 4em;
+}
+.pay-all {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-dim);
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+  margin-top: 6px;
+}
+
+/* ---- Current Work (live GitHub activity feed) ---- */
+.activity-box {
+  max-width: 640px;
+  text-align: left;
+}
+.activity-status {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-dim);
+}
+.activity-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 0 16px;
+}
+.activity-metric {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 84px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+}
+.activity-metric-num {
+  font-family: var(--font-mono);
+  font-size: var(--step-2);
+  font-weight: 700;
+  color: var(--accent-text);
+}
+.activity-metric-label {
+  font-size: var(--step--1);
+  color: var(--ink-dim);
+}
+.activity-list {
+  margin: 0 0 12px;
+  padding: 0 8px 0 0;
+  max-height: 340px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-shadow) transparent;
+}
+.activity-item {
+  display: block;
+  margin: 0 0 8px;
+}
+.activity-item-link {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: none;
+}
+@media (hover: hover) {
+  .activity-item-link:hover .activity-item-title {
+    text-decoration: underline;
+  }
+}
+.activity-tag {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  text-transform: uppercase;
+  padding: 0 6px;
+  border: 1px solid var(--line);
+}
+.activity-tag.merged {
+  color: #3fb950;
+  border-color: #3fb950;
+}
+.activity-tag.opened {
+  color: var(--NCSU_Pyroman_Flame);
+  border-color: var(--NCSU_Pyroman_Flame);
+}
+.activity-item-repo {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-dim);
+  white-space: nowrap;
+}
+.activity-item-title {
+  color: var(--ink);
 }
 </style>
