@@ -10,11 +10,11 @@
           <p>Can't find what you're looking for? try the <a target="_blank" rel="noopener noreferrer" href="https://legacy.kaovilai.pw">legacy site.</a></p>
           <p>This site is <b><a target="_blank" rel="noopener noreferrer" href="https://en.wikipedia.org/wiki/Responsive_web_design"><typing-component text="responsive" :typing-delay="1500" :once="true" /></a></b>. Try resizing window or rotate your device</p>
           <p><a href="https://calendar.app.google/udoH8WAzF7fdQv9h9" target="_blank" rel="noopener noreferrer">Schedule a meeting 📅</a></p>
-          <p><a href="https://github.com/kaovilai/github-stats" target="_blank" rel="noopener noreferrer"><img class="hero-stats" src="https://raw.githubusercontent.com/kaovilai/github-stats/master/generated/overview.svg#gh-dark-mode-only" alt="Tiger's GitHub stats overview" loading="lazy" /></a></p>
+          <p><a href="https://github.com/kaovilai/github-stats" target="_blank" rel="noopener noreferrer"><img class="hero-stats" src="https://raw.githubusercontent.com/kaovilai/github-stats/master/generated/overview.svg#gh-dark-mode-only" alt="Tiger's GitHub stats overview" loading="lazy" width="460" height="200" /></a></p>
         </div>
         <div class="hero-photo-wrap">
           <button class="hero-photo-btn" type="button" title="boop" aria-label="Boop the profile photo" @click="boop">
-            <img class="hero-photo" :class="{ booped }" src="/ogimg.jpg" alt="Tiger Kaovilai profile photo"/>
+            <img class="hero-photo" :class="{ booped }" src="/ogimg.jpg" alt="Tiger Kaovilai profile photo" width="4608" height="3456"/>
           </button>
           <p class="boop-count" aria-live="polite">boops: {{ boops }}</p>
         </div>
@@ -30,7 +30,7 @@
           <p>Talk to me about the latest gadgets, new undersea cables, cloud platforms launching, and other exciting technological breakthroughs.</p>
           <p>Off duty you might catch me in Rocket League, Team Fortress 2, Apex Legends, the Need for Speed series — and yes, Finding Nemo counts.</p>
           <figure class="places-figure">
-            <img loading="lazy" src="/about/places-map.png" alt="World map with places Tiger has lived in, visited, or transited through highlighted in red" />
+            <img loading="lazy" src="/about/places-map.png" alt="World map with places Tiger has lived in, visited, or transited through highlighted in red" width="1280" height="904" />
             <figcaption>In red: places I've lived in, visited, or transited through — via Google Maps Timeline.</figcaption>
           </figure>
           <p class="about-cta">Full work history on <a href="https://linkedin.com/in/kaovilai" target="_blank" rel="noopener noreferrer">LinkedIn</a>.</p>
@@ -674,7 +674,7 @@
             </div>
             <div class="tooltip">
               <a target="_blank" rel="noopener noreferrer" href="https://velero.io" aria-label="Velero — Kubernetes backup and disaster recovery">
-                <img loading="lazy" title="Velero" src="/icons/velero.svg" alt="Velero">
+                <img loading="lazy" title="Velero" src="/icons/velero.svg" alt="Velero" width="1080" height="1080">
                 <p>Velero</p>
               </a>
             </div>
@@ -754,16 +754,16 @@
         <div class="skillbox">
           <h3><typing-component text="Industrial Systems"/></h3>
           <div class="devicon">
-            <img loading="lazy" alt="Autodesk Fusion 360" title="Autodesk Fusion 360" src="/icons/autodesk-fusion-360.png">
+            <img loading="lazy" alt="Autodesk Fusion 360" title="Autodesk Fusion 360" src="/icons/autodesk-fusion-360.png" width="400" height="150">
             <div class="tooltip">
             <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" id="i-cura" viewBox="0 0 24 24"><title>Ultimaker Cura</title> <path fill="currentColor" d="M17 3H7.59L3 7.59V18a3 3 0 003 3h10.41L20 17.41V6a3 3 0 00-3-3zm1 13.59L15.59 19H5V8.41L8.41 5H18z"/><path fill="currentColor" d="M12 17h3v-2h-3a3 3 0 010-6h3V7h-3a5 5 0 000 10z"/></svg>
               <p>Ultimaker Cura</p>
             </div>
             <div class="backgroundbox">
-            <img loading="lazy" alt="Simio Simulation Software" title="Simio Simulation Software" src="/icons/simio-simulation-software.png">
+            <img loading="lazy" alt="Simio Simulation Software" title="Simio Simulation Software" src="/icons/simio-simulation-software.png" width="740" height="251">
             </div>
             <div class="tooltip">
-            <img loading="lazy" alt="HAAS Systems" title="HAAS Systems" src="/icons/haas-systems.png">
+            <img loading="lazy" alt="HAAS Systems" title="HAAS Systems" src="/icons/haas-systems.png" width="338" height="295">
               <p>HAAS Automation</p>
             </div>
           </div>
@@ -772,7 +772,7 @@
           <h3><typing-component text="Statistics/Math"/></h3>
           <div class="devicon">
             <div class="tooltip">
-              <img loading="lazy" alt="SageMath" title="SageMath" style="border-radius:20px" src="/icons/sagemath.png">
+              <img loading="lazy" alt="SageMath" title="SageMath" style="border-radius:20px" src="/icons/sagemath.png" width="100" height="100">
               <p>SageMath</p>
             </div>
           <div class="backgroundbox">
@@ -832,7 +832,7 @@
           <span class="sr-only">RStudio</span>
           </div>
             <div class="backgroundbox">
-            <img loading="lazy" title="Maple" src="/icons/maple.png" alt="Maple">
+            <img loading="lazy" title="Maple" src="/icons/maple.png" alt="Maple" width="177" height="60">
             </div>
           </div>
         </div>
@@ -861,7 +861,7 @@
           <h3><typing-component text="Video/Streaming"/></h3>
           <div class="devicon">
             <div class="tooltip">
-            <img loading="lazy" alt="Davinci Resolve" title="Davinci Resolve" src="/icons/davinci-resolve.png">
+            <img loading="lazy" alt="Davinci Resolve" title="Davinci Resolve" src="/icons/davinci-resolve.png" width="217" height="217">
               <p>Davinci Resolve</p>
             </div>
             <div class="tooltip">
@@ -874,7 +874,7 @@
           <h3><typing-component text="Way back when"/></h3>
           <div class="devicon">
             <div class="tooltip">
-          <img loading="lazy" alt="Adobe Flash Professional CS6" title="Adobe Flash Professional CS6" src="/icons/adobe-flash-professional-cs6.png">
+          <img loading="lazy" alt="Adobe Flash Professional CS6" title="Adobe Flash Professional CS6" src="/icons/adobe-flash-professional-cs6.png" width="176" height="168">
               <p>Adobe Flash CS6</p>
             </div>
             <div class="tooltip">
@@ -938,7 +938,7 @@
           <h3><typing-component text="Software"/></h3>
           <div class="devicon">
             <div class="tooltip">
-            <img loading="lazy" title="Microsoft Edge" alt="Microsoft Edge" src="/icons/microsoft-edge.svg"/>
+            <img loading="lazy" title="Microsoft Edge" alt="Microsoft Edge" src="/icons/microsoft-edge.svg" width="64" height="64"/>
               <p>Microsoft Edge</p>
             </div>
             <div class="tooltip">
