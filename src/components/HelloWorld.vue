@@ -68,6 +68,36 @@
             </template>
             <p class="about-cta">Auto-gathered hourly/weekly by GitHub Actions in <a target="_blank" rel="noopener noreferrer" href="https://github.com/kaovilai/kaovilai">kaovilai/kaovilai</a><template v-if="activityUpdatedLabel"> · updated {{ activityUpdatedLabel }}</template></p>
           </div>
+          <div class="skillbox review-queue-box">
+            <h3>Review Queue</h3>
+            <p v-if="reviewQueueLoading" class="queue-status">fetching review queue…</p>
+            <p v-else-if="reviewQueueError" class="queue-status">
+              review queue offline — see <a target="_blank" rel="noopener noreferrer" href="https://github.com/kaovilai/kaovilai/blob/main/MY_PULL_REQUESTS.md">MY_PULL_REQUESTS.md</a> directly
+            </p>
+            <template v-else-if="reviewQueue">
+              <template v-for="group in reviewQueueGroups" :key="group.key">
+                <h4 class="queue-group-heading">
+                  {{ group.label }}
+                  <span class="queue-group-count">{{ group.items.length }}</span>
+                </h4>
+                <p v-if="group.items.length === 0" class="queue-empty">{{ group.emptyLabel }}</p>
+                <ul v-else class="activity-list queue-list">
+                  <li v-for="pr in group.items" :key="pr.url" class="activity-item queue-item">
+                    <a target="_blank" rel="noopener noreferrer" :href="pr.url" class="activity-item-link">
+                      <span class="activity-tag" :class="pr.isApproved ? 'approved' : 'awaiting'">{{ pr.isApproved ? 'approved' : 'review' }}</span>
+                      <span class="activity-item-repo">{{ pr.repo }}#{{ pr.number }}</span>
+                      <span class="activity-item-title">{{ pr.title }}</span>
+                      <span class="queue-meta">
+                        <span v-if="pr.isCopilotAuthored" class="queue-copilot" title="Authored by Copilot coding agent">🤖 copilot</span>
+                        <span class="queue-waiting">{{ waitingLabel(pr.waitingDays) }}</span>
+                      </span>
+                    </a>
+                  </li>
+                </ul>
+              </template>
+              <p class="about-cta">Org-owned repos only · drafts and rebase-blocked PRs hidden<template v-if="reviewQueueUpdatedLabel"> · updated {{ reviewQueueUpdatedLabel }}</template></p>
+            </template>
+          </div>
         </div>
       </section>
     </div>
@@ -1068,6 +1098,27 @@ interface ActivityData {
 
 const ACTIVITY_URL = "https://raw.githubusercontent.com/kaovilai/kaovilai/main/activity.json"
 
+interface ReviewQueuePR {
+  number: number
+  repo: string
+  org: string
+  title: string
+  url: string
+  author: string
+  isCopilotAuthored: boolean
+  isApproved: boolean
+  mergeStateStatus: string
+  reason: string
+  waitingDays: number
+}
+interface ReviewQueueData {
+  updatedAt: string
+  needsReview: ReviewQueuePR[]
+  approvedWaitingToLand: ReviewQueuePR[]
+}
+
+const OPEN_PRS_URL = "https://raw.githubusercontent.com/kaovilai/kaovilai/main/open-prs.json"
+
 const activity = ref<ActivityData | null>(null)
 const activityLoading = ref(true)
 const activityError = ref(false)
@@ -1133,6 +1184,60 @@ onMounted(async () => {
     activityError.value = true
   } finally {
     activityLoading.value = false
+  }
+})
+
+const reviewQueue = ref<ReviewQueueData | null>(null)
+const reviewQueueLoading = ref(true)
+const reviewQueueError = ref(false)
+
+const reviewQueueGroups = computed(() => {
+  if (!reviewQueue.value) return []
+  return [
+    {
+      key: "needsReview",
+      label: "Needs review",
+      emptyLabel: "queue clear — nothing awaiting review",
+      items: reviewQueue.value.needsReview,
+    },
+    {
+      key: "approvedWaitingToLand",
+      label: "Approved, waiting to land",
+      emptyLabel: "nothing approved is waiting to land",
+      items: reviewQueue.value.approvedWaitingToLand,
+    },
+  ]
+})
+
+const reviewQueueUpdatedLabel = computed(() => {
+  if (!reviewQueue.value?.updatedAt) return ""
+  const updated = new Date(reviewQueue.value.updatedAt)
+  if (Number.isNaN(updated.getTime())) return ""
+  return updated.toLocaleString(undefined, {
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    timeZoneName: "short",
+  })
+})
+
+function waitingLabel(days: number) {
+  if (!Number.isFinite(days) || days < 1) return "waiting <1d"
+  return `waiting ${Math.round(days)}d`
+}
+
+onMounted(async () => {
+  try {
+    const res = await fetch(OPEN_PRS_URL)
+    if (!res.ok) throw new Error(`open-prs.json ${res.status}`)
+    const data = await res.json()
+    if (!data?.reviewQueue) throw new Error("open-prs.json missing reviewQueue")
+    reviewQueue.value = data.reviewQueue
+  } catch {
+    reviewQueueError.value = true
+  } finally {
+    reviewQueueLoading.value = false
   }
 })
 
@@ -1626,4 +1731,59 @@ li {
 .activity-item-title {
   color: var(--ink);
 }
+
+/* ---- Review queue panel ---- */
+.review-queue-box {
+  max-width: 640px;
+  text-align: left;
+}
+.queue-status {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-dim);
+}
+.queue-group-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: var(--step-0);
+  margin: 14px 0 8px;
+}
+.queue-group-count {
+  font-size: var(--step--1);
+  color: var(--accent-text);
+  border: 1px solid var(--line);
+  padding: 0 8px;
+}
+.queue-empty {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-dim);
+  margin: 0 0 8px;
+}
+.queue-list {
+  max-height: 260px;
+}
+.activity-tag.approved {
+  color: #3fb950;
+  border-color: #3fb950;
+}
+.activity-tag.awaiting {
+  color: var(--NCSU_Pyroman_Flame);
+  border-color: var(--NCSU_Pyroman_Flame);
+}
+.queue-meta {
+  display: inline-flex;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-dim);
+  white-space: nowrap;
+}
+.queue-copilot {
+  border: 1px solid var(--line);
+  padding: 0 6px;
+}
+
 </style>

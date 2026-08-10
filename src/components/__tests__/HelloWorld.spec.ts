@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, vi, afterEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import HelloWorld from '../HelloWorld.vue'
 
@@ -145,5 +145,127 @@ describe('Currently Working On (activity feed)', () => {
     const wrapper = mountPage()
     await flushPromises()
     expect(wrapper.get('.activity-status').text()).toContain('offline')
+  })
+})
+
+describe('Review Queue panel', () => {
+  afterEach(() => {
+    // The setup-file fetch is a plain vi.fn (not a spy), so restore the
+    // network-disabled default implementation after each URL-based mock.
+    vi.mocked(globalThis.fetch).mockImplementation(() => Promise.reject(new Error('network disabled in tests')))
+  })
+
+  const openPrsFixture = {
+    updatedAt: '2026-08-10T19:03:06Z',
+    prs: [],
+    reviewQueue: {
+      updatedAt: '2026-08-10T19:03:06Z',
+      needsReview: [
+        {
+          number: 10210,
+          repo: 'velero-io/velero',
+          org: 'velero-io',
+          title: 'Fix excluded namespaces tracking',
+          url: 'https://github.com/velero-io/velero/pull/10210',
+          author: 'kaovilai',
+          isCopilotAuthored: false,
+          isApproved: false,
+          mergeStateStatus: 'BLOCKED',
+          reason: 'awaitingReview',
+          waitingDays: 12,
+        },
+        {
+          number: 700,
+          repo: 'openshift/oadp-operator',
+          org: 'openshift',
+          title: 'Copilot authored change',
+          url: 'https://github.com/openshift/oadp-operator/pull/700',
+          author: 'copilot-swe-agent[bot]',
+          isCopilotAuthored: true,
+          isApproved: false,
+          mergeStateStatus: 'BLOCKED',
+          reason: 'awaitingReview',
+          waitingDays: 0.4,
+        },
+      ],
+      approvedWaitingToLand: [
+        {
+          number: 9000,
+          repo: 'velero-io/velero',
+          org: 'velero-io',
+          title: 'Approved but held',
+          url: 'https://github.com/velero-io/velero/pull/9000',
+          author: 'kaovilai',
+          isCopilotAuthored: false,
+          isApproved: true,
+          mergeStateStatus: 'BLOCKED',
+          reason: 'hold',
+          waitingDays: 3,
+        },
+      ],
+    },
+  }
+
+  const mockOpenPrsFetch = (payload: unknown = openPrsFixture) =>
+    vi.spyOn(globalThis, 'fetch').mockImplementation((input) => {
+      const url = String(input)
+      if (url.includes('open-prs.json')) {
+        return Promise.resolve({ ok: true, json: () => Promise.resolve(payload) } as Response)
+      }
+      return Promise.reject(new Error('network disabled in tests'))
+    })
+
+  it('shows a loading state, then renders both queue groups with counts', async () => {
+    mockOpenPrsFetch()
+    const wrapper = mountPage()
+    expect(wrapper.get('.queue-status').text()).toBe('fetching review queue…')
+    await flushPromises()
+    expect(wrapper.find('.queue-status').exists()).toBe(false)
+    const headings = wrapper.findAll('.queue-group-heading').map((n) => n.text())
+    expect(headings[0]).toContain('Needs review')
+    expect(headings[0]).toContain('2')
+    expect(headings[1]).toContain('Approved, waiting to land')
+    expect(headings[1]).toContain('1')
+  })
+
+  it('renders PR rows with approval tags, waiting time, and copilot badge', async () => {
+    mockOpenPrsFetch()
+    const wrapper = mountPage()
+    await flushPromises()
+    const items = wrapper.findAll('.queue-item')
+    expect(items).toHaveLength(3)
+    expect(items[0].get('.activity-tag').text()).toBe('review')
+    expect(items[0].get('.activity-item-repo').text()).toBe('velero-io/velero#10210')
+    expect(items[0].get('.queue-waiting').text()).toBe('waiting 12d')
+    expect(items[0].find('.queue-copilot').exists()).toBe(false)
+    expect(items[1].find('.queue-copilot').exists()).toBe(true)
+    expect(items[1].get('.queue-waiting').text()).toBe('waiting <1d')
+    expect(items[2].get('.activity-tag').text()).toBe('approved')
+    expect(items[2].get('a').attributes('href')).toBe('https://github.com/velero-io/velero/pull/9000')
+  })
+
+  it('shows empty-state messages when a group has no PRs', async () => {
+    mockOpenPrsFetch({
+      updatedAt: '2026-08-10T19:03:06Z',
+      prs: [],
+      reviewQueue: { updatedAt: '2026-08-10T19:03:06Z', needsReview: [], approvedWaitingToLand: [] },
+    })
+    const wrapper = mountPage()
+    await flushPromises()
+    const empties = wrapper.findAll('.queue-empty').map((n) => n.text())
+    expect(empties).toEqual(['queue clear — nothing awaiting review', 'nothing approved is waiting to land'])
+  })
+
+  it('falls back to an offline message when the fetch rejects', async () => {
+    const wrapper = mountPage()
+    await flushPromises()
+    expect(wrapper.get('.queue-status').text()).toContain('offline')
+  })
+
+  it('falls back to an offline message when reviewQueue is missing from the payload', async () => {
+    mockOpenPrsFetch({ updatedAt: '2026-08-10T19:03:06Z', prs: [] })
+    const wrapper = mountPage()
+    await flushPromises()
+    expect(wrapper.get('.queue-status').text()).toContain('offline')
   })
 })
