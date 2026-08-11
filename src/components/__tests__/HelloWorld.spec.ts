@@ -385,3 +385,87 @@ describe('Review Queue panel', () => {
     expect(wrapper.get('.queue-status').text()).toContain('offline')
   })
 })
+
+describe('Recently reviewed panel', () => {
+  afterEach(() => {
+    vi.mocked(globalThis.fetch).mockImplementation(() => Promise.reject(new Error('network disabled in tests')))
+  })
+
+  const reviewedFixture = (prsReviewed: unknown) => ({
+    period: { start: '2026-07-16', end: '2026-07-30' },
+    generatedAt: '2026-07-30T17:58:02Z',
+    metrics: { prsMerged: 30, prsOpened: 62, prsReviewed: 80, issuesCommented: 40, issuesClosed: 24 },
+    prsMerged: [],
+    prsOpened: [],
+    ...(prsReviewed === undefined ? {} : { prsReviewed }),
+  })
+
+  const mockActivityFetch = (payload: unknown) =>
+    vi.spyOn(globalThis, 'fetch').mockImplementation((input) => {
+      const url = String(input)
+      if (url.includes('activity.json')) {
+        return Promise.resolve({ ok: true, json: () => Promise.resolve(payload) } as Response)
+      }
+      return Promise.reject(new Error('network disabled in tests'))
+    })
+
+  const reviewedPR = (n: number, org: string, repo: string) => ({
+    number: n,
+    repo,
+    org,
+    title: `Reviewed PR ${n}`,
+    url: `https://github.com/${repo}/pull/${n}`,
+  })
+
+  it('groups reviewed PRs by org using the review queue org ordering, deduped by url', async () => {
+    mockActivityFetch(
+      reviewedFixture([
+        reviewedPR(1, 'velero-io', 'velero-io/velero'),
+        reviewedPR(2, 'openshift', 'openshift/oadp-operator'),
+        reviewedPR(1, 'velero-io', 'velero-io/velero'),
+        reviewedPR(3, 'kubernetes-sigs', 'kubernetes-sigs/cluster-api'),
+        reviewedPR(4, 'migtools', 'migtools/oadp-non-admin'),
+      ]),
+    )
+    const wrapper = mountPage()
+    expect(wrapper.get('.reviewed-status').text()).toBe('fetching reviewed PRs…')
+    await flushPromises()
+    const section = wrapper.get('.reviewed-section')
+    expect(section.findAll('.activity-org').map((n) => n.text())).toEqual([
+      'openshift',
+      'migtools',
+      'velero-io',
+      'kubernetes-sigs',
+    ])
+    const items = section.findAll('.reviewed-item')
+    expect(items).toHaveLength(4)
+    expect(items[0].get('.activity-item-repo').text()).toBe('openshift/oadp-operator#2')
+    expect(items[0].get('.activity-tag').text()).toBe('reviewed')
+    expect(items[3].get('a').attributes('href')).toBe('https://github.com/kubernetes-sigs/cluster-api/pull/3')
+    expect(section.get('.reviewed-group-heading').text()).toContain('Reviewed Jul 16 – Jul 30')
+  })
+
+  it('caps the reviewed list at 24 entries', async () => {
+    mockActivityFetch(
+      reviewedFixture(Array.from({ length: 40 }, (_, i) => reviewedPR(i + 1, 'velero-io', 'velero-io/velero'))),
+    )
+    const wrapper = mountPage()
+    await flushPromises()
+    expect(wrapper.get('.reviewed-section').findAll('.reviewed-item')).toHaveLength(24)
+  })
+
+  it('shows a no-recent-reviews fallback when prsReviewed is absent from the payload', async () => {
+    mockActivityFetch(reviewedFixture(undefined))
+    const wrapper = mountPage()
+    await flushPromises()
+    const section = wrapper.get('.reviewed-section')
+    expect(section.get('.reviewed-empty').text()).toBe('no recent reviews')
+    expect(section.findAll('.reviewed-item')).toHaveLength(0)
+  })
+
+  it('falls back to an offline message when the activity fetch fails', async () => {
+    const wrapper = mountPage()
+    await flushPromises()
+    expect(wrapper.get('.reviewed-status').text()).toContain('offline')
+  })
+})
