@@ -116,6 +116,35 @@
             </template>
           </div>
         </template>
+        <div class="skillbox queue-org-section reviewed-section">
+          <h3 class="reviewed-heading">
+            <span class="reviewed-org">recently reviewed</span>
+            <span class="reviewed-count">{{ recentReviewedCount }}</span>
+          </h3>
+          <p v-if="activityLoading" class="reviewed-status">fetching reviewed PRs…</p>
+          <p v-else-if="activityError" class="reviewed-status">
+            activity feed offline — see <a target="_blank" rel="noopener noreferrer" href="https://github.com/kaovilai/kaovilai/blob/main/MY_ACTIVITY.md">MY_ACTIVITY.md</a> directly
+          </p>
+          <p v-else-if="recentReviewedCount === 0" class="reviewed-empty">no recent reviews</p>
+          <template v-else>
+            <h4 class="reviewed-group-heading">
+              Reviewed {{ activityPeriodLabel || 'recently' }}
+              <span v-if="activity && activity.metrics.prsReviewed > recentReviewedCount" class="reviewed-count">of {{ activity.metrics.prsReviewed }}</span>
+            </h4>
+            <ul class="activity-list queue-list">
+              <template v-for="orgGroup in recentReviewedByOrg" :key="orgGroup.org">
+                <li class="activity-org">{{ orgGroup.org }}</li>
+                <li v-for="pr in orgGroup.prs" :key="pr.url" class="activity-item reviewed-item">
+                  <a target="_blank" rel="noopener noreferrer" :href="pr.url" class="activity-item-link">
+                    <span class="activity-tag reviewed">reviewed</span>
+                    <span class="activity-item-repo">{{ pr.repo }}#{{ pr.number }}</span>
+                    <span class="activity-item-title">{{ pr.title }}</span>
+                  </a>
+                </li>
+              </template>
+            </ul>
+          </template>
+        </div>
       </div>
       <p v-if="reviewQueue && !reviewQueueLoading && !reviewQueueError" class="about-cta review-queue-cta">Org-owned repos only · drafts and rebase-blocked PRs hidden<template v-if="reviewQueueUpdatedLabel"> · updated {{ reviewQueueUpdatedLabel }}</template></p>
     </section>
@@ -1112,6 +1141,8 @@ interface ActivityData {
   }
   prsMerged: ActivityPR[]
   prsOpened: ActivityPR[]
+  // Older activity.json builds predate the reviewed export, so treat it as optional.
+  prsReviewed?: ActivityPR[]
 }
 
 const ACTIVITY_URL = "https://raw.githubusercontent.com/kaovilai/kaovilai/main/activity.json"
@@ -1219,6 +1250,33 @@ const reviewQueueLoading = ref(true)
 const reviewQueueError = ref(false)
 
 const QUEUE_ORGS = ["openshift", "migtools", "velero-io"]
+
+const RECENT_REVIEWED_LIMIT = 24
+
+// PRs I reviewed in the activity window, deduped by URL and grouped by org so
+// the layout matches the review queue cards above it.
+const recentReviewedByOrg = computed(() => {
+  const reviewed = activity.value?.prsReviewed ?? []
+  const groups = new Map<string, ActivityPR[]>()
+  const seen = new Set<string>()
+  for (const pr of reviewed) {
+    if (seen.has(pr.url)) continue
+    seen.add(pr.url)
+    const list = groups.get(pr.org) ?? []
+    list.push(pr)
+    groups.set(pr.org, list)
+    if (seen.size === RECENT_REVIEWED_LIMIT) break
+  }
+  const orgRank = (org: string) => {
+    const index = QUEUE_ORGS.indexOf(org)
+    return index === -1 ? QUEUE_ORGS.length : index
+  }
+  return Array.from(groups.entries())
+    .map(([org, prs]) => ({ org, prs }))
+    .sort((a, b) => orgRank(a.org) - orgRank(b.org))
+})
+
+const recentReviewedCount = computed(() => recentReviewedByOrg.value.reduce((total, group) => total + group.prs.length, 0))
 
 interface ReviewQueueGroup {
   key: string
@@ -1904,6 +1962,48 @@ li {
 }
 .queue-list {
   max-height: 260px;
+}
+.reviewed-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: var(--step-0);
+  margin: 0 0 6px;
+}
+.reviewed-group-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-dim);
+  margin: 10px 0 6px;
+}
+.reviewed-org {
+  color: var(--accent-text);
+  text-transform: lowercase;
+}
+.reviewed-count {
+  font-size: var(--step--1);
+  color: var(--accent-text);
+  border: 1px solid var(--line);
+  padding: 0 8px;
+}
+.reviewed-empty {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-dim);
+  margin: 0 0 8px;
+}
+.reviewed-status {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-dim);
+}
+.activity-tag.reviewed {
+  color: #a371f7;
+  border-color: #a371f7;
 }
 .activity-tag.approved {
   color: #3fb950;
