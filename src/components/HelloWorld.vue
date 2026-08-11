@@ -97,11 +97,12 @@
                     <ul class="activity-list queue-list">
                       <li v-for="pr in group.items" :key="pr.url" class="activity-item queue-item">
                         <a target="_blank" rel="noopener noreferrer" :href="pr.url" class="activity-item-link">
-                          <span class="activity-tag" :class="pr.isApproved ? 'approved' : 'awaiting'">{{ pr.isApproved ? 'approved' : 'review' }}</span>
+                          <span class="activity-tag" :class="meetsReviewRequirements(pr) ? 'approved' : 'awaiting'">{{ meetsReviewRequirements(pr) ? 'approved' : 'review' }}</span>
                           <span class="activity-item-repo">{{ pr.repo }}#{{ pr.number }}</span>
                           <span class="activity-item-title">{{ pr.title }}</span>
                           <span class="queue-meta">
                             <span v-if="pr.isCopilotAuthored" class="queue-copilot" title="Authored by Copilot coding agent">🤖 copilot</span>
+                            <span v-if="approvalsLabel(pr)" class="queue-approvals" title="Approvals received / required by branch protection">{{ approvalsLabel(pr) }}</span>
                             <span class="queue-waiting">{{ waitingLabel(pr.waitingDays) }}</span>
                           </span>
                         </a>
@@ -1125,6 +1126,13 @@ interface ReviewQueuePR {
   mergeStateStatus: string
   reason: string
   waitingDays: number
+  // Optional fields (newer open-prs.json builds): GitHub's reviewDecision honors
+  // branch protection wherever it's configured (openshift/release prow
+  // branch-protector for openshift/migtools, direct branch protection for
+  // velero-io repos), and approval counts allow an "N/M approvals" indicator.
+  reviewDecision?: string
+  approvalCount?: number
+  requiredApprovals?: number
 }
 interface ReviewQueueData {
   updatedAt: string
@@ -1219,13 +1227,35 @@ interface ReviewQueueOrgSection {
   groups: ReviewQueueGroup[]
 }
 
+// A PR only belongs in "Approved, waiting to land" once it meets the repo's
+// review requirements (e.g. openshift/oadp-operator needs 2 approvals per
+// openshift/release prow config; velero-io repos may require multiple approvals
+// via direct branch protection). Under-approved PRs stay in "Needs review".
+function meetsReviewRequirements(pr: ReviewQueuePR) {
+  if (pr.reviewDecision) return pr.reviewDecision === "APPROVED"
+  if (typeof pr.requiredApprovals === "number" && typeof pr.approvalCount === "number") {
+    return pr.approvalCount >= pr.requiredApprovals
+  }
+  return pr.isApproved
+}
+
+function approvalsLabel(pr: ReviewQueuePR) {
+  if (typeof pr.requiredApprovals !== "number" || typeof pr.approvalCount !== "number") return ""
+  if (pr.requiredApprovals <= 1 || pr.approvalCount >= pr.requiredApprovals) return ""
+  return `${pr.approvalCount}/${pr.requiredApprovals} approvals`
+}
+
 const reviewQueueOrgSections = computed<ReviewQueueOrgSection[]>(() => {
   if (!reviewQueue.value) return []
   const orgKeys = [...QUEUE_ORGS, "others"]
   const buckets = new Map(orgKeys.map((org) => [org, { needsReview: [] as ReviewQueuePR[], approvedWaitingToLand: [] as ReviewQueuePR[] }]))
   const bucketFor = (org: string) => buckets.get(QUEUE_ORGS.includes(org) ? org : "others")!
   for (const pr of reviewQueue.value.needsReview) bucketFor(pr.org).needsReview.push(pr)
-  for (const pr of reviewQueue.value.approvedWaitingToLand) bucketFor(pr.org).approvedWaitingToLand.push(pr)
+  for (const pr of reviewQueue.value.approvedWaitingToLand) {
+    const bucket = bucketFor(pr.org)
+    if (meetsReviewRequirements(pr)) bucket.approvedWaitingToLand.push(pr)
+    else bucket.needsReview.push(pr)
+  }
   return orgKeys.map((org) => {
     const bucket = buckets.get(org)!
     return {
@@ -1248,7 +1278,9 @@ function queueSectionText(section: ReviewQueueOrgSection) {
     if (group.items.length === 0) continue
     lines.push(`${group.label} (${group.items.length}):`)
     for (const pr of group.items) {
-      lines.push(`- ${pr.repo}#${pr.number} ${pr.title} (${waitingLabel(pr.waitingDays)}) ${pr.url}`)
+      const approvals = approvalsLabel(pr)
+      const meta = approvals ? `${approvals}, ${waitingLabel(pr.waitingDays)}` : waitingLabel(pr.waitingDays)
+      lines.push(`- ${pr.repo}#${pr.number} ${pr.title} (${meta}) ${pr.url}`)
     }
   }
   return lines.join("\n")
@@ -1878,6 +1910,9 @@ li {
 .queue-copilot {
   border: 1px solid var(--line);
   padding: 0 6px;
+}
+.queue-approvals {
+  color: var(--NCSU_Pyroman_Flame);
 }
 
 </style>

@@ -263,6 +263,78 @@ describe('Review Queue panel', () => {
     expect(items[3].get('.activity-item-repo').text()).toBe('kubernetes-sigs/cluster-api#111')
   })
 
+  it('reclassifies approved PRs that have not met required approvals into needs review', async () => {
+    mockOpenPrsFetch({
+      updatedAt: '2026-08-10T19:03:06Z',
+      prs: [],
+      reviewQueue: {
+        updatedAt: '2026-08-10T19:03:06Z',
+        needsReview: [],
+        approvedWaitingToLand: [
+          {
+            number: 2368,
+            repo: 'openshift/oadp-operator',
+            org: 'openshift',
+            title: 'Needs a second approval',
+            url: 'https://github.com/openshift/oadp-operator/pull/2368',
+            author: 'kaovilai',
+            isCopilotAuthored: false,
+            isApproved: true,
+            reviewDecision: 'REVIEW_REQUIRED',
+            approvalCount: 1,
+            requiredApprovals: 2,
+            mergeStateStatus: 'BLOCKED',
+            reason: 'pendingMerge',
+            waitingDays: 5,
+          },
+          {
+            number: 9100,
+            repo: 'velero-io/velero',
+            org: 'velero-io',
+            title: 'Fully approved via branch protection',
+            url: 'https://github.com/velero-io/velero/pull/9100',
+            author: 'kaovilai',
+            isCopilotAuthored: false,
+            isApproved: true,
+            reviewDecision: 'APPROVED',
+            approvalCount: 2,
+            requiredApprovals: 2,
+            mergeStateStatus: 'BLOCKED',
+            reason: 'pendingMerge',
+            waitingDays: 3,
+          },
+        ],
+      },
+    })
+    const writeText = vi.fn().mockResolvedValue(undefined)
+    vi.stubGlobal('navigator', { ...navigator, clipboard: { writeText } })
+    const wrapper = mountPage()
+    await flushPromises()
+    const sections = wrapper.findAll('.queue-org-section')
+    // openshift PR with 1/2 approvals lands under "Needs review" with the review tag
+    const openshiftSection = sections[0]
+    expect(openshiftSection.get('.queue-group-heading').text()).toContain('Needs review')
+    const openshiftItem = openshiftSection.get('.queue-item')
+    expect(openshiftItem.get('.activity-tag').text()).toBe('review')
+    expect(openshiftItem.get('.queue-approvals').text()).toBe('1/2 approvals')
+    // velero-io PR meeting its branch-protection requirement stays approved
+    const veleroSection = sections[2]
+    expect(veleroSection.get('.queue-group-heading').text()).toContain('Approved, waiting to land')
+    expect(veleroSection.get('.activity-tag').text()).toBe('approved')
+    expect(veleroSection.find('.queue-approvals').exists()).toBe(false)
+    // copy text includes the approvals indicator for under-approved PRs
+    await openshiftSection.get('.queue-copy-btn').trigger('click')
+    await flushPromises()
+    expect(writeText).toHaveBeenCalledWith(
+      [
+        'Review queue — openshift (1)',
+        'Needs review (1):',
+        '- openshift/oadp-operator#2368 Needs a second approval (1/2 approvals, waiting 5d) https://github.com/openshift/oadp-operator/pull/2368',
+      ].join('\n'),
+    )
+    vi.unstubAllGlobals()
+  })
+
   it('copies a scrum-ready summary of an org section to the clipboard', async () => {
     mockOpenPrsFetch()
     const writeText = vi.fn().mockResolvedValue(undefined)
