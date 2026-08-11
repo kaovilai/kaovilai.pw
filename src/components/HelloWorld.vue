@@ -1168,10 +1168,12 @@ const activityUpdatedLabel = computed(() => {
   })
 })
 
-const activityDataSnap = computed(() => {
-  const state = activityLoading.value ? "⏳ syncing" : activityError.value ? "✗ offline" : "✓ synced"
-  return `~/snapshots/current-work · ${state}`
-})
+function snapLabel(path: string, loading: boolean, error: boolean) {
+  const state = loading ? "⏳ syncing" : error ? "✗ offline" : "✓ synced"
+  return `~/snapshots/${path} · ${state}`
+}
+
+const activityDataSnap = computed(() => snapLabel("current-work", activityLoading.value, activityError.value))
 
 const recentPRs = computed(() => {
   if (!activity.value) return []
@@ -1301,10 +1303,7 @@ async function copyOrgSection(section: ReviewQueueOrgSection) {
   }
 }
 
-const reviewQueueDataSnap = computed(() => {
-  const state = reviewQueueLoading.value ? "⏳ syncing" : reviewQueueError.value ? "✗ offline" : "✓ synced"
-  return `~/snapshots/review-queue · ${state}`
-})
+const reviewQueueDataSnap = computed(() => snapLabel("review-queue", reviewQueueLoading.value, reviewQueueError.value))
 
 const reviewQueueUpdatedLabel = computed(() => {
   if (!reviewQueue.value?.updatedAt) return ""
