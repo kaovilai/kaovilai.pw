@@ -119,7 +119,7 @@
         <div class="skillbox queue-org-section reviewed-section">
           <h3 class="reviewed-heading">
             <span class="reviewed-org">recently reviewed</span>
-            <span class="reviewed-count">{{ activity?.metrics.prsReviewed ?? recentReviewedCount }}</span>
+            <span class="reviewed-count">{{ recentReviewedCount }}</span>
           </h3>
           <p v-if="activityLoading" class="reviewed-status">fetching reviewed PRs…</p>
           <p v-else-if="activityError" class="reviewed-status">
@@ -129,7 +129,7 @@
           <template v-else>
             <h4 class="reviewed-group-heading">
               Reviewed {{ activityPeriodLabel || 'recently' }}
-              <span class="reviewed-count">{{ recentReviewedCount }}</span>
+              <span v-if="activity && activity.metrics.prsReviewed > recentReviewedCount" class="reviewed-count">of {{ activity.metrics.prsReviewed }}</span>
             </h4>
             <ul class="activity-list queue-list">
               <template v-for="orgGroup in recentReviewedByOrg" :key="orgGroup.org">

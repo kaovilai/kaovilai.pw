@@ -443,15 +443,20 @@ describe('Recently reviewed panel', () => {
     expect(items[0].get('.activity-tag').text()).toBe('reviewed')
     expect(items[3].get('a').attributes('href')).toBe('https://github.com/kubernetes-sigs/cluster-api/pull/3')
     expect(section.get('.reviewed-group-heading').text()).toContain('Reviewed Jul 16 – Jul 30')
+    expect(section.get('.reviewed-heading').get('.reviewed-count').text()).toBe('4')
   })
 
-  it('caps the reviewed list at 24 entries', async () => {
+  it('caps the reviewed list at 24 entries and shows the full period total', async () => {
     mockActivityFetch(
       reviewedFixture(Array.from({ length: 40 }, (_, i) => reviewedPR(i + 1, 'velero-io', 'velero-io/velero'))),
     )
     const wrapper = mountPage()
     await flushPromises()
-    expect(wrapper.get('.reviewed-section').findAll('.reviewed-item')).toHaveLength(24)
+    const section = wrapper.get('.reviewed-section')
+    expect(section.findAll('.reviewed-item')).toHaveLength(24)
+    // heading count matches the rendered rows; the period total is shown separately
+    expect(section.get('.reviewed-heading').get('.reviewed-count').text()).toBe('24')
+    expect(section.get('.reviewed-group-heading').text()).toContain('of 80')
   })
 
   it('shows a no-recent-reviews fallback when prsReviewed is absent from the payload', async () => {
