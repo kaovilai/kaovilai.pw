@@ -187,6 +187,19 @@ describe('Review Queue panel', () => {
           reason: 'awaitingReview',
           waitingDays: 0.4,
         },
+        {
+          number: 111,
+          repo: 'kubernetes-sigs/cluster-api',
+          org: 'kubernetes-sigs',
+          title: 'Catch-all org PR',
+          url: 'https://github.com/kubernetes-sigs/cluster-api/pull/111',
+          author: 'kaovilai',
+          isCopilotAuthored: false,
+          isApproved: false,
+          mergeStateStatus: 'BLOCKED',
+          reason: 'awaitingReview',
+          waitingDays: 2,
+        },
       ],
       approvedWaitingToLand: [
         {
@@ -215,36 +228,64 @@ describe('Review Queue panel', () => {
       return Promise.reject(new Error('network disabled in tests'))
     })
 
-  it('shows a loading state, then renders both queue groups with counts', async () => {
+  it('shows a loading state, then renders org sections with counts', async () => {
     mockOpenPrsFetch()
     const wrapper = mountPage()
     expect(wrapper.get('.queue-status').text()).toBe('fetching review queue…')
     await flushPromises()
     expect(wrapper.find('.queue-status').exists()).toBe(false)
-    const headings = wrapper.findAll('.queue-group-heading').map((n) => n.text())
-    expect(headings[0]).toContain('Needs review')
-    expect(headings[0]).toContain('2')
-    expect(headings[1]).toContain('Approved, waiting to land')
-    expect(headings[1]).toContain('1')
+    const orgHeadings = wrapper.findAll('.queue-org-heading')
+    expect(orgHeadings.map((n) => n.get('.queue-org').text())).toEqual(['openshift', 'migtools', 'velero-io', 'others'])
+    expect(orgHeadings.map((n) => n.get('.queue-group-count').text())).toEqual(['1', '0', '2', '1'])
+    const groupHeadings = wrapper.findAll('.queue-group-heading').map((n) => n.text())
+    expect(groupHeadings[0]).toContain('Needs review')
+    expect(groupHeadings.some((h) => h.includes('Approved, waiting to land'))).toBe(true)
   })
 
-  it('renders PR rows with approval tags, waiting time, and copilot badge', async () => {
+  it('renders PR rows with approval tags, waiting time, and copilot badge, grouped by org', async () => {
     mockOpenPrsFetch()
     const wrapper = mountPage()
     await flushPromises()
     const items = wrapper.findAll('.queue-item')
-    expect(items).toHaveLength(3)
-    expect(items[0].get('.activity-tag').text()).toBe('review')
-    expect(items[0].get('.activity-item-repo').text()).toBe('velero-io/velero#10210')
-    expect(items[0].get('.queue-waiting').text()).toBe('waiting 12d')
-    expect(items[0].find('.queue-copilot').exists()).toBe(false)
-    expect(items[1].find('.queue-copilot').exists()).toBe(true)
-    expect(items[1].get('.queue-waiting').text()).toBe('waiting <1d')
+    expect(items).toHaveLength(4)
+    // openshift section first
+    expect(items[0].get('.activity-item-repo').text()).toBe('openshift/oadp-operator#700')
+    expect(items[0].find('.queue-copilot').exists()).toBe(true)
+    expect(items[0].get('.queue-waiting').text()).toBe('waiting <1d')
+    // velero-io section: needs review then approved
+    expect(items[1].get('.activity-tag').text()).toBe('review')
+    expect(items[1].get('.activity-item-repo').text()).toBe('velero-io/velero#10210')
+    expect(items[1].get('.queue-waiting').text()).toBe('waiting 12d')
+    expect(items[1].find('.queue-copilot').exists()).toBe(false)
     expect(items[2].get('.activity-tag').text()).toBe('approved')
     expect(items[2].get('a').attributes('href')).toBe('https://github.com/velero-io/velero/pull/9000')
+    // catch-all others section
+    expect(items[3].get('.activity-item-repo').text()).toBe('kubernetes-sigs/cluster-api#111')
   })
 
-  it('shows empty-state messages when a group has no PRs', async () => {
+  it('copies a scrum-ready summary of an org section to the clipboard', async () => {
+    mockOpenPrsFetch()
+    const writeText = vi.fn().mockResolvedValue(undefined)
+    vi.stubGlobal('navigator', { ...navigator, clipboard: { writeText } })
+    const wrapper = mountPage()
+    await flushPromises()
+    const veleroSection = wrapper.findAll('.queue-org-section')[2]
+    await veleroSection.get('.queue-copy-btn').trigger('click')
+    await flushPromises()
+    expect(writeText).toHaveBeenCalledWith(
+      [
+        'Review queue — velero-io (2)',
+        'Needs review (1):',
+        '- velero-io/velero#10210 Fix excluded namespaces tracking (waiting 12d) https://github.com/velero-io/velero/pull/10210',
+        'Approved, waiting to land (1):',
+        '- velero-io/velero#9000 Approved but held (waiting 3d) https://github.com/velero-io/velero/pull/9000',
+      ].join('\n'),
+    )
+    expect(veleroSection.get('.queue-copy-btn').text()).toBe('copied ✓')
+    vi.unstubAllGlobals()
+  })
+
+  it('disables the copy button and shows queue clear for empty org sections', async () => {
     mockOpenPrsFetch({
       updatedAt: '2026-08-10T19:03:06Z',
       prs: [],
@@ -253,7 +294,10 @@ describe('Review Queue panel', () => {
     const wrapper = mountPage()
     await flushPromises()
     const empties = wrapper.findAll('.queue-empty').map((n) => n.text())
-    expect(empties).toEqual(['queue clear — nothing awaiting review', 'nothing approved is waiting to land'])
+    expect(empties).toEqual(['queue clear', 'queue clear', 'queue clear', 'queue clear'])
+    for (const btn of wrapper.findAll('.queue-copy-btn')) {
+      expect(btn.attributes('disabled')).toBeDefined()
+    }
   })
 
   it('falls back to an offline message when the fetch rejects', async () => {

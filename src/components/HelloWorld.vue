@@ -75,26 +75,41 @@
               review queue offline — see <a target="_blank" rel="noopener noreferrer" href="https://github.com/kaovilai/kaovilai/blob/main/MY_PULL_REQUESTS.md">MY_PULL_REQUESTS.md</a> directly
             </p>
             <template v-else-if="reviewQueue">
-              <template v-for="group in reviewQueueGroups" :key="group.key">
-                <h4 class="queue-group-heading">
-                  {{ group.label }}
-                  <span class="queue-group-count">{{ group.items.length }}</span>
+              <div v-for="section in reviewQueueOrgSections" :key="section.org" class="queue-org-section">
+                <h4 class="queue-org-heading">
+                  <span class="queue-org">{{ section.org }}</span>
+                  <span class="queue-group-count">{{ section.total }}</span>
+                  <button
+                    type="button"
+                    class="queue-copy-btn"
+                    :disabled="section.total === 0"
+                    :title="`Copy ${section.org} review queue for scrum`"
+                    @click="copyOrgSection(section)"
+                  >{{ copiedOrg === section.org ? 'copied ✓' : 'copy' }}</button>
                 </h4>
-                <p v-if="group.items.length === 0" class="queue-empty">{{ group.emptyLabel }}</p>
-                <ul v-else class="activity-list queue-list">
-                  <li v-for="pr in group.items" :key="pr.url" class="activity-item queue-item">
-                    <a target="_blank" rel="noopener noreferrer" :href="pr.url" class="activity-item-link">
-                      <span class="activity-tag" :class="pr.isApproved ? 'approved' : 'awaiting'">{{ pr.isApproved ? 'approved' : 'review' }}</span>
-                      <span class="activity-item-repo">{{ pr.repo }}#{{ pr.number }}</span>
-                      <span class="activity-item-title">{{ pr.title }}</span>
-                      <span class="queue-meta">
-                        <span v-if="pr.isCopilotAuthored" class="queue-copilot" title="Authored by Copilot coding agent">🤖 copilot</span>
-                        <span class="queue-waiting">{{ waitingLabel(pr.waitingDays) }}</span>
-                      </span>
-                    </a>
-                  </li>
-                </ul>
-              </template>
+                <p v-if="section.total === 0" class="queue-empty">queue clear</p>
+                <template v-for="group in section.groups" :key="group.key">
+                  <template v-if="group.items.length > 0">
+                    <h5 class="queue-group-heading">
+                      {{ group.label }}
+                      <span class="queue-group-count">{{ group.items.length }}</span>
+                    </h5>
+                    <ul class="activity-list queue-list">
+                      <li v-for="pr in group.items" :key="pr.url" class="activity-item queue-item">
+                        <a target="_blank" rel="noopener noreferrer" :href="pr.url" class="activity-item-link">
+                          <span class="activity-tag" :class="pr.isApproved ? 'approved' : 'awaiting'">{{ pr.isApproved ? 'approved' : 'review' }}</span>
+                          <span class="activity-item-repo">{{ pr.repo }}#{{ pr.number }}</span>
+                          <span class="activity-item-title">{{ pr.title }}</span>
+                          <span class="queue-meta">
+                            <span v-if="pr.isCopilotAuthored" class="queue-copilot" title="Authored by Copilot coding agent">🤖 copilot</span>
+                            <span class="queue-waiting">{{ waitingLabel(pr.waitingDays) }}</span>
+                          </span>
+                        </a>
+                      </li>
+                    </ul>
+                  </template>
+                </template>
+              </div>
               <p class="about-cta">Org-owned repos only · drafts and rebase-blocked PRs hidden<template v-if="reviewQueueUpdatedLabel"> · updated {{ reviewQueueUpdatedLabel }}</template></p>
             </template>
           </div>
@@ -1191,23 +1206,66 @@ const reviewQueue = ref<ReviewQueueData | null>(null)
 const reviewQueueLoading = ref(true)
 const reviewQueueError = ref(false)
 
-const reviewQueueGroups = computed(() => {
+const QUEUE_ORGS = ["openshift", "migtools", "velero-io"]
+
+interface ReviewQueueGroup {
+  key: string
+  label: string
+  items: ReviewQueuePR[]
+}
+interface ReviewQueueOrgSection {
+  org: string
+  total: number
+  groups: ReviewQueueGroup[]
+}
+
+const reviewQueueOrgSections = computed<ReviewQueueOrgSection[]>(() => {
   if (!reviewQueue.value) return []
-  return [
-    {
-      key: "needsReview",
-      label: "Needs review",
-      emptyLabel: "queue clear — nothing awaiting review",
-      items: reviewQueue.value.needsReview,
-    },
-    {
-      key: "approvedWaitingToLand",
-      label: "Approved, waiting to land",
-      emptyLabel: "nothing approved is waiting to land",
-      items: reviewQueue.value.approvedWaitingToLand,
-    },
-  ]
+  const orgKeys = [...QUEUE_ORGS, "others"]
+  const buckets = new Map(orgKeys.map((org) => [org, { needsReview: [] as ReviewQueuePR[], approvedWaitingToLand: [] as ReviewQueuePR[] }]))
+  const bucketFor = (org: string) => buckets.get(QUEUE_ORGS.includes(org) ? org : "others")!
+  for (const pr of reviewQueue.value.needsReview) bucketFor(pr.org).needsReview.push(pr)
+  for (const pr of reviewQueue.value.approvedWaitingToLand) bucketFor(pr.org).approvedWaitingToLand.push(pr)
+  return orgKeys.map((org) => {
+    const bucket = buckets.get(org)!
+    return {
+      org,
+      total: bucket.needsReview.length + bucket.approvedWaitingToLand.length,
+      groups: [
+        { key: "needsReview", label: "Needs review", items: bucket.needsReview },
+        { key: "approvedWaitingToLand", label: "Approved, waiting to land", items: bucket.approvedWaitingToLand },
+      ],
+    }
+  })
 })
+
+const copiedOrg = ref("")
+let copyResetTimer: ReturnType<typeof setTimeout> | undefined
+
+function queueSectionText(section: ReviewQueueOrgSection) {
+  const lines = [`Review queue — ${section.org} (${section.total})`]
+  for (const group of section.groups) {
+    if (group.items.length === 0) continue
+    lines.push(`${group.label} (${group.items.length}):`)
+    for (const pr of group.items) {
+      lines.push(`- ${pr.repo}#${pr.number} ${pr.title} (${waitingLabel(pr.waitingDays)}) ${pr.url}`)
+    }
+  }
+  return lines.join("\n")
+}
+
+async function copyOrgSection(section: ReviewQueueOrgSection) {
+  try {
+    await navigator.clipboard.writeText(queueSectionText(section))
+    copiedOrg.value = section.org
+    if (copyResetTimer) clearTimeout(copyResetTimer)
+    copyResetTimer = setTimeout(() => {
+      copiedOrg.value = ""
+    }, 2000)
+  } catch {
+    // clipboard unavailable (permissions/insecure context) — leave the button as-is
+  }
+}
 
 const reviewQueueUpdatedLabel = computed(() => {
   if (!reviewQueue.value?.updatedAt) return ""
@@ -1742,13 +1800,49 @@ li {
   font-size: var(--step--1);
   color: var(--ink-dim);
 }
-.queue-group-heading {
+.queue-org-section {
+  margin-bottom: 6px;
+}
+.queue-org-heading {
   display: flex;
   align-items: baseline;
   gap: 8px;
   font-family: var(--font-mono);
   font-size: var(--step-0);
-  margin: 14px 0 8px;
+  margin: 16px 0 6px;
+}
+.queue-org {
+  color: var(--accent-text);
+  text-transform: lowercase;
+}
+.queue-copy-btn {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-dim);
+  background: none;
+  border: 1px solid var(--line);
+  padding: 0 8px;
+  cursor: pointer;
+}
+.queue-copy-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+@media (hover: hover) {
+  .queue-copy-btn:not(:disabled):hover {
+    color: var(--ink);
+    border-color: var(--ink-dim);
+  }
+}
+.queue-group-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-dim);
+  margin: 10px 0 6px;
 }
 .queue-group-count {
   font-size: var(--step--1);
