@@ -1241,7 +1241,7 @@ function meetsReviewRequirements(pr: ReviewQueuePR) {
 
 function approvalsLabel(pr: ReviewQueuePR) {
   if (typeof pr.requiredApprovals !== "number" || typeof pr.approvalCount !== "number") return ""
-  if (pr.requiredApprovals <= 1 || pr.approvalCount >= pr.requiredApprovals) return ""
+  if (pr.approvalCount >= pr.requiredApprovals) return ""
   return `${pr.approvalCount}/${pr.requiredApprovals} approvals`
 }
 
