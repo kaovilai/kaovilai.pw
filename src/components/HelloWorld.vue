@@ -68,55 +68,57 @@
             </template>
             <p class="about-cta">Auto-gathered hourly/weekly by GitHub Actions in <a target="_blank" rel="noopener noreferrer" href="https://github.com/kaovilai/kaovilai">kaovilai/kaovilai</a><template v-if="activityUpdatedLabel"> · updated {{ activityUpdatedLabel }}</template></p>
           </div>
-          <div class="skillbox review-queue-box">
-            <h3>Review Queue</h3>
-            <p v-if="reviewQueueLoading" class="queue-status">fetching review queue…</p>
-            <p v-else-if="reviewQueueError" class="queue-status">
-              review queue offline — see <a target="_blank" rel="noopener noreferrer" href="https://github.com/kaovilai/kaovilai/blob/main/MY_PULL_REQUESTS.md">MY_PULL_REQUESTS.md</a> directly
-            </p>
-            <template v-else-if="reviewQueue">
-              <div v-for="section in reviewQueueOrgSections" :key="section.org" class="queue-org-section">
-                <h4 class="queue-org-heading">
-                  <span class="queue-org">{{ section.org }}</span>
-                  <span class="queue-group-count">{{ section.total }}</span>
-                  <button
-                    type="button"
-                    class="queue-copy-btn"
-                    :disabled="section.total === 0"
-                    :title="`Copy ${section.org} review queue for scrum`"
-                    @click="copyOrgSection(section)"
-                  >{{ copiedOrg === section.org ? 'copied ✓' : 'copy' }}</button>
-                </h4>
-                <p v-if="section.total === 0" class="queue-empty">queue clear</p>
-                <template v-for="group in section.groups" :key="group.key">
-                  <template v-if="group.items.length > 0">
-                    <h5 class="queue-group-heading">
-                      {{ group.label }}
-                      <span class="queue-group-count">{{ group.items.length }}</span>
-                    </h5>
-                    <ul class="activity-list queue-list">
-                      <li v-for="pr in group.items" :key="pr.url" class="activity-item queue-item">
-                        <a target="_blank" rel="noopener noreferrer" :href="pr.url" class="activity-item-link">
-                          <span class="activity-tag" :class="meetsReviewRequirements(pr) ? 'approved' : 'awaiting'">{{ meetsReviewRequirements(pr) ? 'approved' : 'review' }}</span>
-                          <span class="activity-item-repo">{{ pr.repo }}#{{ pr.number }}</span>
-                          <span class="activity-item-title">{{ pr.title }}</span>
-                          <span class="queue-meta">
-                            <span v-if="pr.isCopilotAuthored" class="queue-copilot" title="Authored by Copilot coding agent">🤖 copilot</span>
-                            <span v-if="approvalsLabel(pr)" class="queue-approvals" title="Approvals received / required by branch protection">{{ approvalsLabel(pr) }}</span>
-                            <span class="queue-waiting">{{ waitingLabel(pr.waitingDays) }}</span>
-                          </span>
-                        </a>
-                      </li>
-                    </ul>
-                  </template>
-                </template>
-              </div>
-              <p class="about-cta">Org-owned repos only · drafts and rebase-blocked PRs hidden<template v-if="reviewQueueUpdatedLabel"> · updated {{ reviewQueueUpdatedLabel }}</template></p>
-            </template>
-          </div>
         </div>
       </section>
     </div>
+    <section id="review-queue" class="site-section review-queue-section" aria-labelledby="review-queue-heading" v-reveal>
+      <h2 id="review-queue-heading" class="introAreaHeader" :data-snap="reviewQueueDataSnap">Review Queue</h2>
+      <div class="introArea review-queue-cards">
+        <p v-if="reviewQueueLoading" class="queue-status">fetching review queue…</p>
+        <p v-else-if="reviewQueueError" class="queue-status">
+          review queue offline — see <a target="_blank" rel="noopener noreferrer" href="https://github.com/kaovilai/kaovilai/blob/main/MY_PULL_REQUESTS.md">MY_PULL_REQUESTS.md</a> directly
+        </p>
+        <template v-else-if="reviewQueue">
+          <div v-for="section in reviewQueueOrgSections" :key="section.org" class="skillbox queue-org-section">
+            <h3 class="queue-org-heading">
+              <span class="queue-org">{{ section.org }}</span>
+              <span class="queue-group-count">{{ section.total }}</span>
+              <button
+                type="button"
+                class="queue-copy-btn"
+                :disabled="section.total === 0"
+                :title="`Copy ${section.org} review queue for scrum`"
+                @click="copyOrgSection(section)"
+              >{{ copiedOrg === section.org ? 'copied ✓' : 'copy' }}</button>
+            </h3>
+            <p v-if="section.total === 0" class="queue-empty">queue clear</p>
+            <template v-for="group in section.groups" :key="group.key">
+              <template v-if="group.items.length > 0">
+                <h4 class="queue-group-heading">
+                  {{ group.label }}
+                  <span class="queue-group-count">{{ group.items.length }}</span>
+                </h4>
+                <ul class="activity-list queue-list">
+                  <li v-for="pr in group.items" :key="pr.url" class="activity-item queue-item">
+                    <a target="_blank" rel="noopener noreferrer" :href="pr.url" class="activity-item-link">
+                      <span class="activity-tag" :class="meetsReviewRequirements(pr) ? 'approved' : 'awaiting'">{{ meetsReviewRequirements(pr) ? 'approved' : 'review' }}</span>
+                      <span class="activity-item-repo">{{ pr.repo }}#{{ pr.number }}</span>
+                      <span class="activity-item-title">{{ pr.title }}</span>
+                      <span class="queue-meta">
+                        <span v-if="pr.isCopilotAuthored" class="queue-copilot" title="Authored by Copilot coding agent">🤖 copilot</span>
+                        <span v-if="approvalsLabel(pr)" class="queue-approvals" title="Approvals received / required by branch protection">{{ approvalsLabel(pr) }}</span>
+                        <span class="queue-waiting">{{ waitingLabel(pr.waitingDays) }}</span>
+                      </span>
+                    </a>
+                  </li>
+                </ul>
+              </template>
+            </template>
+          </div>
+        </template>
+      </div>
+      <p v-if="reviewQueue && !reviewQueueLoading && !reviewQueueError" class="about-cta review-queue-cta">Org-owned repos only · drafts and rebase-blocked PRs hidden<template v-if="reviewQueueUpdatedLabel"> · updated {{ reviewQueueUpdatedLabel }}</template></p>
+    </section>
     <div class="displayArea">
       <section id="connect" class="site-section" aria-labelledby="connect-heading" v-reveal>
     <h2 id="connect-heading" class="introAreaHeader" data-snap="~/snapshots/connect · ✓ restored">Connect</h2>
@@ -1299,6 +1301,11 @@ async function copyOrgSection(section: ReviewQueueOrgSection) {
   }
 }
 
+const reviewQueueDataSnap = computed(() => {
+  const state = reviewQueueLoading.value ? "⏳ syncing" : reviewQueueError.value ? "✗ offline" : "✓ synced"
+  return `~/snapshots/review-queue · ${state}`
+})
+
 const reviewQueueUpdatedLabel = computed(() => {
   if (!reviewQueue.value?.updatedAt) return ""
   const updated = new Date(reviewQueue.value.updatedAt)
@@ -1822,18 +1829,26 @@ li {
   color: var(--ink);
 }
 
-/* ---- Review queue panel ---- */
-.review-queue-box {
-  max-width: 640px;
-  text-align: left;
+/* ---- Review queue section ---- */
+.review-queue-cards {
+  align-items: stretch;
 }
 .queue-status {
   font-family: var(--font-mono);
   font-size: var(--step--1);
   color: var(--ink-dim);
 }
+/* One card per org, side by side up to screen width */
 .queue-org-section {
-  margin-bottom: 6px;
+  flex: 1 1 320px;
+  min-width: 280px;
+  max-width: 560px;
+  text-align: left;
+}
+.review-queue-cta {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .queue-org-heading {
   display: flex;
@@ -1841,7 +1856,7 @@ li {
   gap: 8px;
   font-family: var(--font-mono);
   font-size: var(--step-0);
-  margin: 16px 0 6px;
+  margin: 0 0 6px;
 }
 .queue-org {
   color: var(--accent-text);
