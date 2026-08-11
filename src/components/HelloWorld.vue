@@ -71,6 +71,54 @@
         </div>
       </section>
     </div>
+    <section id="review-queue" class="site-section review-queue-section" aria-labelledby="review-queue-heading" v-reveal>
+      <h2 id="review-queue-heading" class="introAreaHeader" :data-snap="reviewQueueDataSnap">Review Queue</h2>
+      <div class="introArea review-queue-cards">
+        <p v-if="reviewQueueLoading" class="queue-status">fetching review queue…</p>
+        <p v-else-if="reviewQueueError" class="queue-status">
+          review queue offline — see <a target="_blank" rel="noopener noreferrer" href="https://github.com/kaovilai/kaovilai/blob/main/MY_PULL_REQUESTS.md">MY_PULL_REQUESTS.md</a> directly
+        </p>
+        <template v-else-if="reviewQueue">
+          <div v-for="section in reviewQueueOrgSections" :key="section.org" class="skillbox queue-org-section">
+            <h3 class="queue-org-heading">
+              <span class="queue-org">{{ section.org }}</span>
+              <span class="queue-group-count">{{ section.total }}</span>
+              <button
+                type="button"
+                class="queue-copy-btn"
+                :disabled="section.total === 0"
+                :title="`Copy ${section.org} review queue for scrum`"
+                @click="copyOrgSection(section)"
+              >{{ copiedOrg === section.org ? 'copied ✓' : 'copy' }}</button>
+            </h3>
+            <p v-if="section.total === 0" class="queue-empty">queue clear</p>
+            <template v-for="group in section.groups" :key="group.key">
+              <template v-if="group.items.length > 0">
+                <h4 class="queue-group-heading">
+                  {{ group.label }}
+                  <span class="queue-group-count">{{ group.items.length }}</span>
+                </h4>
+                <ul class="activity-list queue-list">
+                  <li v-for="pr in group.items" :key="pr.url" class="activity-item queue-item">
+                    <a target="_blank" rel="noopener noreferrer" :href="pr.url" class="activity-item-link">
+                      <span class="activity-tag" :class="meetsReviewRequirements(pr) ? 'approved' : 'awaiting'">{{ meetsReviewRequirements(pr) ? 'approved' : 'review' }}</span>
+                      <span class="activity-item-repo">{{ pr.repo }}#{{ pr.number }}</span>
+                      <span class="activity-item-title">{{ pr.title }}</span>
+                      <span class="queue-meta">
+                        <span v-if="pr.isCopilotAuthored" class="queue-copilot" title="Authored by Copilot coding agent">🤖 copilot</span>
+                        <span v-if="approvalsLabel(pr)" class="queue-approvals" title="Approvals received / required by branch protection">{{ approvalsLabel(pr) }}</span>
+                        <span class="queue-waiting">{{ waitingLabel(pr.waitingDays) }}</span>
+                      </span>
+                    </a>
+                  </li>
+                </ul>
+              </template>
+            </template>
+          </div>
+        </template>
+      </div>
+      <p v-if="reviewQueue && !reviewQueueLoading && !reviewQueueError" class="about-cta review-queue-cta">Org-owned repos only · drafts and rebase-blocked PRs hidden<template v-if="reviewQueueUpdatedLabel"> · updated {{ reviewQueueUpdatedLabel }}</template></p>
+    </section>
     <div class="displayArea">
       <section id="connect" class="site-section" aria-labelledby="connect-heading" v-reveal>
     <h2 id="connect-heading" class="introAreaHeader" data-snap="~/snapshots/connect · ✓ restored">Connect</h2>
@@ -1068,6 +1116,34 @@ interface ActivityData {
 
 const ACTIVITY_URL = "https://raw.githubusercontent.com/kaovilai/kaovilai/main/activity.json"
 
+interface ReviewQueuePR {
+  number: number
+  repo: string
+  org: string
+  title: string
+  url: string
+  author: string
+  isCopilotAuthored: boolean
+  isApproved: boolean
+  mergeStateStatus: string
+  reason: string
+  waitingDays: number
+  // Optional fields (newer open-prs.json builds): GitHub's reviewDecision honors
+  // branch protection wherever it's configured (openshift/release prow
+  // branch-protector for openshift/migtools, direct branch protection for
+  // velero-io repos), and approval counts allow an "N/M approvals" indicator.
+  reviewDecision?: string
+  approvalCount?: number
+  requiredApprovals?: number
+}
+interface ReviewQueueData {
+  updatedAt: string
+  needsReview: ReviewQueuePR[]
+  approvedWaitingToLand: ReviewQueuePR[]
+}
+
+const OPEN_PRS_URL = "https://raw.githubusercontent.com/kaovilai/kaovilai/main/open-prs.json"
+
 const activity = ref<ActivityData | null>(null)
 const activityLoading = ref(true)
 const activityError = ref(false)
@@ -1092,10 +1168,12 @@ const activityUpdatedLabel = computed(() => {
   })
 })
 
-const activityDataSnap = computed(() => {
-  const state = activityLoading.value ? "⏳ syncing" : activityError.value ? "✗ offline" : "✓ synced"
-  return `~/snapshots/current-work · ${state}`
-})
+function snapLabel(path: string, loading: boolean, error: boolean) {
+  const state = loading ? "⏳ syncing" : error ? "✗ offline" : "✓ synced"
+  return `~/snapshots/${path} · ${state}`
+}
+
+const activityDataSnap = computed(() => snapLabel("current-work", activityLoading.value, activityError.value))
 
 const recentPRs = computed(() => {
   if (!activity.value) return []
@@ -1133,6 +1211,129 @@ onMounted(async () => {
     activityError.value = true
   } finally {
     activityLoading.value = false
+  }
+})
+
+const reviewQueue = ref<ReviewQueueData | null>(null)
+const reviewQueueLoading = ref(true)
+const reviewQueueError = ref(false)
+
+const QUEUE_ORGS = ["openshift", "migtools", "velero-io"]
+
+interface ReviewQueueGroup {
+  key: string
+  label: string
+  items: ReviewQueuePR[]
+}
+interface ReviewQueueOrgSection {
+  org: string
+  total: number
+  groups: ReviewQueueGroup[]
+}
+
+// A PR only belongs in "Approved, waiting to land" once it meets the repo's
+// review requirements (e.g. openshift/oadp-operator needs 2 approvals per
+// openshift/release prow config; velero-io repos may require multiple approvals
+// via direct branch protection). Under-approved PRs stay in "Needs review".
+function meetsReviewRequirements(pr: ReviewQueuePR) {
+  if (pr.reviewDecision) return pr.reviewDecision === "APPROVED"
+  if (typeof pr.requiredApprovals === "number" && typeof pr.approvalCount === "number") {
+    return pr.approvalCount >= pr.requiredApprovals
+  }
+  return pr.isApproved
+}
+
+function approvalsLabel(pr: ReviewQueuePR) {
+  if (typeof pr.requiredApprovals !== "number" || typeof pr.approvalCount !== "number") return ""
+  if (pr.approvalCount >= pr.requiredApprovals) return ""
+  return `${pr.approvalCount}/${pr.requiredApprovals} approvals`
+}
+
+const reviewQueueOrgSections = computed<ReviewQueueOrgSection[]>(() => {
+  if (!reviewQueue.value) return []
+  const orgKeys = [...QUEUE_ORGS, "others"]
+  const buckets = new Map(orgKeys.map((org) => [org, { needsReview: [] as ReviewQueuePR[], approvedWaitingToLand: [] as ReviewQueuePR[] }]))
+  const bucketFor = (org: string) => buckets.get(QUEUE_ORGS.includes(org) ? org : "others")!
+  for (const pr of reviewQueue.value.needsReview) bucketFor(pr.org).needsReview.push(pr)
+  for (const pr of reviewQueue.value.approvedWaitingToLand) {
+    const bucket = bucketFor(pr.org)
+    if (meetsReviewRequirements(pr)) bucket.approvedWaitingToLand.push(pr)
+    else bucket.needsReview.push(pr)
+  }
+  return orgKeys.map((org) => {
+    const bucket = buckets.get(org)!
+    return {
+      org,
+      total: bucket.needsReview.length + bucket.approvedWaitingToLand.length,
+      groups: [
+        { key: "needsReview", label: "Needs review", items: bucket.needsReview },
+        { key: "approvedWaitingToLand", label: "Approved, waiting to land", items: bucket.approvedWaitingToLand },
+      ],
+    }
+  })
+})
+
+const copiedOrg = ref("")
+let copyResetTimer: ReturnType<typeof setTimeout> | undefined
+
+function queueSectionText(section: ReviewQueueOrgSection) {
+  const lines = [`Review queue — ${section.org} (${section.total})`]
+  for (const group of section.groups) {
+    if (group.items.length === 0) continue
+    lines.push(`${group.label} (${group.items.length}):`)
+    for (const pr of group.items) {
+      const approvals = approvalsLabel(pr)
+      const meta = approvals ? `${approvals}, ${waitingLabel(pr.waitingDays)}` : waitingLabel(pr.waitingDays)
+      lines.push(`- ${pr.repo}#${pr.number} ${pr.title} (${meta}) ${pr.url}`)
+    }
+  }
+  return lines.join("\n")
+}
+
+async function copyOrgSection(section: ReviewQueueOrgSection) {
+  try {
+    await navigator.clipboard.writeText(queueSectionText(section))
+    copiedOrg.value = section.org
+    if (copyResetTimer) clearTimeout(copyResetTimer)
+    copyResetTimer = setTimeout(() => {
+      copiedOrg.value = ""
+    }, 2000)
+  } catch {
+    // clipboard unavailable (permissions/insecure context) — leave the button as-is
+  }
+}
+
+const reviewQueueDataSnap = computed(() => snapLabel("review-queue", reviewQueueLoading.value, reviewQueueError.value))
+
+const reviewQueueUpdatedLabel = computed(() => {
+  if (!reviewQueue.value?.updatedAt) return ""
+  const updated = new Date(reviewQueue.value.updatedAt)
+  if (Number.isNaN(updated.getTime())) return ""
+  return updated.toLocaleString(undefined, {
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    timeZoneName: "short",
+  })
+})
+
+function waitingLabel(days: number) {
+  if (!Number.isFinite(days) || days < 1) return "waiting <1d"
+  return `waiting ${Math.round(days)}d`
+}
+
+onMounted(async () => {
+  try {
+    const res = await fetch(OPEN_PRS_URL)
+    if (!res.ok) throw new Error(`open-prs.json ${res.status}`)
+    const data = await res.json()
+    if (!data?.reviewQueue) throw new Error("open-prs.json missing reviewQueue")
+    reviewQueue.value = data.reviewQueue
+  } catch {
+    reviewQueueError.value = true
+  } finally {
+    reviewQueueLoading.value = false
   }
 })
 
@@ -1626,4 +1827,106 @@ li {
 .activity-item-title {
   color: var(--ink);
 }
+
+/* ---- Review queue section ---- */
+.review-queue-cards {
+  align-items: stretch;
+}
+.queue-status {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-dim);
+}
+/* One card per org, side by side up to screen width */
+.queue-org-section {
+  flex: 1 1 320px;
+  min-width: 280px;
+  max-width: 560px;
+  text-align: left;
+}
+.review-queue-cta {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.queue-org-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: var(--step-0);
+  margin: 0 0 6px;
+}
+.queue-org {
+  color: var(--accent-text);
+  text-transform: lowercase;
+}
+.queue-copy-btn {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-dim);
+  background: none;
+  border: 1px solid var(--line);
+  padding: 0 8px;
+  cursor: pointer;
+}
+.queue-copy-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+@media (hover: hover) {
+  .queue-copy-btn:not(:disabled):hover {
+    color: var(--ink);
+    border-color: var(--ink-dim);
+  }
+}
+.queue-group-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-dim);
+  margin: 10px 0 6px;
+}
+.queue-group-count {
+  font-size: var(--step--1);
+  color: var(--accent-text);
+  border: 1px solid var(--line);
+  padding: 0 8px;
+}
+.queue-empty {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-dim);
+  margin: 0 0 8px;
+}
+.queue-list {
+  max-height: 260px;
+}
+.activity-tag.approved {
+  color: #3fb950;
+  border-color: #3fb950;
+}
+.activity-tag.awaiting {
+  color: var(--NCSU_Pyroman_Flame);
+  border-color: var(--NCSU_Pyroman_Flame);
+}
+.queue-meta {
+  display: inline-flex;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--ink-dim);
+  white-space: nowrap;
+}
+.queue-copilot {
+  border: 1px solid var(--line);
+  padding: 0 6px;
+}
+.queue-approvals {
+  color: var(--NCSU_Pyroman_Flame);
+}
+
 </style>
