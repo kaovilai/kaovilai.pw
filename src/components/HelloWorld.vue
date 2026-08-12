@@ -1888,7 +1888,7 @@ li {
 
 /* ---- Review queue section ---- */
 .review-queue-cards {
-  align-items: stretch;
+  align-items: flex-start;
 }
 .queue-status {
   font-family: var(--font-mono);
