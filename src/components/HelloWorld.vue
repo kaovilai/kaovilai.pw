@@ -1251,10 +1251,10 @@ const reviewQueueError = ref(false)
 
 const QUEUE_ORGS = ["openshift", "migtools", "velero-io"]
 
-const RECENT_REVIEWED_LIMIT = 24
-
 // PRs I reviewed in the activity window, deduped by URL and grouped by org so
-// the layout matches the review queue cards above it.
+// the layout matches the review queue cards above it. Shown in full (no
+// artificial cap) — the card's scroll area grows to fill available height,
+// same as the other review-queue lists.
 const recentReviewedByOrg = computed(() => {
   const reviewed = activity.value?.prsReviewed ?? []
   const groups = new Map<string, ActivityPR[]>()
@@ -1265,7 +1265,6 @@ const recentReviewedByOrg = computed(() => {
     const list = groups.get(pr.org) ?? []
     list.push(pr)
     groups.set(pr.org, list)
-    if (seen.size === RECENT_REVIEWED_LIMIT) break
   }
   const orgRank = (org: string) => {
     const index = QUEUE_ORGS.indexOf(org)
@@ -1888,7 +1887,18 @@ li {
 
 /* ---- Review queue section ---- */
 .review-queue-cards {
-  align-items: flex-start;
+  align-items: stretch;
+}
+/* Cards in a row match height; the last list in each card grows to fill
+   the extra space instead of leaving blank padding below a short list. */
+.queue-org-section {
+  display: flex;
+  flex-direction: column;
+}
+.queue-list:last-of-type {
+  flex: 1 1 auto;
+  max-height: 260px;
+  min-height: 0;
 }
 .queue-status {
   font-family: var(--font-mono);
