@@ -17,9 +17,16 @@ jobs:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
       # Auto-merge waits on required status checks (ci-ok from Node.js CI).
       # Majors are left open for human review.
+      # Uses GH_AW_GITHUB_TOKEN (PAT with workflow scope) so auto-merge works on PRs
+      # that modify .github/workflows files; the default GITHUB_TOKEN is a GitHub App
+      # token that can never get the `workflows` permission and fails with:
+      # "GraphQL: Pull request refusing to allow a GitHub App to create or update
+      # workflow ... without `workflows` permission (enablePullRequestAutoMerge)".
+      # Note: this workflow runs on Dependabot PRs, so GH_AW_GITHUB_TOKEN must be set
+      # as a *Dependabot* secret (Settings > Secrets > Dependabot), not only an Actions secret.
       - name: Enable auto-merge for patch/minor updates
         if: steps.metadata.outputs.update-type == 'version-update:semver-patch' || steps.metadata.outputs.update-type == 'version-update:semver-minor'
         run: gh pr merge --auto --squash "$PR_URL"
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_AW_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
