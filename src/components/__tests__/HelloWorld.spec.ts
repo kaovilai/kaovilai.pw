@@ -446,16 +446,16 @@ describe('Recently reviewed panel', () => {
     expect(section.get('.reviewed-heading').get('.reviewed-count').text()).toBe('4')
   })
 
-  it('caps the reviewed list at 24 entries and shows the full period total', async () => {
+  it('shows the reviewed list in full, uncapped, alongside the period total', async () => {
     mockActivityFetch(
       reviewedFixture(Array.from({ length: 40 }, (_, i) => reviewedPR(i + 1, 'velero-io', 'velero-io/velero'))),
     )
     const wrapper = mountPage()
     await flushPromises()
     const section = wrapper.get('.reviewed-section')
-    expect(section.findAll('.reviewed-item')).toHaveLength(24)
+    expect(section.findAll('.reviewed-item')).toHaveLength(40)
     // heading count matches the rendered rows; the period total is shown separately
-    expect(section.get('.reviewed-heading').get('.reviewed-count').text()).toBe('24')
+    expect(section.get('.reviewed-heading').get('.reviewed-count').text()).toBe('40')
     expect(section.get('.reviewed-group-heading').text()).toContain('of 80')
   })
 
