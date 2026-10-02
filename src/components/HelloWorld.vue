@@ -1251,10 +1251,10 @@ const reviewQueueError = ref(false)
 
 const QUEUE_ORGS = ["openshift", "migtools", "velero-io"]
 
-const RECENT_REVIEWED_LIMIT = 24
-
 // PRs I reviewed in the activity window, deduped by URL and grouped by org so
-// the layout matches the review queue cards above it.
+// the layout matches the review queue cards above it. Shown in full (no
+// artificial cap) — the card's scroll area grows to fill available height,
+// same as the other review-queue lists.
 const recentReviewedByOrg = computed(() => {
   const reviewed = activity.value?.prsReviewed ?? []
   const groups = new Map<string, ActivityPR[]>()
@@ -1265,7 +1265,6 @@ const recentReviewedByOrg = computed(() => {
     const list = groups.get(pr.org) ?? []
     list.push(pr)
     groups.set(pr.org, list)
-    if (seen.size === RECENT_REVIEWED_LIMIT) break
   }
   const orgRank = (org: string) => {
     const index = QUEUE_ORGS.indexOf(org)
@@ -1887,8 +1886,21 @@ li {
 }
 
 /* ---- Review queue section ---- */
+/* Cards size to their own content instead of matching the tallest sibling
+   (the base .introArea rule stretches all children — override it here so a
+   short card doesn't carry dead space below its last list). */
 .review-queue-cards {
-  align-items: stretch;
+  align-items: flex-start;
+}
+.queue-org-section {
+  display: flex;
+  flex-direction: column;
+}
+.queue-list:last-of-type {
+  flex: 0 1 auto;
+  max-height: none;
+  min-height: 0;
+  overflow-y: auto;
 }
 .queue-status {
   font-family: var(--font-mono);
@@ -1961,7 +1973,7 @@ li {
   margin: 0 0 8px;
 }
 .queue-list {
-  max-height: 260px;
+  max-height: none;
 }
 .reviewed-heading {
   display: flex;
