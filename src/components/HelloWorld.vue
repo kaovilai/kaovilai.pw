@@ -1886,19 +1886,21 @@ li {
 }
 
 /* ---- Review queue section ---- */
+/* Cards size to their own content instead of matching the tallest sibling
+   (the base .introArea rule stretches all children — override it here so a
+   short card doesn't carry dead space below its last list). */
 .review-queue-cards {
-  align-items: stretch;
+  align-items: flex-start;
 }
-/* Cards in a row match height; the last list in each card grows to fill
-   the extra space instead of leaving blank padding below a short list. */
 .queue-org-section {
   display: flex;
   flex-direction: column;
 }
 .queue-list:last-of-type {
-  flex: 1 1 auto;
-  max-height: 260px;
+  flex: 0 1 auto;
+  max-height: none;
   min-height: 0;
+  overflow-y: auto;
 }
 .queue-status {
   font-family: var(--font-mono);
@@ -1971,7 +1973,7 @@ li {
   margin: 0 0 8px;
 }
 .queue-list {
-  max-height: 260px;
+  max-height: none;
 }
 .reviewed-heading {
   display: flex;
