@@ -5,11 +5,20 @@ updates:
     schedule:
       interval: weekly
     groups:
-      npm-non-major:
-        update-types:
-          - minor
-          - patch
+      all:
+        applies_to:
+          - version_updates
+          - security_updates
+        patterns:
+          - "*"
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
       interval: weekly
+    groups:
+      all:
+        applies_to:
+          - version_updates
+          - security_updates
+        patterns:
+          - "*"
